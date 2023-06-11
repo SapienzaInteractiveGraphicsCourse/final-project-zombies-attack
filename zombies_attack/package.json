@@ -1,0 +1,19 @@
+{
+  "name": "zombies_attack",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^4.3.9"
+  },
+  "dependencies": {
+    "@babylonjs/core": "^6.7.0",
+    "@babylonjs/gui": "^6.7.0",
+    "@babylonjs/loaders": "^6.7.0"
+  }
+}
