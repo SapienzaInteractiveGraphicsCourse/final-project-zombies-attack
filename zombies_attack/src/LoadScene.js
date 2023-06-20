@@ -11,7 +11,8 @@ import {
     UniversalCamera,
     Camera,
     Mesh,
-    StandardMaterial
+    StandardMaterial,
+    Viewport
 } from '@babylonjs/core'
 import '@babylonjs/loaders'
 import * as GUI from '@babylonjs/gui'
@@ -37,7 +38,7 @@ export class LoadScene {
     this.CreateHUD()
     this.CreateEnvironment()
     this.CreateController()
-    this.LoadGun(this.camera)
+    this.LoadCharacter(this.camera)
 
     this.engine.runRenderLoop(() => {
       this.scene.render()
@@ -64,11 +65,7 @@ export class LoadScene {
       }
     }
 
-    const framesPerSecond = 60;
-    const gravity = -9.81;
-    scene.gravity = new Vector3(0, gravity / framesPerSecond, 0);
-    scene.collisionsEnabled = true;
-
+    this.HandleControl()
 
     const envTex = CubeTexture.CreateFromPrefilteredData('./environment/sky.env', scene)
     scene.environmentTexture = envTex
@@ -83,10 +80,6 @@ export class LoadScene {
     
     this.model = meshes;
 
-    meshes.map((mesh) => {
-      mesh.checkCollisions = true;
-    })
-
     this.engine.hideLoadingUI();
   }
 
@@ -95,99 +88,92 @@ export class LoadScene {
   }
 
   CreateHUD() {
-    console.log(HUD)
     const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
     advancedTexture.parseSerializedObject(HUD, true)
   }
 
   CreateController() {
-    const camera = new UniversalCamera("UniversalCamera", new Vector3(1, 1, 1), this.scene);
-    camera.setTarget(Vector3.Zero());
+    const fpsCamera = new UniversalCamera("fpsCamera", new Vector3(1, 1, 1), this.scene);
+    fpsCamera.setTarget(new Vector3(0, 80, 50));
 
-    camera.attachControl()
-    camera.speed = 0.25
+    fpsCamera.attachControl(this.canvas, true); // Controled by mouse movement;
+    fpsCamera.speed = 0.25
 
-    camera.applyGravity = true;
-    camera.checkCollisions = true;
+    // Camera for observation
+    const tpsCamera = new UniversalCamera("tpsCamera", new Vector3(80, 80, 80), this.scene);
+    tpsCamera.setTarget(new Vector3(0, 80, 0));
 
-    camera.ellipsoid = new Vector3(0.5, 2, 0.5);
-    camera.ellipsoidOffset = new Vector3(0, 2, 0)
+    // Two Viewports
+    tpsCamera.viewport = new Viewport(0.7, 0, 0.3, 0.3);
+    fpsCamera.viewport = new Viewport(0, 0, 1, 1);
+    this.scene.activeCameras.push(fpsCamera);
+    this.scene.activeCameras.push(tpsCamera);
 
-    camera.minZ = 0.05;
-    camera.angularSensibility = 4000;
+    onkeydown = ((event) => {
+      let isJumping = true;
+      if (event.keyCode === 32) {
+        fpsCamera.onCollide = function(collidedMesh) {
+          if(collidedMesh.uniqueId && isJumping) {
+              //set the new camera position
+              fpsCamera.cameraDirection.y += 0.5
+              isJumping = false;
+              return true;
+          }
+      } 
+      } 
+    })
 
-    camera.keysUp.push(87);
-    camera.keysLeft.push(65);
-    camera.keysDown.push(83);
-    camera.keysRight.push(68);
+    fpsCamera.minZ = 0.05;
+    fpsCamera.angularSensibility = 4000;
+
+    fpsCamera.keysUp.push(87);
+    fpsCamera.keysLeft.push(65);
+    fpsCamera.keysDown.push(83);
+    fpsCamera.keysRight.push(68);
     
-    this.camera = camera
+    this.camera = fpsCamera
   }
 
-  async LoadGun(camera) {
-    this.CreateGunSight(this.scene);
-  
-    var gunMat = new StandardMaterial("mater", this.scene);
-    gunMat.diffuseTexture = new Texture("src/crate.png", this.scene);
-    const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/ak47/", "scene.gltf", this.scene);
-    var gun = meshes[0];
+  HandleControl() {
+    // Event listener when the pointerlock is updated (or removed by pressing ESC for example).
+    const pointerlockchange = function (evt) {
+      const controlEnabled = document.mozPointerLockElement || document.webkitPointerLockElement || document.msPointerLockElement || document.pointerLockElement || null;
+      console.log(evt)
+      // If the user is already locked
+      if (!controlEnabled) {
+        evt.target.params.canvas.width = evt.target.params.width;
+        evt.target.params.canvas.height = evt.target.params.height;
+        evt.target.params.engine.exitPointerlock();
+        evt.target.params.engine.exitFullscreen();
+      } 
+    };
 
-    gun.renderingGroupId = 1;
-    gun.material = gunMat;
-    gun.parent = camera;
-
-    gun.scaling.x = 0.05;
-    gun.scaling.y = 0.05;
-    gun.scaling.z = -0.05;
-    gun.position = new Vector3(0.035, -0.075, 0.075);
+    // Attach events to the document
+    document.params = this;
+    document.addEventListener("pointerlockchange", pointerlockchange, false);
+    document.addEventListener("mspointerlockchange", pointerlockchange, false);
+    document.addEventListener("mozpointerlockchange", pointerlockchange, false);
+    document.addEventListener("webkitpointerlockchange", pointerlockchange, false);
   }
 
-  CreateGunSight(scene) {
-      if (scene.activeCameras.length === 0) {
-          scene.activeCameras.push(scene.activeCamera);
+  async LoadCharacter() {  
+    const { meshes, skeletons } = await SceneLoader.ImportMeshAsync("", "./models/omen/", "scene.gltf", this.scene);
+    console.log(meshes)
+    console.log(skeletons)
+    const bones = skeletons[0].bones;
+    let head;
+    bones.map((bone, index) => {
+      if (bone.name === 'Head_end_063') {
+        console.log(index)
+        head = bone;
       }
+    })
+    const character = meshes[1];
+    character.parent = this.camera;
 
-      var secondCamera = new FreeCamera("GunSightCamera", new Vector3(0, 0, -50), scene);
-      secondCamera.mode = Camera.ORTHOGRAPHIC_CAMERA;
-      secondCamera.layerMask = 0x20000000;
-      scene.activeCameras.push(secondCamera);
-
-      var meshes = [];
-      var h = 250;
-
-      const advancedTexture = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI");
-      advancedTexture.parseSerializedObject(HUD, true)
-
-      var y1 = Mesh.CreateBox("y", h * .05, scene);
-      y1.scaling = new Vector3(0.2, 1, 1);
-      y1.position = new Vector3(0, -10, 0);
-      meshes.push(y1);
-
-      var y2 = Mesh.CreateBox("y", h * .05, scene);
-      y2.scaling = new Vector3(0.2, 1, 1);
-      y2.position = new Vector3(0, 10, 0);
-      meshes.push(y2);
-
-      var x1 = Mesh.CreateBox("x", h * .05, scene);
-      x1.scaling = new Vector3(1, 0.2, 1);
-      x1.position = new Vector3(10, 0, 0);
-      meshes.push(x1);
-
-      var x2 = Mesh.CreateBox("x", h * .05, scene);
-      x2.scaling = new Vector3(1, 0.2, 1);
-      x2.position = new Vector3(-10, 0, 0);
-      meshes.push(x2);
-
-      var gunSight = Mesh.MergeMeshes(meshes);
-      gunSight.name = "gunSight";
-      gunSight.layerMask = 0x20000000;
-      gunSight.freezeWorldMatrix();
-
-      var mat = new StandardMaterial("emissive mat", scene);
-      mat.checkReadyOnlyOnce = true;
-      mat.emissiveColor = new Color3(0, 1, 0);
-
-      gunSight.material = mat;
+    character.rotation = new Vector3(-1.57, -1.6, 0.0);
+    character.scaling = new Vector3(0.05, 0.05, 0.05);
+    character.position = new Vector3(0, -10, 5);
   }
 }
   
