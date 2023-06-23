@@ -64,7 +64,7 @@ export class Test {
         this.engine.enterPointerlock();
         this.engine.enterFullscreen();
       }
-      if (event.button === 2) {
+      if (event.button === 1) {
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         this.engine.exitPointerlock();
@@ -225,28 +225,38 @@ export class Test {
     const ray = new Ray(origin, forward, 200);
     
     const hit = this.scene.pickWithRay(ray, (mesh) => {
-      return mesh.name.match(/^BlindHunter_Blind Hunter_0+/) !== null;
+      return mesh.name.match(/^zombie+|Object_+/) !== null;
     });
     if (hit && hit.pickedMesh) {
+      console.log(hit.pickedMesh)
+      // Get the parent mesh node
+      let mesh = hit.pickedMesh;
+      while (mesh.parent !== null) {
+        mesh = mesh.parent;
+      }
       this.CountZombies()
-      hit.pickedMesh.dispose();
+      // Dispose the parent mesh
+      mesh.dispose();
     }
   }
 
   async LoadZombie() {
-    const { meshes, ...rest } = await SceneLoader.ImportMeshAsync('', './models/', 'zombie_bind_hunter.glb', this.scene)
-    console.log(meshes)
-    console.log(rest)
-
-    meshes.map((mesh) => {
-      mesh.checkCollisions = true;
-    })
-
-    for (let i = 0; i < 20; i++) {
-      const mob = meshes[0].clone(`BlindHunter_Blind Hunter_0${i}`);
-      mob.checkCollisions = true;
-      mob.position = new Vector3(Math.random() * 50 - 50, 0, Math.random() * 50 - 50);
-    } 
+    const zombies = ['zombie1.glb', 'zombie2.glb', 'zombie3.glb', 'zombie4.glb'];
+    for (const zombie of zombies) {
+      const { meshes, ...rest } = await SceneLoader.ImportMeshAsync('', 'models/zombies/', zombie, this.scene)
+      console.log(zombie, meshes)
+      console.log(zombie, rest)
+  
+      meshes.map((mesh) => {
+        mesh.checkCollisions = true;
+      })
+  
+      for (let i = 0; i < 20; i++) {
+        const mob = meshes[0].clone(`${zombie}_${i}`);
+        mob.checkCollisions = true;
+        mob.position = new Vector3(Math.random() * 50 - 50, 0, Math.random() * 50 - 50);
+      } 
+    }
   }
 
   CreateAsphalt() {
