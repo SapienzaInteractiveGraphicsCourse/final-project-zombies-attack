@@ -112,7 +112,7 @@ export class Test {
 
   CreateController() {
     const camera = new UniversalCamera("UniversalCamera", new Vector3(1, 1, 1), this.scene);
-    camera.setTarget(Vector3.Zero());
+    camera.setTarget(new Vector3(0, 1, 0));
 
     camera.attachControl()
     camera.speed = 0.25
@@ -174,7 +174,7 @@ export class Test {
       z: 0.3060210653126232 / gunSizes.z,
     }
     console.log(normalizedSizes)
-    gun.position = new Vector3(0.05 * normalizedSizes.x, -0.05 * normalizedSizes.y, 0.2 * normalizedSizes.z);
+    gun.position = new Vector3(0.05 * normalizedSizes.x, -0.02 * normalizedSizes.y, 0.2 * normalizedSizes.z);
   }
 
   getMeshSize(parent) {
@@ -189,9 +189,13 @@ export class Test {
 
   Shot() {
     let id;
-    const gunshot = new Sound("gunshot", "sounds/ak_shot.mp3", this.scene);
+    const volume = 0.1;
+    const gunshot = new Sound("gunshot", "sounds/ak_shot.mp3", this.scene, {
+      volume: volume,
+    });
 
     onmousedown = ((event) => {
+      gunshot.setVolume(volume); // Or Engine.audioEngine.setGlobalVolume(volume); for global volume
       Engine.audioEngine.unlock();
       Engine.audioEngine.audioContext?.resume();
       // First shot
