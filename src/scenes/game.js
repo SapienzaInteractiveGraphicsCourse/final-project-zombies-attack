@@ -1,7 +1,3 @@
-/**
- * File for the main menu of the game.
- */
-
 import {
     Scene,
     Vector3,
@@ -14,11 +10,13 @@ import {
     Texture,
     Ray,
     Sound,
-    Engine
+    Engine,
+    Axis,
+    Space
 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
 import * as HUD from '../HUD/HUD.json'
-import Animations from '../Animations'
+import Animations from '../animation'
 import { options } from "../options";
 
 async function createScene(canvas, engine) {
@@ -210,11 +208,11 @@ function getMeshSize(parent) {
 }
 
 async function LoadZombie(scene) {
-    const zombies = ['zombie1.glb', 'zombie2.glb', 'zombie3.glb', 'zombie4.glb'];
+    const zombies = ['zombie3.glb'];
     for (const zombie of zombies) {
-        const { meshes, ...rest } = await SceneLoader.ImportMeshAsync('', 'models/zombies/', zombie, scene)
-        console.log(zombie, meshes)
-        console.log(zombie, rest)
+        const { meshes, skeletons } = await SceneLoader.ImportMeshAsync('', 'models/zombies/', zombie, scene);
+        meshes[0].position = new Vector3(0, 0, -10)
+        const skeleton = skeletons[0];
 
         meshes.map((mesh) => {
         mesh.checkCollisions = true;
@@ -248,7 +246,7 @@ function Shot(scene, camera, gun) {
         CheckShot(scene, camera, gun);
         gunshot.play();
         console.log("holding...")
-      }, 75)
+      }, 100) // 600 rps for the ak47, -> 100 ms of delay between shots
     })
     onmouseup = () => {
       clearInterval(id)
@@ -278,22 +276,9 @@ function CheckShot(scene, camera, gun) {
       while (mesh.parent !== null) {
         mesh = mesh.parent;
       }
-      CountZombies(scene)
       // Dispose the parent mesh
       mesh.dispose();
     }
-}
-
-function CountZombies(scene) {
-    const meshes = scene.meshes;
-    let count = -21;
-    meshes.map((mesh) => {
-      if (mesh.name.match(/^BlindHunter_Blind Hunter_0+/)) {
-        count++;
-      }
-    })
-    console.log(count)
-    return count
 }
 
 function HandleControl(engine) {

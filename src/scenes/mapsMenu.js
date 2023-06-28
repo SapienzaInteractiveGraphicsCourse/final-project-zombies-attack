@@ -1,12 +1,11 @@
 import {
     Scene,
     ArcRotateCamera,
-    Vector3,
-    Color3
+    Vector3
 } from "@babylonjs/core";
-import { SceneManagerInstance } from "./SceneManager";
+import { SceneManagerInstance } from "./sceneManager";
 import * as GUI from "@babylonjs/gui";
-import menuSceneBuilder from './MainMenu';
+import menuSceneBuilder from './mainMenu';
 import { options } from "../options";
 
 async function createScene(canvas, engine) {
