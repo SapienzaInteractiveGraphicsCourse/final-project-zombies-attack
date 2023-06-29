@@ -82,7 +82,7 @@ async function loadAsync(scene) {
  */
 function sceneSpecificInit(sceneInfo) {
     // animation
-    zombie.idle(sceneInfo);
+    zombie.walk(sceneInfo);
 }
 
 // wrap the miscanims animations to refer to the loaded meshdata object

@@ -63,6 +63,17 @@ async function createScene(canvas, engine) {
     ]);
     Shot(scene, camera, gun)
 
+    const sceneInfo = {
+      scene,
+      enemy,
+      camera,
+      // ui,                  // added later since it needs battleUI and sceneInfo itself
+      // onPlayerVictory,     // added later since it needs battleUI and sceneInfo itself
+      // onPlayerDefeat,      // added later since it needs battleUI and sceneInfo itself
+      // gotoNextScene,       // added later for coherence w/ the above
+    }
+    enemy.sceneSpecificInit(sceneInfo);
+
     return scene;
 }
 

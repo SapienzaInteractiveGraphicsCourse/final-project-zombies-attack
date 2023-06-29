@@ -17,7 +17,7 @@ const bonesOfInterest = [
     // body segments
     "Base HumanSpine1_06",
     "Base HumanSpine2_00",
-    // "Base HumanRibcage_07",   // exists in theory, but not useful
+    // "Base HumanRibcage_07",   // not useful
     // head
     "Base HumanNeck_08",
     "Base HumanHead_09",
@@ -35,6 +35,7 @@ const bonesOfInterest = [
     "Base HumanLLegThigh_051",
     "Base HumanLLegCalf_052",
     "Base HumanLLegFoot_053",
+    "Base HumanLLegDigit11_054",
     // right leg
     "Base HumanRThigh_02",
     "Base HumanRCalf_03",
