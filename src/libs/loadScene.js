@@ -16,7 +16,7 @@ import {
 } from '@babylonjs/core'
 import '@babylonjs/loaders'
 import * as GUI from '@babylonjs/gui'
-import * as HUD from './HUD/HUD.json'
+import * as HUD from '../HUD/HUD.json'
   
 export class LoadScene {
   scene

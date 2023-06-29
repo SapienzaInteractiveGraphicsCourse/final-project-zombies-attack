@@ -15,8 +15,9 @@ import {
     Space
 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
+import "@babylonjs/loaders";
 import * as HUD from '../HUD/HUD.json'
-import Animations from '../animation'
+import Animations from '../libs/animation'
 import { options } from "../options";
 
 async function createScene(canvas, engine) {

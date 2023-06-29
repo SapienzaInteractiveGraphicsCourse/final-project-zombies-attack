@@ -3,7 +3,7 @@ import {
     ArcRotateCamera,
     Vector3
 } from "@babylonjs/core";
-import { SceneManagerInstance } from "./sceneManager";
+import { SceneManagerInstance } from "../libs/sceneManager";
 import * as GUI from "@babylonjs/gui";
 import difficultyMenuBuilder from "./difficultyMenu";
 import mapsMenuBuilder from "./mapsMenu";
