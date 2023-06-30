@@ -249,9 +249,9 @@ function endIdleGracefully() {
 /**
  * Walk animation
  */
-const _animWalk_frames = [0, 6, 11, 18, 21, 24, 26, 30, 34];
-const frameRate = 10;
-const walkEase = new QuadraticEase();
+const _animWalk_frames = [0, 18, 33, 54, 63, 72, 78, 90, 102];
+const frameRate = 30;
+const walkEase = new PowerEase(1.3);
 walkEase.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT);
 
 const _animWalk_meshY_bab = new Animation("animWalk_meshY", "position.y", frameRate, Animation.ANIMATIONTYPE_FLOAT, Animation.ANIMATIONLOOPMODE_CYCLE);
@@ -263,19 +263,23 @@ const _animWalk_meshY_keys = [
     },
     {
         frame: _animWalk_frames[1],
-        value: 0.15
+        value: 0.18
     },
     {
         frame: _animWalk_frames[3],
-        value: 0.25
+        value: 0.22
     },
     {
         frame: _animWalk_frames[5],
-        value: 0.15
+        value: 0.18
     },
     {
         frame: _animWalk_frames[7],
-        value: 0.25
+        value: 0.22
+    },
+    {
+        frame: _animWalk_frames[8],
+        value: idlePosition.y
     }
 ];
 const animWalk_meshY = new MYANIM.Animation(_animWalk_meshY_bab, _animWalk_meshY_keys);
@@ -495,10 +499,52 @@ _animWalk_R_upperarm_bab.setEasingFunction(walkEase);
 const _animWalk_R_upperarm_keys = [
     {
         frame: _animWalk_frames[0],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 85))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 70))
+    },
+    {
+        frame: _animWalk_frames[1],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 95))
+    },
+    {
+        frame: _animWalk_frames[2],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 100))
+    },
+    {
+        frame: _animWalk_frames[3],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 75))
+    },
+    {
+        frame: _animWalk_frames[4],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 75))
+    },
+    {
+        frame: _animWalk_frames[5],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 60))
+    },
+    {
+        frame: _animWalk_frames[6],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 70))
+    },
+    {
+        frame: _animWalk_frames[7],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 75))
+    },
+    {
+        frame: _animWalk_frames[8],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-5.4164, 62.9066, 70))
     }
 ];
 const animWalk_R_upperarm = new MYANIM.Animation(_animWalk_R_upperarm_bab, _animWalk_R_upperarm_keys);
+
+const _animWalk_R_palm_bab = new Animation("animWalk_R_palm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
+_animWalk_R_palm_bab.setEasingFunction(walkEase);
+const _animWalk_R_palm_keys = [
+    {
+        frame: _animWalk_frames[0],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(41.9339, 15.6189, -16.3430))
+    }
+];
+const animWalk_R_palm = new MYANIM.Animation(_animWalk_R_palm_bab, _animWalk_R_palm_keys);
 
 const _animWalk_L_thigh_bab = new Animation("animWalk_L_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_thigh_bab.setEasingFunction(walkEase);
@@ -537,7 +583,7 @@ const _animWalk_L_thigh_keys = [
     },
     {
         frame: _animWalk_frames[8],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(0.7885, -172.6846, 50))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.7885, -172.6846, 45))
     }
 ];
 const animWalk_L_thigh = new MYANIM.Animation(_animWalk_L_thigh_bab, _animWalk_L_thigh_keys);
@@ -668,315 +714,198 @@ const _animWalk_L_digit_keys = [
 ];
 const animWalk_L_digits = new MYANIM.Animation(_animWalk_L_digits_bab, _animWalk_L_digit_keys);
 
-/* const _animWalk_spine1_bab = new Animation("animWalk_spine1", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_spine1_bab.setEasingFunction(walkEase);
-const _animWalk_spine1_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(0, 0, 0))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(27.4, -13.4, -8.99))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(33.2, -14, -9.4))
-    }
-];
-const animWalk_spine1 = new MYANIM.Animation(_animWalk_spine1_bab, _animWalk_spine1_keys);
-
-const _animWalk_neck_bab = new Animation("animWalk_neck", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_neck_bab.setEasingFunction(walkEase);
-const _animWalk_neck_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(0, 0, 0))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-2.94, 16.1, 0.946))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-2.94, 16.1, 0.946))
-    }
-];
-const animWalk_neck = new MYANIM.Animation(_animWalk_neck_bab, _animWalk_neck_keys);
-
-const _animWalk_head_bab = new Animation("animWalk_head", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_head_bab.setEasingFunction(walkEase);
-const _animWalk_head_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(0, 0, 0))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-21.4, 30, -4.53))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-26.9, 41.1, -9.67))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-17.7, 64.8, 3.53))
-    }
-];
-const animWalk_head = new MYANIM.Animation(_animWalk_head_bab, _animWalk_head_keys);
-
-const _animWalk_L_upperarm_bab = new Animation("animWalk_L_upperarm", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_L_upperarm_bab.setEasingFunction(walkEase);
-const _animWalk_L_upperarm_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-71.8, 35.6, 0))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-67.4, 61.8, -17.8))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-48, 143, -116))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-46.4, 140, -113))
-    }
-];
-const animWalk_L_upperarm = new MYANIM.Animation(_animWalk_L_upperarm_bab, _animWalk_L_upperarm_keys);
-
-const _animWalk_L_forearm_bab = new Animation("animWalk_L_forearm", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_L_forearm_bab.setEasingFunction(walkEase);
-const _animWalk_L_forearm_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-0.0076, -0.535, -91.6))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(5.82, 43.1, -43.5))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(4.96, -58.4, 29))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-7.78, -82.8, 39))
-    }
-];
-const animWalk_L_forearm = new MYANIM.Animation(_animWalk_L_forearm_bab, _animWalk_L_forearm_keys);
-
-const _animWalk_R_upperarm_bab = new Animation("animWalk_R_upperarm", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_R_upperarm_bab.setEasingFunction(walkEase);
-const _animWalk_R_upperarm_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-90, 0, 37.8))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-95.4, -73.5, 114))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-103, -21, 52.5))
-    }
-];
-const animWalk_R_upperarm = new MYANIM.Animation(_animWalk_R_upperarm_bab, _animWalk_R_upperarm_keys);
-
-const _animWalk_R_forearm_bab = new Animation("animWalk_R_forearm", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_R_forearm_bab.setEasingFunction(walkEase);
-const _animWalk_R_forearm_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(0, 0, 50.2))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(1.69, 17.2, 57.7))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-9.92, 20.7, 68.4))
-    }
-];
-const animWalk_R_forearm = new MYANIM.Animation(_animWalk_R_forearm_bab, _animWalk_R_forearm_keys);
-
-const _animWalk_R_hand_bab = new Animation("animWalk_R_hand", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_R_hand_bab.setEasingFunction(walkEase);
-const _animWalk_R_hand_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(0, 0, -31.7))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(12.6, 2.4, -14.4))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(16.9, -12.9, -23))
-    }
-];
-const animWalk_R_hand = new MYANIM.Animation(_animWalk_R_hand_bab, _animWalk_R_hand_keys);
-
-const _animWalk_L_thigh_bab = new Animation("animWalk_L_thigh", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_L_thigh_bab.setEasingFunction(walkEase);
-const _animWalk_L_thigh_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-29.9, 26.9, 25.6))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-11.6, 37.4, 29.8))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-5.24, 38.8, 47.7))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-8.06, 34.5, 34.5))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-6.91, 26.5, 29.6))
-    }
-];
-const animWalk_L_thigh = new MYANIM.Animation(_animWalk_L_thigh_bab, _animWalk_L_thigh_keys);
-
-const _animWalk_L_calf_bab = new Animation("animWalk_L_calf", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_L_calf_bab.setEasingFunction(walkEase);
-const _animWalk_L_calf_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(39.1, 33.3, 5.32))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(49, 35.7, 11.3))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(52.8, 35.3, 8.04))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(59.1, 40.8, 15.7))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(37.4, 18.4, -23.7))
-    }
-];
-const animWalk_L_calf = new MYANIM.Animation(_animWalk_L_calf_bab, _animWalk_L_calf_keys);
-
-const _animWalk_R_thigh_bab = new Animation("animWalk_R_thigh", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
+const _animWalk_R_thigh_bab = new Animation("animWalk_R_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_thigh_bab.setEasingFunction(walkEase);
 const _animWalk_R_thigh_keys = [
     {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-35.8, 30.9, -15.3))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(25.8, 22.8, -10.5))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(15.9, 24.2, -15.7))
+        frame: _animWalk_frames[0],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, -25))
+    },
+    {
+        frame: _animWalk_frames[1],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, -45))
+    },
+    {
+        frame: _animWalk_frames[2],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, -15))
+    },
+    {
+        frame: _animWalk_frames[3],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, 15))
+    },
+    {
+        frame: _animWalk_frames[4],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, 5))
+    },
+    {
+        frame: _animWalk_frames[5],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, 10))
+    },
+    {
+        frame: _animWalk_frames[6],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, 10))
+    },
+    {
+        frame: _animWalk_frames[7],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, 0))
+    },
+    {
+        frame: _animWalk_frames[8],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.4117, 175.6522, -25))
     }
 ];
 const animWalk_R_thigh = new MYANIM.Animation(_animWalk_R_thigh_bab, _animWalk_R_thigh_keys);
 
-const _animWalk_R_calf_bab = new Animation("animWalk_R_calf", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
+const _animWalk_R_calf_bab = new Animation("animWalk_R_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_calf_bab.setEasingFunction(walkEase);
 const _animWalk_R_calf_keys = [
     {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(38.3, -23.7, -7.63))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(45.1, -23.4, -8.54))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(129, -193, -175))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(162, -204, -188))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(162, -204, -188))
+        frame: _animWalk_frames[0],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, 0))
+    },
+    {
+        frame: _animWalk_frames[1],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, 0))
+    },
+    {
+        frame: _animWalk_frames[2],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, -5))
+    },
+    {
+        frame: _animWalk_frames[3],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, -25))
+    },
+    {
+        frame: _animWalk_frames[4],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, -15))
+    },
+    {
+        frame: _animWalk_frames[5],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, -25))
+    },
+    {
+        frame: _animWalk_frames[6],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, -25))
+    },
+    {
+        frame: _animWalk_frames[7],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, -15))
+    },
+    {
+        frame: _animWalk_frames[8],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(1.9307, 0.0440, 0))
     }
 ];
 const animWalk_R_calf = new MYANIM.Animation(_animWalk_R_calf_bab, _animWalk_R_calf_keys);
 
-const _animWalk_F_armor_bab = new Animation("animWalk_F_armor", "rotation", 30, Animation.ANIMATIONTYPE_VECTOR3);
-_animWalk_F_armor_bab.setEasingFunction(walkEase);
-const _animWalk_F_armor_keys = [
+const _animWalk_R_foot_bab = new Animation("animWalk_R_foot", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
+_animWalk_R_foot_bab.setEasingFunction(walkEase);
+const _animWalk_R_foot_keys = [
     {
-        frame:_animWalk_frames[0],
-        value:RotationFromDegrees(-12.9, 0, 0)
-    }, {
-        frame:_animWalk_frames[2],
-        value:RotationFromDegrees(-12.9, 0, 0)
-    }, {
-        frame:_animWalk_frames[4],
-        value:RotationFromDegrees(0.551, 0, 0)
+        frame: _animWalk_frames[0],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[1],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[2],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[3],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[4],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[5],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[6],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[7],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
+    },
+    {
+        frame: _animWalk_frames[8],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(4.2713, 5.5953, 92.7111))
     }
 ];
-const animWalk_F_armor = new MYANIM.Animation(_animWalk_F_armor_bab, _animWalk_F_armor_keys);
+const animWalk_R_foot = new MYANIM.Animation(_animWalk_R_foot_bab, _animWalk_R_foot_keys);
 
-const _animWalk_F_mant_bab = new Animation("animWalk_F_mant", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_F_mant_bab.setEasingFunction(walkEase);
-const _animWalk_F_mant_keys = [
+const _animWalk_R_digits_bab = new Animation("animWalk_R_digits", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
+_animWalk_R_digits_bab.setEasingFunction(walkEase);
+const _animWalk_R_digit_keys = [
     {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(7, 0, 0))
-    }, {
-        frame:_animWalk_frames[1],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(6.83, 1.01, -3.99))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(22.7, 2.47, -9))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(20.7, 7.94, -7.63))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-36.3, 3.42, -8.25))
+        frame: _animWalk_frames[0],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[1],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[2],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[3],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[4],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[5],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[6],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[7],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
+    },
+    {
+        frame: _animWalk_frames[8],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9926, -4.5688, 12.8218))
     }
 ];
-const animWalk_F_mant = new MYANIM.Animation(_animWalk_F_mant_bab, _animWalk_F_mant_keys);
-
-const _animWalk_L_mant_bab = new Animation("animWalk_L_mant", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_L_mant_bab.setEasingFunction(walkEase);
-const _animWalk_L_mant_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(10, 0, 0))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(5.83, 7.02, 2.22))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(7.68, 1.54, 7.09))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-22.3, -4.8, 4.54))
-    }
-];
-const animWalk_L_mant = new MYANIM.Animation(_animWalk_L_mant_bab, _animWalk_L_mant_keys);
-
-const _animWalk_R_mant_bab = new Animation("animWalk_R_mant", "rotationQuaternion", 30, Animation.ANIMATIONTYPE_QUATERNION);
-_animWalk_R_mant_bab.setEasingFunction(walkEase);
-const _animWalk_R_mant_keys = [
-    {
-        frame:_animWalk_frames[0],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(10, 0, 0))
-    }, {
-        frame:_animWalk_frames[2],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(12.2, 9, -18.6))
-    }, {
-        frame:_animWalk_frames[3],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(6.13, 12.4, -30.5))
-    }, {
-        frame:_animWalk_frames[4],
-        value:Quaternion.FromEulerVector(RotationFromDegrees(-35.5, 16.3, -17.1))
-    }
-];
-const animWalk_R_mant = new MYANIM.Animation(_animWalk_R_mant_bab, _animWalk_R_mant_keys); */
+const animWalk_R_digits = new MYANIM.Animation(_animWalk_R_digits_bab, _animWalk_R_digit_keys);
 
 // the animation is triggered by this function
 function walk(meshdata, scene, onAnimationEnd) {
-    meshdata.stopAllAnimations(scene);
     MYANIM.directAnimationLoop(scene, meshdata.mesh, [animWalk_meshY]);
+
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine1_06"), [animWalk_spine_1]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine2_00"), [animWalk_spine_2]);
+
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanNeck_08"), [animWalk_neck]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanHead_09"), [animWalk_head]);
+
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLArmCollarbone_033"), [animWalk_L_collarbone]);
+
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animWalk_R_upperarm]);
+    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRArmPalm_018"), [animWalk_R_palm]);
+
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegThigh_051"), [animWalk_L_thigh]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegCalf_052"), [animWalk_L_calf]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegFoot_053"), [animWalk_L_foot]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegDigit11_054"), [animWalk_L_digits]);
+
+    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRThigh_02"), [animWalk_R_thigh]);
+    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRCalf_03"), [animWalk_R_calf]);
+    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRFoot_04"), [animWalk_R_foot]);
+    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRDigit11_05"), [animWalk_R_digits]);
 /*     MYANIM.directAnimationLoop(scene, meshdata.getNode("Bip01_Spine1"), [animWalk_spine1]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Bip01_Neck"), [animWalk_neck]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Bip01_Head"), [animWalk_head]);

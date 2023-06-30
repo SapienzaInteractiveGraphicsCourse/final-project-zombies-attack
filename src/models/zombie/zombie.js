@@ -83,6 +83,10 @@ async function loadAsync(scene) {
 function sceneSpecificInit(sceneInfo) {
     // animation
     zombie.walk(sceneInfo);
+    
+    sceneInfo.scene.registerBeforeRender(function () {
+        zombie.meshdata.mesh.position.z += 0.002;
+    });
 }
 
 // wrap the miscanims animations to refer to the loaded meshdata object

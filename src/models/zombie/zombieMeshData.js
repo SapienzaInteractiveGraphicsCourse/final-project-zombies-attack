@@ -40,6 +40,7 @@ const bonesOfInterest = [
     "Base HumanRThigh_02",
     "Base HumanRCalf_03",
     "Base HumanRFoot_04",
+    "Base HumanRDigit11_05",
 ];
 
 /**
