@@ -292,7 +292,7 @@ function CheckShot(scene, camera, gun) {
         mesh = mesh.parent;
       }
       // Dispose the parent mesh
-      mesh.dispose();
+      //mesh.dispose();
     }
 }
 

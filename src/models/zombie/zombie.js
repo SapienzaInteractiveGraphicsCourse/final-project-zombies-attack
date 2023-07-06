@@ -14,6 +14,7 @@ import {
 } from "@babylonjs/core";
 import { loadZombieAsync } from "./zombieMeshData";
 import miscanims from "./animations/zombieMiscAnims"
+import deathanim from "./animations/zombieDeath"
 import { options } from "../../options";
 
 // CONSTANTS & PARAMETERS
@@ -82,11 +83,12 @@ async function loadAsync(scene) {
  */
 function sceneSpecificInit(sceneInfo) {
     // animation
-     zombie.walk(sceneInfo); 
+    //zombie.walk(sceneInfo);
+    zombie.death(sceneInfo);
     
-    sceneInfo.scene.registerBeforeRender(function () {
+    /* sceneInfo.scene.registerBeforeRender(function () {
         zombie.meshdata.mesh.position.z += 0.003;
-    });
+    }); */
 }
 
 // wrap the miscanims animations to refer to the loaded meshdata object
@@ -103,7 +105,7 @@ function walk(sceneInfo, onAnimationEnd) {
 }
 
 function death(sceneInfo, onAnimationEnd) {
-    miscanims.death(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
+    deathanim.death(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
 }
 
 function stopAllAnimations(scene) {
