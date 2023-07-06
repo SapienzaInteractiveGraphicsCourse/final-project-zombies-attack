@@ -82,7 +82,7 @@ async function loadAsync(scene) {
  */
 function sceneSpecificInit(sceneInfo) {
     // animation
-    /* zombie.walk(sceneInfo); */
+     zombie.walk(sceneInfo); 
     
     sceneInfo.scene.registerBeforeRender(function () {
         zombie.meshdata.mesh.position.z += 0.003;

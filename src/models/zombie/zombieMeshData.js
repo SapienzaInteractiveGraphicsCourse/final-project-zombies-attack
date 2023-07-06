@@ -8,7 +8,8 @@ import {
     Color3,
     MeshBuilder,
     Vector3,
-    StandardMaterial
+    StandardMaterial,
+    Quaternion
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { RotationFromDegrees } from "../../libs/angles";
@@ -24,6 +25,7 @@ const bonesOfInterest = [
     // head
     "Base HumanNeck_08",
     "Base HumanHead_09",
+    "head_062",
     // left arm
     "Base HumanLArmCollarbone_033",
     "Base HumanLArmUpperarm_034",
@@ -54,17 +56,30 @@ const bonesOfInterest = [
  */
 async function _loadMesh(scene) {
     let zombie = {}
-    return SceneLoader.ImportMeshAsync("", "/models/dude/", "Dude.babylon", scene).then((result) => {
+    return SceneLoader.ImportMeshAsync("", "/models/zombies/", "zombie3.glb", scene).then((result) => {
         let mesh = result.meshes[0];
         let skeleton = result.skeletons[0];
 
+        // Print bone names for debugging
+        skeleton.bones.forEach((bone, index) => {
+            console.log(`Bone ${index}: ${bone.name}`);
+      });
+
         // Creating hitbox geometry
-        let hitbox = MeshBuilder.CreateBox("original",{size:5});
+        let hitbox = MeshBuilder.CreateBox("original",{size:50}, scene);
         hitbox.material = new StandardMaterial("std",scene);
         hitbox.material.wireframe = true;
 
-        mesh.scaling = new Vector3(0.08, 0.08, 0.08)
-        hitbox.attachToBone(skeleton.bones[9], mesh);
+       // mesh.scaling = new Vector3(0.08, 0.08, 0.08)
+       let headBoneIndex = skeleton.getBoneIndexByName("Base HumanHead_09");
+       if (headBoneIndex !== -1) {
+        let headBone = skeleton.bones[headBoneIndex];
+        hitbox.parent = headBone.getTransformNode();
+        hitbox.position = Vector3.Zero();
+        hitbox.rotationQuaternion = Quaternion.Identity();
+      } else {
+        console.error("Head bone not found.");
+      }
 
         zombie.meshes = result.meshes;
         zombie.mesh = mesh;
@@ -95,7 +110,7 @@ async function _loadMesh(scene) {
         // so we save this material for future use...
         zombie.theMaterialWithEmission = result.meshes[1].material;
         // ...and turn the emission off for now
-        zombie.theMaterialWithEmission.emissiveColor = Color3.Black();
+        //zombie.theMaterialWithEmission.emissiveColor = Color3.Black();
 
         return zombie;
     });
@@ -146,7 +161,7 @@ function _initMeshDependent(zombie) {
 
 async function loadZombieAsync(scene) {
     let zombie = await _loadMesh(scene);
-/*     _initMeshDependent(zombie); */
+    _initMeshDependent(zombie); 
     return zombie;
 }
 
