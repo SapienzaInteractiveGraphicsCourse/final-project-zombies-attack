@@ -12,7 +12,10 @@ import {
     Sound,
     Engine,
     Axis,
-    Space
+    Space,
+    StandardMaterial,
+    Color3,
+    Quaternion
 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
@@ -20,6 +23,7 @@ import * as HUD from '../HUD/HUD.json'
 import { shotAnimation } from '../models/gun/animations/gunShot'
 import { options } from "../options";
 import enemy from "../models/zombie/zombie";
+import { RotationFromDegrees, deg2rad } from "../libs/angles";
 
 async function createScene(canvas, engine) {
     const scene = new Scene(engine);
@@ -73,6 +77,30 @@ async function createScene(canvas, engine) {
       // gotoNextScene,       // added later for coherence w/ the above
     }
     enemy.sceneSpecificInit(sceneInfo);
+
+
+
+    // Aggiorna la posizione della telecamera e della mesh ad ogni frame
+    scene.registerBeforeRender(function () {
+      // Calcola la direzione dalla mesh alla telecamera
+      const direction = camera.position.subtract(enemy.meshdata.mesh.position);
+      direction.normalize();
+      // Calcola la distanza tra la mesh e la telecamera
+      const distance = Vector3.Distance(enemy.meshdata.mesh.position, camera.position);
+      if (distance > 2.5) {
+        // Definisci una velocità di movimento
+        const speed = 0.04;
+
+        // Sposta la mesh lungo la direzione verso la telecamera
+        enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
+        enemy.meshdata.mesh.position.y = 0;
+
+        const target = enemy.meshdata.mesh.position.subtract(direction)
+        target.y = 0;
+        // Imposta il target della mesh sulla direzione calcolata
+        enemy.meshdata.mesh.lookAt(target);
+      }
+    });
 
     return scene;
 }
@@ -284,6 +312,7 @@ function CheckShot(scene, camera, gun) {
     const hit = scene.pickWithRay(ray, (mesh) => {
       return mesh.name.match(/^hitbox+/) !== null;
     });
+
     if (hit && hit.pickedMesh) {
       console.log(hit.pickedMesh)
       // Get the parent mesh node
@@ -291,8 +320,24 @@ function CheckShot(scene, camera, gun) {
       while (mesh.parent !== null) {
         mesh = mesh.parent;
       }
+
       // Dispose the parent mesh
       //mesh.dispose();
+
+      if (hit.pickedMesh.name.match(/Head+/) !== null) {
+        enemy.hp -= 50;
+      }
+      else if (hit.pickedMesh.name.match(/Spine+/) !== null) {
+        enemy.hp -= 20;
+      }
+      else {
+        enemy.hp -= 10;
+      }
+
+      if (enemy.hp <= 0) {
+        // Dispose the parent mesh
+        mesh.dispose();
+      }
     }
 }
 

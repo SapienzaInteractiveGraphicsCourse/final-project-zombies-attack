@@ -31,7 +31,7 @@ const isPlayer = false;
  * The position where this character usually is.
  * Used as reference to position or point other objects or effects.
  */
-const defaultPosition = new Vector3(-5, 0.2, -15);
+const defaultPosition = new Vector3(-5, 0, -15);
 
 /**
  * The position used as the target for projectile- or explosion-based attacks,
@@ -53,11 +53,13 @@ const projectileTarget = defaultPosition.add(new Vector3(-0.3, 0.8, 0));
  * Initializes the RPG parameters for this character.
  */
 function _initGame() {
-    zombie.maxhp = 35;
-    if (options.hardMode) {
-        zombie.maxhp += 15;
+    zombie.hp = 100;
+    if (options.difficulty.medium) {
+        zombie.hp += 50;
     }
-    zombie.hp = zombie.maxhp;
+    else if (options.difficulty.hard) {
+        zombie.hp += 100;
+    }
 }
 
 /**
@@ -85,7 +87,9 @@ function sceneSpecificInit(sceneInfo) {
     // animation
     //zombie.walk(sceneInfo);
     zombie.death(sceneInfo);
-    
+
+    /* zombie.walk(sceneInfo); */ 
+
     /* sceneInfo.scene.registerBeforeRender(function () {
         zombie.meshdata.mesh.position.z += 0.003;
     }); */
@@ -122,7 +126,6 @@ const zombie = {
     name,
     isPlayer,
     meshdata: {},
-    maxhp: undefined,
     hp: undefined,
     loadAsync,
     sceneSpecificInit,
