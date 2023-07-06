@@ -200,8 +200,8 @@ async function _loadMesh(scene) {
                         hitbox.position.y = 8
                     }
                     else if (hitBone.name === "Base HumanHead_09") {
+                        hitbox.position.x = 4
                         hitbox.position.y = 4
-                        hitbox.position.z = 4
                     }
                     else if (hitBone.name === "Base HumanLArmCollarbone_033" || hitBone.name === "Base HumanRArmCollarbone_015") {
                         hitbox.position.y = 7
@@ -264,6 +264,9 @@ function _initMeshDependent(zombie) {
     zombie.getNode("Base HumanRArmUpperarm_016").rotation = RotationFromDegrees(12.2255, -19.9400, 21.2424);
     zombie.getNode("Base HumanRArmForearm_017").rotation = RotationFromDegrees(33.4608, -3.6695, -10.5962);
     zombie.getNode("Base HumanRArmPalm_018").rotation = RotationFromDegrees(12.2255, 112.8121, -9.3135);
+
+    /* zombie.getNode("Base HumanLLegThigh_051").rotation = RotationFromDegrees(-25.9550, -90.7844, -171.8719);
+    zombie.getNode("Base HumanLLegCalf_052").rotation = RotationFromDegrees(-32.0456, -1.9191, -0.0246); */
 
     /**
      * Stops all animations on this character.

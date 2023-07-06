@@ -77,9 +77,7 @@ async function createScene(canvas, engine) {
       // gotoNextScene,       // added later for coherence w/ the above
     }
     enemy.sceneSpecificInit(sceneInfo);
-
-
-
+    enemy.walk(sceneInfo);
     // Aggiorna la posizione della telecamera e della mesh ad ogni frame
     scene.registerBeforeRender(function () {
       // Calcola la direzione dalla mesh alla telecamera
@@ -88,8 +86,9 @@ async function createScene(canvas, engine) {
       // Calcola la distanza tra la mesh e la telecamera
       const distance = Vector3.Distance(enemy.meshdata.mesh.position, camera.position);
       if (distance > 2.5) {
+
         // Definisci una velocità di movimento
-        const speed = 0.04;
+        const speed = 0.01;
 
         // Sposta la mesh lungo la direzione verso la telecamera
         enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));

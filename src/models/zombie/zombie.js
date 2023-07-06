@@ -85,8 +85,7 @@ async function loadAsync(scene) {
  */
 function sceneSpecificInit(sceneInfo) {
     // animation
-    //zombie.walk(sceneInfo);
-    zombie.death(sceneInfo);
+    /* zombie.death(sceneInfo); */
 
     /* zombie.walk(sceneInfo); */ 
 
