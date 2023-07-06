@@ -5,7 +5,10 @@
 
 import {
     SceneLoader,
-    Color3
+    Color3,
+    MeshBuilder,
+    Vector3,
+    StandardMaterial
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { RotationFromDegrees } from "../../libs/angles";
@@ -40,20 +43,28 @@ const bonesOfInterest = [
     "Base HumanRThigh_02",
     "Base HumanRCalf_03",
     "Base HumanRFoot_04",
-    "Base HumanRDigit11_05",
+    "Base HumanRDigit11_05"
 ];
 
 /**
  * Asynchronously loads this character's mesh
  * and returns an object with basic info.
- * @param {BABYLON.Scene} scene The scene to associate the loaded mesh to.
+ * @param {Scene} scene The scene to associate the loaded mesh to.
  * @returns A promise that resolves when loading and initialization is complete.
  */
 async function _loadMesh(scene) {
     let zombie = {}
-    return SceneLoader.ImportMeshAsync("", "/models/zombies/", "zombie3.glb", scene).then((result) => {
+    return SceneLoader.ImportMeshAsync("", "/models/dude/", "Dude.babylon", scene).then((result) => {
         let mesh = result.meshes[0];
         let skeleton = result.skeletons[0];
+
+        // Creating hitbox geometry
+        let hitbox = MeshBuilder.CreateBox("original",{size:5});
+        hitbox.material = new StandardMaterial("std",scene);
+        hitbox.material.wireframe = true;
+
+        mesh.scaling = new Vector3(0.08, 0.08, 0.08)
+        hitbox.attachToBone(skeleton.bones[9], mesh);
 
         zombie.meshes = result.meshes;
         zombie.mesh = mesh;
@@ -63,7 +74,20 @@ async function _loadMesh(scene) {
         // individual instances can be set pickable anyway.
         zombie.meshes.forEach((mesh, index) => {
             mesh.isPickable = false;
+            mesh.alwaysSelectAsActiveMesh = true;
         });
+
+/*         let bonesDict = {};
+        bonesOfInterest.forEach((name) => {
+            bonesDict[name] = zombie.skeleton.bones[zombie.skeleton.getBoneIndexByName(name)];
+            if (!bonesDict[name]) {
+                console.error(`Node ${name} not found"`)
+            }
+        })
+
+        zombie.getBone = (name) => {
+            return bonesDict[name];
+        } */
 
         // this part of the zombie has the material regarding the sword and the gold ornament on the helmet.
         // such material was given an emissive texture so it can "glow in the dark" during the special attack
@@ -110,7 +134,7 @@ function _initMeshDependent(zombie) {
 
     /**
      * Stops all animations on this character.
-     * @param {BABYLON.Scene} scene The current scene
+     * @param {Scene} scene The current scene
      */
     zombie.stopAllAnimations = function(scene) {
         scene.stopAnimation(zombie.mesh);
@@ -122,7 +146,7 @@ function _initMeshDependent(zombie) {
 
 async function loadZombieAsync(scene) {
     let zombie = await _loadMesh(scene);
-    _initMeshDependent(zombie);
+/*     _initMeshDependent(zombie); */
     return zombie;
 }
 
