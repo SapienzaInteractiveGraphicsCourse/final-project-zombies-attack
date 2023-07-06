@@ -282,7 +282,7 @@ function CheckShot(scene, camera, gun) {
     const ray = new Ray(origin, forward, 200);
     
     const hit = scene.pickWithRay(ray, (mesh) => {
-      return mesh.name.match(/^zombie+|Object_+/) !== null;
+      return mesh.name.match(/^hitbox+/) !== null;
     });
     if (hit && hit.pickedMesh) {
       console.log(hit.pickedMesh)
