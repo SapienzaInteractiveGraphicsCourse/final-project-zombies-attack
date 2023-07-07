@@ -13,7 +13,7 @@ import {
     Vector3
 } from "@babylonjs/core";
 import { loadZombieAsync } from "./zombieMeshData";
-import miscanims from "./animations/zombieMiscAnims"
+import walkanims from "./animations/zombieWalk"
 import deathanim from "./animations/zombieDeath"
 import attackanim from "./animations/zombieAttack"
 import { options } from "../../options";
@@ -25,20 +25,13 @@ import { options } from "../../options";
  */
 // a lunar-feeling name to contextualize the special attack,
 // which also includes a "bad"-sounding word to remind the user it's an enemy
-const name = "Moon-Cursed zombie";
-const isPlayer = false;
+const name = "Zombie";
 
 /**
  * The position where this character usually is.
  * Used as reference to position or point other objects or effects.
  */
 const defaultPosition = new Vector3(-5, 0, -15);
-
-/**
- * The position used as the target for projectile- or explosion-based attacks,
- * such as Makoto's Fireball
- */
-const projectileTarget = defaultPosition.add(new Vector3(-0.3, 0.8, 0));
 
 /**
  * The position in world space where the text (a UI element) showing the damage taken from attacks will first appear.
@@ -97,16 +90,12 @@ function sceneSpecificInit(sceneInfo) {
 }
 
 // wrap the miscanims animations to refer to the loaded meshdata object
-
-function idle(sceneInfo) {
-    // small touch: if the character has no HP left it can't idle as strength leaves it and it prepares to die.
-    if (zombie.hp > 0) {
-        miscanims.idle(zombie.meshdata, sceneInfo.scene);
-    }
+function walk(sceneInfo, onAnimationEnd) {
+    walkanims.walk(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
 }
 
-function walk(sceneInfo, onAnimationEnd) {
-    miscanims.walk(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
+function endWalk() {
+    walkanims.endWalkGracefully();
 }
 
 function death(sceneInfo, onAnimationEnd) {
@@ -129,18 +118,16 @@ function stopAllAnimations(scene) {
  */
 const zombie = {
     name,
-    isPlayer,
     meshdata: {},
     hp: undefined,
     loadAsync,
     sceneSpecificInit,
     defaultPosition,
-    projectileTarget,
     stopAllAnimations,
     walk,
-    death,
     attack,
-    idle,
+    endWalk,
+    death
 };
 
 export default zombie;
