@@ -15,6 +15,7 @@ import {
 import { loadZombieAsync } from "./zombieMeshData";
 import miscanims from "./animations/zombieMiscAnims"
 import deathanim from "./animations/zombieDeath"
+import attackanim from "./animations/zombieAttack"
 import { options } from "../../options";
 
 // CONSTANTS & PARAMETERS
@@ -85,7 +86,8 @@ async function loadAsync(scene) {
  */
 function sceneSpecificInit(sceneInfo) {
     // animation
-    zombie.death(sceneInfo); 
+    //zombie.death(sceneInfo);
+    zombie.attack(sceneInfo);
 
     /* zombie.walk(sceneInfo); */ 
 
@@ -111,6 +113,10 @@ function death(sceneInfo, onAnimationEnd) {
     deathanim.death(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
 }
 
+function attack(sceneInfo, onAnimationEnd) {
+    attackanim.attack(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
+}
+
 function stopAllAnimations(scene) {
     zombie.meshdata.stopAllAnimations(scene);
 }
@@ -133,6 +139,7 @@ const zombie = {
     stopAllAnimations,
     walk,
     death,
+    attack,
     idle,
 };
 

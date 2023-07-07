@@ -20,7 +20,7 @@ const frameRate = 60;
 const deathEase = new PowerEase(1.3);
 deathEase.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT);
 
-const _animDeath_pelvis_1_bab = new Animation("animDeath_pelvis_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_pelvis_1_bab = new Animation("animDeath_pelvis_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_pelvis_1_bab.setEasingFunction(deathEase);
 const _animDeath_pelvis_1_keys = [
     {
@@ -35,7 +35,7 @@ const _animDeath_pelvis_1_keys = [
 const animDeath_pelvis_1 = new MYANIM.Animation(_animDeath_pelvis_1_bab, _animDeath_pelvis_1_keys);
 
 
-const _animDeath_meshY_bab = new Animation("animDeath_meshY", "position.y", frameRate, Animation.ANIMATIONTYPE_FLOAT, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_meshY_bab = new Animation("animDeath_meshY", "position.y", frameRate, Animation.ANIMATIONTYPE_FLOAT);
 _animDeath_meshY_bab.setEasingFunction(deathEase);
 const _animDeath_meshY_keys = [
     {
@@ -73,7 +73,7 @@ const _animDeath_meshY_keys = [
 ];
 const animDeath_meshY = new MYANIM.Animation(_animDeath_meshY_bab, _animDeath_meshY_keys);
 
-const _animDeath_spine_1_bab = new Animation("animDeath_spine_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_spine_1_bab = new Animation("animDeath_spine_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_spine_1_bab.setEasingFunction(deathEase);
 const _animDeath_spine_1_keys = [
     {
@@ -95,7 +95,7 @@ const _animDeath_spine_1_keys = [
 ];
 const animDeath_spine_1 = new MYANIM.Animation(_animDeath_spine_1_bab, _animDeath_spine_1_keys);
 
-const _animDeath_spine_2_bab = new Animation("animDeath_spine_2", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_spine_2_bab = new Animation("animDeath_spine_2", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_spine_2_bab.setEasingFunction(deathEase);
 const _animDeath_spine_2_keys = [
     {
@@ -117,7 +117,7 @@ const _animDeath_spine_2_keys = [
 ];
 const animDeath_spine_2 = new MYANIM.Animation(_animDeath_spine_2_bab, _animDeath_spine_2_keys);
 
-const _animDeath_neck_bab = new Animation("animDeath_neck", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_neck_bab = new Animation("animDeath_neck", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_neck_bab.setEasingFunction(deathEase);
 const _animDeath_neck_keys = [
     {
@@ -135,7 +135,7 @@ const _animDeath_neck_keys = [
 ];
 const animDeath_neck = new MYANIM.Animation(_animDeath_neck_bab, _animDeath_neck_keys);
 
-const _animDeath_head_bab = new Animation("animDeath_head", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_head_bab = new Animation("animDeath_head", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_head_bab.setEasingFunction(deathEase);
 const _animDeath_head_keys = [
     {
@@ -157,7 +157,7 @@ const _animDeath_head_keys = [
 ];
 const animDeath_head = new MYANIM.Animation(_animDeath_head_bab, _animDeath_head_keys);
 
-const _animDeath_L_collarbone_bab = new Animation("animDeath_L_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_L_collarbone_bab = new Animation("animDeath_L_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_L_collarbone_bab.setEasingFunction(deathEase);
 const _animDeath_L_collarbone_keys = [
     {
@@ -183,7 +183,7 @@ const _animDeath_L_collarbone_keys = [
 ];
 const animDeath_L_collarbone = new MYANIM.Animation(_animDeath_L_collarbone_bab, _animDeath_L_collarbone_keys);
 
-const _animDeath_L_upperarm_bab = new Animation("animDeath_L_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_L_upperarm_bab = new Animation("animDeath_L_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_L_upperarm_bab.setEasingFunction(deathEase);
 const _animDeath_L_upperarm_keys = [
     {
@@ -201,7 +201,7 @@ const _animDeath_L_upperarm_keys = [
 ];
 const animDeath_L_upperarm = new MYANIM.Animation(_animDeath_L_upperarm_bab, _animDeath_L_upperarm_keys);
 
-const _animDeath_R_collarbone_bab = new Animation("animDeath_R_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_R_collarbone_bab = new Animation("animDeath_R_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_R_collarbone_bab.setEasingFunction(deathEase);
 const _animDeath_R_collarbone_keys = [
     {
@@ -227,7 +227,7 @@ const _animDeath_R_collarbone_keys = [
 ];
 const animDeath_R_collarbone = new MYANIM.Animation(_animDeath_R_collarbone_bab, _animDeath_R_collarbone_keys);
 
-const _animDeath_R_upperarm_bab = new Animation("animDeath_R_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_R_upperarm_bab = new Animation("animDeath_R_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_R_upperarm_bab.setEasingFunction(deathEase);
 const _animDeath_R_upperarm_keys = [
     {
@@ -245,7 +245,7 @@ const _animDeath_R_upperarm_keys = [
 ];
 const animDeath_R_upperarm = new MYANIM.Animation(_animDeath_R_upperarm_bab, _animDeath_R_upperarm_keys);
 
-const _animDeath_L_thigh_bab = new Animation("animDeath_L_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_L_thigh_bab = new Animation("animDeath_L_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_L_thigh_bab.setEasingFunction(deathEase);
 const _animDeath_L_thigh_keys = [
     {
@@ -271,7 +271,7 @@ const _animDeath_L_thigh_keys = [
 ];
 const animDeath_L_thigh = new MYANIM.Animation(_animDeath_L_thigh_bab, _animDeath_L_thigh_keys);
 
-const _animDeath_L_calf_bab = new Animation("animDeath_L_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_L_calf_bab = new Animation("animDeath_L_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_L_calf_bab.setEasingFunction(deathEase);
 const _animDeath_L_calf_keys = [
     {
@@ -305,7 +305,7 @@ const _animDeath_L_calf_keys = [
 ];
 const animDeath_L_calf = new MYANIM.Animation(_animDeath_L_calf_bab, _animDeath_L_calf_keys);
 
-const _animDeath_R_thigh_bab = new Animation("animDeath_R_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_R_thigh_bab = new Animation("animDeath_R_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_R_thigh_bab.setEasingFunction(deathEase);
 const _animDeath_R_thigh_keys = [
     {
@@ -331,7 +331,7 @@ const _animDeath_R_thigh_keys = [
 ];
 const animDeath_R_thigh = new MYANIM.Animation(_animDeath_R_thigh_bab, _animDeath_R_thigh_keys);
 
-const _animDeath_R_calf_bab = new Animation("animDeath_R_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+const _animDeath_R_calf_bab = new Animation("animDeath_R_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
 _animDeath_R_calf_bab.setEasingFunction(deathEase);
 const _animDeath_R_calf_keys = [
     {
@@ -361,27 +361,27 @@ const animDeath_R_calf = new MYANIM.Animation(_animDeath_R_calf_bab, _animDeath_
 function death(meshdata, scene, onAnimationEnd) {
     lastPosition = meshdata.mesh.position;
     
-    MYANIM.directAnimationLoop(scene, meshdata.mesh, [animDeath_meshY]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanPelvis_01"), [animDeath_pelvis_1]);
+    MYANIM.directAnimation(scene, meshdata.mesh, [animDeath_meshY]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanPelvis_01"), [animDeath_pelvis_1]);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine1_06"), [animDeath_spine_1]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine2_00"), [animDeath_spine_2]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanSpine1_06"), [animDeath_spine_1]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanSpine2_00"), [animDeath_spine_2]);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanNeck_08"), [animDeath_neck]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanHead_09"), [animDeath_head]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanNeck_08"), [animDeath_neck]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanHead_09"), [animDeath_head]);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLArmCollarbone_033"), [animDeath_L_collarbone]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLArmUpperarm_034"), [animDeath_L_upperarm]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanLArmCollarbone_033"), [animDeath_L_collarbone]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanLArmUpperarm_034"), [animDeath_L_upperarm]);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRArmCollarbone_015"), [animDeath_R_collarbone]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmCollarbone_015"), [animDeath_R_collarbone]);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animDeath_R_upperarm]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animDeath_R_upperarm]);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegThigh_051"), [animDeath_L_thigh]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegCalf_052"), [animDeath_L_calf]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanLLegThigh_051"), [animDeath_L_thigh]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanLLegCalf_052"), [animDeath_L_calf]);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRThigh_02"), [animDeath_R_thigh]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRCalf_03"), [animDeath_R_calf]); 
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRThigh_02"), [animDeath_R_thigh]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRCalf_03"), [animDeath_R_calf]); 
     
 }
 
