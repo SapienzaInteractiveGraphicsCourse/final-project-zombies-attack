@@ -77,7 +77,8 @@ async function createScene(canvas, engine) {
       // gotoNextScene,       // added later for coherence w/ the above
     }
     enemy.sceneSpecificInit(sceneInfo);
-    enemy.walk(sceneInfo);
+    
+    /* enemy.walk(sceneInfo);
     // Aggiorna la posizione della telecamera e della mesh ad ogni frame
     scene.registerBeforeRender(function () {
       // Calcola la direzione dalla mesh alla telecamera
@@ -99,7 +100,7 @@ async function createScene(canvas, engine) {
         // Imposta il target della mesh sulla direzione calcolata
         enemy.meshdata.mesh.lookAt(target);
       }
-    });
+    }); */
 
     return scene;
 }
