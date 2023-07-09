@@ -338,32 +338,35 @@ function CheckShot(sceneInfo, camera, gun) {
     return mesh.name.match(/^hitbox+/) !== null;
   });
 
-  if (hit && hit.pickedMesh) {
-    // Get the parent mesh node
-    let mesh = hit.pickedMesh;
-    while (mesh.parent !== null) {
-      mesh = mesh.parent;
-    }
+  if(sceneInfo.enemy.hp > 0){
+    if (hit && hit.pickedMesh) {
+      // Get the parent mesh node
+      let mesh = hit.pickedMesh;
+      while (mesh.parent !== null) {
+        mesh = mesh.parent;
+      }
 
-    if (hit.pickedMesh.name.match(/Head+/) !== null) {
-      enemy.hp -= 50;
-    }
-    else if (hit.pickedMesh.name.match(/Spine+/) !== null) {
-      enemy.hp -= 20;
-    }
-    else {
-      enemy.hp -= 10;
-    }
+      if (hit.pickedMesh.name.match(/Head+/) !== null) {
+        enemy.hp -= 50;
+      }
+      else if (hit.pickedMesh.name.match(/Spine+/) !== null) {
+        enemy.hp -= 20;
+      }
+      else {
+        enemy.hp -= 10;
+      }
 
-    if (enemy.hp <= 0 && enemy.meshdata) {
-      sceneInfo.player.pts += 100;
-      enemy.death(sceneInfo, () => {
-        // Dispose the parent mesh
-        enemy.meshdata = false;
-        setTimeout(() => {
-          mesh.dispose();
-        }, 1000); // Dispose the mesh after 1s when the death animation has finished
-      })
+      if (enemy.hp <= 0 && enemy.meshdata) {
+        
+        enemy.death(sceneInfo, () => {
+          // Dispose the parent mesh
+          //enemy.meshdata = false;
+          sceneInfo.player.pts += 100;
+          setTimeout(() => {
+            mesh.dispose();
+          }, 1000); // Dispose the mesh after 1s when the death animation has finished
+        })
+      }
     }
   }
 }
