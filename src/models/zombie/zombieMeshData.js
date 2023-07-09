@@ -185,8 +185,6 @@ async function _loadMesh(scene) {
                     hitbox.isVisible = false;
 
                     let headBoneIndex = skeleton.getBoneIndexByName(bone.name);
-                    console.log(bone)
-                    console.log(headBoneIndex)
                     if (headBoneIndex !== -1) {
                     let headBone = skeleton.bones[headBoneIndex];
                         hitbox.parent = headBone.getTransformNode();

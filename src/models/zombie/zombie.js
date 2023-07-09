@@ -13,7 +13,7 @@ import {
     Vector3
 } from "@babylonjs/core";
 import { loadZombieAsync } from "./zombieMeshData";
-import walkanims from "./animations/zombieWalk"
+import walkanim from "./animations/zombieWalk"
 import deathanim from "./animations/zombieDeath"
 import attackanim from "./animations/zombieAttack"
 import { options } from "../../options";
@@ -48,6 +48,8 @@ const defaultPosition = new Vector3(-5, 0, -15);
  */
 function _initGame() {
     zombie.hp = 100;
+    zombie.isAnimated = false;
+    zombie.lastAttack = 0;
     if (options.difficulty.medium) {
         zombie.hp += 50;
     }
@@ -78,32 +80,30 @@ async function loadAsync(scene) {
  * @param {*} sceneInfo Scene Info object for the current scene
  */
 function sceneSpecificInit(sceneInfo) {
+    // deathanim.death(zombie.meshdata, sceneInfo.scene); // for test
+
     // animation
-    //zombie.death(sceneInfo);
-    zombie.attack(sceneInfo);
-
-    /* zombie.walk(sceneInfo); */ 
-
-    /* sceneInfo.scene.registerBeforeRender(function () {
-        zombie.meshdata.mesh.position.z += 0.003;
-    }); */
+    zombie.walk(sceneInfo);
 }
 
 // wrap the miscanims animations to refer to the loaded meshdata object
-function walk(sceneInfo, onAnimationEnd) {
-    walkanims.walk(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
+function walk(sceneInfo) {
+    walkanim.walk(zombie.meshdata, sceneInfo.scene);
 }
 
-function endWalk() {
-    walkanims.endWalkGracefully();
+function attack(sceneInfo) {
+    walkanim.endWalkGracefully().then(() => {
+        attackanim.attack(zombie.meshdata, sceneInfo.scene, () => {
+            sceneInfo.player.hp -= 5;
+            sceneInfo.enemy.isAnimated = true;
+            sceneInfo.enemy.lastAttack = 0;
+        });
+    });
 }
 
 function death(sceneInfo, onAnimationEnd) {
+    sceneInfo.enemy.stopAllAnimations(sceneInfo.scene)
     deathanim.death(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
-}
-
-function attack(sceneInfo, onAnimationEnd) {
-    attackanim.attack(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
 }
 
 function stopAllAnimations(scene) {
@@ -126,7 +126,6 @@ const zombie = {
     stopAllAnimations,
     walk,
     attack,
-    endWalk,
     death
 };
 

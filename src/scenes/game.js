@@ -25,6 +25,7 @@ import enemy from "../models/zombie/zombie";
 import { RotationFromDegrees, deg2rad } from "../libs/angles";
 import hud from "../HUD/HUD";
 import gunanims from "../models/gun/animations/gunReload";
+import { RoundSystem } from "../libs/roundSystem";
 
 let isReloading = false;
 
@@ -32,7 +33,6 @@ async function createScene(canvas, engine) {
   const scene = new Scene(engine);
 
   scene.onPointerDown = (event) => {
-      console.log(event, this)
       if (event.button === 0) {
           canvas.width = window.outerWidth;
           canvas.height = window.outerHeight;
@@ -68,16 +68,21 @@ async function createScene(canvas, engine) {
     enemy.loadAsync(scene),
   ]);
 
+  // Create the turn system for this battle
+  const round = new RoundSystem();
+
   const sceneInfo = {
     player: {
       hp: 100,
+      pts: 0,
       ammo: 30,
       magazines: 210
     },
     scene,
     enemy,
     camera,
-    gun
+    gun,
+    round
     // ui,                  // added later since it needs battleUI and sceneInfo itself
     // onPlayerVictory,     // added later since it needs battleUI and sceneInfo itself
     // onPlayerDefeat,      // added later since it needs battleUI and sceneInfo itself
@@ -85,53 +90,15 @@ async function createScene(canvas, engine) {
   }
   enemy.sceneSpecificInit(sceneInfo);
 
+  // Have the turn system constantly watch for the condition to pass turn
+  round.addRoundObserver(sceneInfo);
+
   // Create the GUI for this scene
   var gameHUD = hud.createHUD(sceneInfo);
   sceneInfo.hud = gameHUD;
 
   Shot(sceneInfo, camera, gun)
   reload(sceneInfo)
-  
-
-  let isAnimated = false;
-  // Aggiorna la posizione della telecamera e della mesh ad ogni frame
-  scene.registerBeforeRender(function () {
-    if (enemy.meshdata) {
-      // Calcola la direzione dalla mesh alla telecamera
-      const direction = camera.position.subtract(enemy.meshdata.mesh.position);
-      direction.normalize();
-      // Calcola la distanza tra la mesh e la telecamera
-      const distance = Vector3.Distance(enemy.meshdata.mesh.position, camera.position);
-      const ceilDistance = Math.ceil(distance)
-      console.log(ceilDistance)
-      if (ceilDistance > 4) {
-        if (!isAnimated) {
-          enemy.walk(sceneInfo);
-          isAnimated = true;
-        }
-
-        // Definisci una velocità di movimento
-        const speed = 0.01;
-
-        // Sposta la mesh lungo la direzione verso la telecamera
-        enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
-        enemy.meshdata.mesh.position.y = 0;
-
-        const target = enemy.meshdata.mesh.position.subtract(direction)
-        target.y = 0;
-        // Imposta il target della mesh sulla direzione calcolata
-        enemy.meshdata.mesh.lookAt(target);
-      }
-      else {
-        sceneInfo.player.hp -= 0.1;
-
-        if (isAnimated) {
-          enemy.stopAllAnimations(sceneInfo.scene)
-          isAnimated = false;
-        }
-      }
-    }
-  });
 
   return scene;
 }
@@ -267,18 +234,14 @@ async function LoadGun(scene, camera) {
   })
   let gun;
   rest.transformNodes.map((node) => {
-    console.log(node.name)
     if (node.name === 'AK-47') {
       const meshArray = []
-      console.log(node)
       node._children.map((child) => {
-        console.log(child)
         meshArray.push(child)
       })
       gun = Mesh.MergeMeshes(meshArray)
     }
   })
-  console.log(gun)
   gun.isVisible = true;
 
   gun.parent = camera;
@@ -341,7 +304,7 @@ function Shot(sceneInfo, camera, gun) {
       sceneInfo.player.ammo -= 1;
         gunshot.setVolume(volume); // Or Engine.audioEngine.setGlobalVolume(volume); for global volume
         // First shot
-        CheckShot(sceneInfo.scene, camera, gun);
+        CheckShot(sceneInfo, camera, gun);
         gunshot.play();
       }
 
@@ -349,23 +312,21 @@ function Shot(sceneInfo, camera, gun) {
       id = setInterval(()=>{
         if (sceneInfo.player.ammo > 0) {
           sceneInfo.player.ammo -= 1;
-          CheckShot(sceneInfo.scene, camera, gun);
+          CheckShot(sceneInfo, camera, gun);
           gunshot.play();
-          console.log("holding...")
         }
       }, 100) // 600 rps for the ak47, -> 100 ms of delay between shots
     }
   })
   onmouseup = () => {
     clearInterval(id)
-    console.log("released...")
   }
 }
 
-function CheckShot(scene, camera, gun) {
+function CheckShot(sceneInfo, camera, gun) {
   const origin = camera.globalPosition.clone();
   const forward = camera.getDirection(Vector3.Forward());
-  shotAnimation(scene, camera, gun)
+  shotAnimation(sceneInfo.scene, camera, gun)
 
   if (camera.rotation.x > -0.30) {
     camera.rotation.x -= 0.02
@@ -373,20 +334,16 @@ function CheckShot(scene, camera, gun) {
 
   const ray = new Ray(origin, forward, 200);
   
-  const hit = scene.pickWithRay(ray, (mesh) => {
+  const hit = sceneInfo.scene.pickWithRay(ray, (mesh) => {
     return mesh.name.match(/^hitbox+/) !== null;
   });
 
   if (hit && hit.pickedMesh) {
-    console.log(hit.pickedMesh)
     // Get the parent mesh node
     let mesh = hit.pickedMesh;
     while (mesh.parent !== null) {
       mesh = mesh.parent;
     }
-
-    // Dispose the parent mesh
-    //mesh.dispose();
 
     if (hit.pickedMesh.name.match(/Head+/) !== null) {
       enemy.hp -= 50;
@@ -398,10 +355,15 @@ function CheckShot(scene, camera, gun) {
       enemy.hp -= 10;
     }
 
-    if (enemy.hp <= 0) {
-      // Dispose the parent mesh
-      enemy.meshdata = false;
-      mesh.dispose();
+    if (enemy.hp <= 0 && enemy.meshdata) {
+      sceneInfo.player.pts += 100;
+      enemy.death(sceneInfo, () => {
+        // Dispose the parent mesh
+        enemy.meshdata = false;
+        setTimeout(() => {
+          mesh.dispose();
+        }, 1000); // Dispose the mesh after 1s when the death animation has finished
+      })
     }
   }
 }
@@ -410,7 +372,6 @@ function HandleControl(engine) {
   // Event listener when the pointerlock is updated (or removed by pressing ESC for example).
   const pointerlockchange = function (evt) {
     const controlEnabled = document.mozPointerLockElement || document.webkitPointerLockElement || document.msPointerLockElement || document.pointerLockElement || null;
-    console.log(evt)
     // If the user is already locked
     if (!controlEnabled) {
       evt.target.activeElement.width = window.innerWidth;
@@ -434,7 +395,7 @@ function reload(sceneInfo) {
   });
 
   onkeydown = ((event) => {
-    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && sceneInfo.player.ammo < 30) {
+    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && sceneInfo.player.ammo < 30 && !isReloading) {
       gunanims.reload(sceneInfo.gun, sceneInfo.scene)
       isReloading = true;
       reload.play()

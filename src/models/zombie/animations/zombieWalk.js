@@ -392,7 +392,7 @@ const _animWalk_R_calf_keys = [
 const animWalk_R_calf = new MYANIM.Animation(_animWalk_R_calf_bab, _animWalk_R_calf_keys);
 
 // the animation is triggered by this function
-function walk(meshdata, scene, onAnimationEnd) {
+function walk(meshdata, scene) {
     walkAnimatable = MYANIM.directAnimationLoop(scene, meshdata.mesh, [animWalk_meshY]);
 
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine1_06"), [animWalk_spine_1]);
@@ -423,8 +423,7 @@ function walk(meshdata, scene, onAnimationEnd) {
  */
 function endWalkGracefully() {
     return new Promise((resolve, reject) => {
-        walkAnimatable.onAnimationLoopObservable.addOnce((res)=>{ 
-            console.log(res)
+        walkAnimatable.onAnimationLoopObservable.addOnce(()=>{ 
             resolve()
         });
     });

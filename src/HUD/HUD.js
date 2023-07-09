@@ -42,6 +42,20 @@ function createHUD(sceneInfo) {
 
     grid.addControl(hpGrid, 1, 0);
 
+    const pointsGrid = new GUI.Grid();
+    pointsGrid.addColumnDefinition(1);
+    pointsGrid.addRowDefinition(120, true);
+    pointsGrid.addRowDefinition(1);
+
+    const points = new GUI.TextBlock("points", "0 PTS");
+    points.color = "white";
+    points.fontSize = "38px";
+    points.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    points.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+    pointsGrid.addControl(points, 0, 0)
+
+    grid.addControl(pointsGrid, 1, 1);
+
     const gunGrid = new GUI.Grid();
     gunGrid.addColumnDefinition(1);
     gunGrid.addColumnDefinition(70, true);
@@ -99,13 +113,14 @@ function createHUD(sceneInfo) {
     sceneInfo.scene.onBeforeRenderObservable.add(() => {
         //update HP and charge of the characters
         hp.text = `${Math.floor(sceneInfo.player.hp)} HP`;
+        points.text = `${sceneInfo.player.pts} PTS`;
         rounds.text = sceneInfo.player.ammo;
         magazines.text = sceneInfo.player.magazines;
         if (sceneInfo.player.hp > 0) {
             bar.width = `${sceneInfo.player.hp * 200 / 100}px`
         }
         else {
-            bar.width = `200px`
+            bar.width = `0px`
         }
     });
 

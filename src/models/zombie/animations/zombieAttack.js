@@ -14,7 +14,7 @@ import {
  * Attack animation
  */
 const _animAttack_frames = [0, 18, 33, 54, 63];
-const frameRate = 30;
+const frameRate = 60;
 const attackEase = new PowerEase(1.3);
 attackEase.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT);
 
@@ -128,8 +128,7 @@ const animAttack_R_upperarm = new MYANIM.Animation(_animAttack_R_upperarm_bab, _
 
 // the animation is triggered by this function
 function attack(meshdata, scene, onAnimationEnd) {
-
-    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanSpine2_00"), [animAttack_spine_2]);
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanSpine2_00"), [animAttack_spine_2], onAnimationEnd);
 
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanHead_09"), [animAttack_head]);
 
@@ -138,8 +137,7 @@ function attack(meshdata, scene, onAnimationEnd) {
 
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmCollarbone_015"), [animAttack_R_collarbone]);
 
-    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animAttack_R_upperarm]); 
-    
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animAttack_R_upperarm]);    
 }
 
 /**

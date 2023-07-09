@@ -17,7 +17,7 @@ let lastPosition = new Vector3(0, 0, 0);
  */
 const _animDeath_frames = [0, 18, 33, 54, 63, 72, 78, 90];
 const frameRate = 60;
-const deathEase = new PowerEase(1.3);
+const deathEase = new QuadraticEase();
 deathEase.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT);
 
 const _animDeath_pelvis_1_bab = new Animation("animDeath_pelvis_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
@@ -361,7 +361,7 @@ const animDeath_R_calf = new MYANIM.Animation(_animDeath_R_calf_bab, _animDeath_
 function death(meshdata, scene, onAnimationEnd) {
     lastPosition = meshdata.mesh.position;
     
-    MYANIM.directAnimation(scene, meshdata.mesh, [animDeath_meshY]);
+    MYANIM.directAnimation(scene, meshdata.mesh, [animDeath_meshY], onAnimationEnd);
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanPelvis_01"), [animDeath_pelvis_1]);
 
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanSpine1_06"), [animDeath_spine_1]);
@@ -382,7 +382,6 @@ function death(meshdata, scene, onAnimationEnd) {
 
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRThigh_02"), [animDeath_R_thigh]);
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRCalf_03"), [animDeath_R_calf]); 
-    
 }
 
 /**
