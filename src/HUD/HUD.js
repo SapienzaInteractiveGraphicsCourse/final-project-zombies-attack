@@ -7,6 +7,7 @@ function createHUD(sceneInfo) {
     const ui = new GUI.StackPanel();
     adt.addControl(ui);
 
+    // Create a grid for the whole game ui
     const grid = new GUI.Grid();
     grid.paddingBottom = "5%";
     grid.paddingLeft = "5%";
@@ -17,8 +18,10 @@ function createHUD(sceneInfo) {
     grid.addColumnDefinition(400,true);
     grid.addRowDefinition(1);
 
+    // Add it to the adt
     adt.addControl(grid);
 
+    // Create the grid on the left (the player's status)
     const hpGrid = new GUI.Grid();
     hpGrid.addColumnDefinition(1);
     hpGrid.addRowDefinition(1);
@@ -42,20 +45,22 @@ function createHUD(sceneInfo) {
 
     grid.addControl(hpGrid, 1, 0);
 
+    // Create the grid on the center (the player's points)
     const pointsGrid = new GUI.Grid();
     pointsGrid.addColumnDefinition(1);
-    pointsGrid.addRowDefinition(120, true);
+    pointsGrid.addRowDefinition(80, true);
     pointsGrid.addRowDefinition(1);
 
     const points = new GUI.TextBlock("points", "0 PTS");
     points.color = "white";
-    points.fontSize = "38px";
+    points.fontSize = "30px";
     points.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
     points.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
     pointsGrid.addControl(points, 0, 0)
 
     grid.addControl(pointsGrid, 1, 1);
 
+    // Create the grid on the right (the player's gun info)
     const gunGrid = new GUI.Grid();
     gunGrid.addColumnDefinition(1);
     gunGrid.addColumnDefinition(70, true);

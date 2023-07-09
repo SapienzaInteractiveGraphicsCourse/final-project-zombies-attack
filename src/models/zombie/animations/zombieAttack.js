@@ -7,7 +7,8 @@ import {
     EasingFunction,
     Animation,
     Quaternion,
-    QuadraticEase
+    QuadraticEase,
+    AnimationGroup
 } from "@babylonjs/core";
 
 /**
@@ -18,7 +19,7 @@ const frameRate = 60;
 const attackEase = new PowerEase(1.3);
 attackEase.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT);
 
-const _animAttack_spine_2_bab = new Animation("animAttack_spine_2", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
+const _animAttack_spine_2_bab = new Animation("animAttack_spine_2", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animAttack_spine_2_bab.setEasingFunction(attackEase);
 const _animAttack_spine_2_keys = [
     {
@@ -38,9 +39,11 @@ const _animAttack_spine_2_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(-22.9912, 0, 0))
     }
 ];
-const animAttack_spine_2 = new MYANIM.Animation(_animAttack_spine_2_bab, _animAttack_spine_2_keys);
+//Adding keys to the animation object
+_animAttack_spine_2_bab.setKeys(_animAttack_spine_2_keys);
+// const animAttack_spine_2 = new MYANIM.Animation(_animAttack_spine_2_bab, _animAttack_spine_2_keys);
 
-const _animAttack_head_bab = new Animation("animAttack_head", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
+const _animAttack_head_bab = new Animation("animAttack_head", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animAttack_head_bab.setEasingFunction(attackEase);
 const _animAttack_head_keys = [
     {
@@ -56,9 +59,10 @@ const _animAttack_head_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(0.0000, 90.0000, 66.3139))
     }
 ];
-const animAttack_head = new MYANIM.Animation(_animAttack_head_bab, _animAttack_head_keys);
+_animAttack_head_bab.setKeys(_animAttack_head_keys);
+// const animAttack_head = new MYANIM.Animation(_animAttack_head_bab, _animAttack_head_keys);
 
-const _animAttack_L_collarbone_bab = new Animation("animAttack_L_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
+const _animAttack_L_collarbone_bab = new Animation("animAttack_L_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animAttack_L_collarbone_bab.setEasingFunction(attackEase);
 const _animAttack_L_collarbone_keys = [
     {
@@ -66,9 +70,10 @@ const _animAttack_L_collarbone_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(10.6983, -23.4999, 73.8354))
     }
 ];
-const animAttack_L_collarbone = new MYANIM.Animation(_animAttack_L_collarbone_bab, _animAttack_L_collarbone_keys); 
+_animAttack_L_collarbone_bab.setKeys(_animAttack_L_collarbone_keys);
+// const animAttack_L_collarbone = new MYANIM.Animation(_animAttack_L_collarbone_bab, _animAttack_L_collarbone_keys); 
 
-const _animAttack_L_upperarm_bab = new Animation("animAttack_L_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
+const _animAttack_L_upperarm_bab = new Animation("animAttack_L_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animAttack_L_upperarm_bab.setEasingFunction(attackEase);
 const _animAttack_L_upperarm_keys = [
     {
@@ -84,9 +89,10 @@ const _animAttack_L_upperarm_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(12.2255, 19.9400, -21.2424))
     }
 ];
-const animAttack_L_upperarm = new MYANIM.Animation(_animAttack_L_upperarm_bab, _animAttack_L_upperarm_keys);
+_animAttack_L_upperarm_bab.setKeys(_animAttack_L_upperarm_keys);
+// const animAttack_L_upperarm = new MYANIM.Animation(_animAttack_L_upperarm_bab, _animAttack_L_upperarm_keys);
 
-const _animAttack_R_collarbone_bab = new Animation("animAttack_R_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
+const _animAttack_R_collarbone_bab = new Animation("animAttack_R_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animAttack_R_collarbone_bab.setEasingFunction(attackEase);
 const _animAttack_R_collarbone_keys = [
     {
@@ -106,9 +112,10 @@ const _animAttack_R_collarbone_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(10.6983, 23.4999, -73.8354))
     }
 ];
-const animAttack_R_collarbone = new MYANIM.Animation(_animAttack_R_collarbone_bab, _animAttack_R_collarbone_keys);
+_animAttack_R_collarbone_bab.setKeys(_animAttack_R_collarbone_keys);
+// const animAttack_R_collarbone = new MYANIM.Animation(_animAttack_R_collarbone_bab, _animAttack_R_collarbone_keys);
 
-const _animAttack_R_upperarm_bab = new Animation("animAttack_R_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION);
+const _animAttack_R_upperarm_bab = new Animation("animAttack_R_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animAttack_R_upperarm_bab.setEasingFunction(attackEase);
 const _animAttack_R_upperarm_keys = [
     {
@@ -124,11 +131,24 @@ const _animAttack_R_upperarm_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(12.2255, -19.9400, 21.2424))
     }
 ];
-const animAttack_R_upperarm = new MYANIM.Animation(_animAttack_R_upperarm_bab, _animAttack_R_upperarm_keys);
+_animAttack_R_upperarm_bab.setKeys(_animAttack_R_upperarm_keys);
+// const animAttack_R_upperarm = new MYANIM.Animation(_animAttack_R_upperarm_bab, _animAttack_R_upperarm_keys);
 
 // the animation is triggered by this function
 function attack(meshdata, scene, onAnimationEnd) {
-    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanSpine2_00"), [animAttack_spine_2], onAnimationEnd);
+    const animationGroup = new AnimationGroup("attack");
+    
+    animationGroup.addTargetedAnimation(_animAttack_spine_2_bab, meshdata.getNode("Base HumanSpine2_00"));
+    animationGroup.addTargetedAnimation(_animAttack_head_bab, meshdata.getNode("Base HumanHead_09"));
+    animationGroup.addTargetedAnimation(_animAttack_L_collarbone_bab, meshdata.getNode("Base HumanLArmCollarbone_033"));
+    animationGroup.addTargetedAnimation(_animAttack_L_upperarm_bab, meshdata.getNode("Base HumanLArmUpperarm_034"));
+    animationGroup.addTargetedAnimation(_animAttack_R_collarbone_bab, meshdata.getNode("Base HumanRArmCollarbone_015"));
+    animationGroup.addTargetedAnimation(_animAttack_R_upperarm_bab, meshdata.getNode("Base HumanRArmUpperarm_016"));
+    // Make sure to normalize animations to the same timeline
+    animationGroup.normalize(0, 63);
+
+    meshdata.mesh.animations.push(animationGroup)
+   /*  MYANIM.directAnimation(scene, meshdata.getNode("Base HumanSpine2_00"), [animAttack_spine_2], onAnimationEnd);
 
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanHead_09"), [animAttack_head]);
 
@@ -137,7 +157,7 @@ function attack(meshdata, scene, onAnimationEnd) {
 
     MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmCollarbone_015"), [animAttack_R_collarbone]);
 
-    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animAttack_R_upperarm]);    
+    MYANIM.directAnimation(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animAttack_R_upperarm]);   */  
 }
 
 /**

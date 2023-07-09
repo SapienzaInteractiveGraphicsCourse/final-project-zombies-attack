@@ -83,7 +83,9 @@ function sceneSpecificInit(sceneInfo) {
     // deathanim.death(zombie.meshdata, sceneInfo.scene); // for test
 
     // animation
-    zombie.walk(sceneInfo);
+    // zombie.walk(sceneInfo);
+
+    attackanim.attack(zombie.meshdata, sceneInfo.scene)
 }
 
 // wrap the miscanims animations to refer to the loaded meshdata object
@@ -92,13 +94,14 @@ function walk(sceneInfo) {
 }
 
 function attack(sceneInfo) {
-    walkanim.endWalkGracefully().then(() => {
+/*     walkanim.endWalkGracefully().then(() => {
         attackanim.attack(zombie.meshdata, sceneInfo.scene, () => {
             sceneInfo.player.hp -= 5;
             sceneInfo.enemy.isAnimated = true;
             sceneInfo.enemy.lastAttack = 0;
         });
-    });
+    }); */
+    sceneInfo.enemy.meshdata.mesh.animations[0].play(true)
 }
 
 function death(sceneInfo, onAnimationEnd) {
