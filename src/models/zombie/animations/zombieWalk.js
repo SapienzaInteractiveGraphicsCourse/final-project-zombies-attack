@@ -14,12 +14,12 @@ import {
     EasingFunction,
     Animation,
     Quaternion,
-    QuadraticEase
+    QuadraticEase,
+    AnimationGroup
 } from "@babylonjs/core";
 /**
  * Walk animation
  */
-let walkAnimatable;
 const _animWalk_frames = [0, 18, 33, 54, 63, 72, 78, 90, 102];
 const frameRate = 30;
 const walkEase = new PowerEase(1.3);
@@ -54,7 +54,6 @@ const _animWalk_meshY_keys = [
     }
 ];
 _animWalk_meshY_bab.setKeys(_animWalk_meshY_keys);
-//const animWalk_meshY = new MYANIM.Animation(_animWalk_meshY_bab, _animWalk_meshY_keys);
 
 const _animWalk_spine_1_bab = new Animation("animWalk_spine_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_spine_1_bab.setEasingFunction(walkEase);
@@ -81,7 +80,6 @@ const _animWalk_spine_1_keys = [
     }
 ];
 _animWalk_spine_1_bab.setKeys(_animWalk_spine_1_keys);
-//const animWalk_spine_1 = new MYANIM.Animation(_animWalk_spine_1_bab, _animWalk_spine_1_keys);
 
 const _animWalk_spine_2_bab = new Animation("animWalk_spine_2", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_spine_2_bab.setEasingFunction(walkEase);
@@ -108,7 +106,6 @@ const _animWalk_spine_2_keys = [
     }
 ];
 _animWalk_spine_2_bab.setKeys(_animWalk_spine_2_keys);
-//const animWalk_spine_2 = new MYANIM.Animation(_animWalk_spine_2_bab, _animWalk_spine_2_keys);
 
 const _animWalk_neck_bab = new Animation("animWalk_neck", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_neck_bab.setEasingFunction(walkEase);
@@ -135,7 +132,6 @@ const _animWalk_neck_keys = [
     }
 ];
 _animWalk_neck_bab.setKeys(_animWalk_neck_keys);
-//const animWalk_neck = new MYANIM.Animation(_animWalk_neck_bab, _animWalk_neck_keys);
 
 const _animWalk_head_bab = new Animation("animWalk_head", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_head_bab.setEasingFunction(walkEase);
@@ -166,7 +162,6 @@ const _animWalk_head_keys = [
     },
 ];
 _animWalk_head_bab.setKeys(_animWalk_head_keys);
-//const animWalk_head = new MYANIM.Animation(_animWalk_head_bab, _animWalk_head_keys);
 
 const _animWalk_L_collarbone_bab = new Animation("animWalk_L_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_collarbone_bab.setEasingFunction(walkEase);
@@ -193,7 +188,6 @@ const _animWalk_L_collarbone_keys = [
     }
 ];
 _animWalk_L_collarbone_bab.setKeys(_animWalk_L_collarbone_keys);
-//const animWalk_L_collarbone = new MYANIM.Animation(_animWalk_L_collarbone_bab, _animWalk_L_collarbone_keys);
 
 const _animWalk_L_upperarm_bab = new Animation("animWalk_L_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_upperarm_bab.setEasingFunction(walkEase);
@@ -208,7 +202,6 @@ const _animWalk_L_upperarm_keys = [
     }
 ];
 _animWalk_L_upperarm_bab.setKeys(_animWalk_L_upperarm_keys);
-//const animWalk_L_upperarm = new MYANIM.Animation(_animWalk_L_upperarm_bab, _animWalk_L_upperarm_keys);
 
 const _animWalk_R_collarbone_bab = new Animation("animWalk_R_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_collarbone_bab.setEasingFunction(walkEase);
@@ -235,7 +228,6 @@ const _animWalk_R_collarbone_keys = [
     }
 ];
 _animWalk_R_collarbone_bab.setKeys(_animWalk_R_collarbone_keys);
-//const animWalk_R_collarbone = new MYANIM.Animation(_animWalk_R_collarbone_bab, _animWalk_R_collarbone_keys);
 
 const _animWalk_R_upperarm_bab = new Animation("animWalk_R_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_upperarm_bab.setEasingFunction(walkEase);
@@ -249,8 +241,7 @@ const _animWalk_R_upperarm_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(82.2255, -19.9400, 21.2424))
     }
 ];
-_animWalk_R_collarbone_bab.setKeys(_animWalk_R_upperarm_keys);
-//const animWalk_R_upperarm = new MYANIM.Animation(_animWalk_R_upperarm_bab, _animWalk_R_upperarm_keys);
+_animWalk_R_upperarm_bab.setKeys(_animWalk_R_upperarm_keys);
 
 const _animWalk_L_thigh_bab = new Animation("animWalk_L_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_thigh_bab.setEasingFunction(walkEase);
@@ -293,7 +284,6 @@ const _animWalk_L_thigh_keys = [
     }
 ];
 _animWalk_L_thigh_bab.setKeys(_animWalk_L_thigh_keys);
-//const animWalk_L_thigh = new MYANIM.Animation(_animWalk_L_thigh_bab, _animWalk_L_thigh_keys);
 
 const _animWalk_L_calf_bab = new Animation("animWalk_L_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_calf_bab.setEasingFunction(walkEase);
@@ -332,7 +322,6 @@ const _animWalk_L_calf_keys = [
     }
 ];
 _animWalk_L_calf_bab.setKeys(_animWalk_L_calf_keys);
-//const animWalk_L_calf = new MYANIM.Animation(_animWalk_L_calf_bab, _animWalk_L_calf_keys);
 
 const _animWalk_R_thigh_bab = new Animation("animWalk_R_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_thigh_bab.setEasingFunction(walkEase);
@@ -367,7 +356,6 @@ const _animWalk_R_thigh_keys = [
     }
 ];
 _animWalk_R_thigh_bab.setKeys(_animWalk_R_thigh_keys);
-//const animWalk_R_thigh = new MYANIM.Animation(_animWalk_R_thigh_bab, _animWalk_R_thigh_keys);
 
 const _animWalk_R_calf_bab = new Animation("animWalk_R_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_calf_bab.setEasingFunction(walkEase);
@@ -402,66 +390,35 @@ const _animWalk_R_calf_keys = [
     }
 ];
 _animWalk_R_calf_bab.setKeys(_animWalk_R_calf_keys);
-//const animWalk_R_calf = new MYANIM.Animation(_animWalk_R_calf_bab, _animWalk_R_calf_keys);
 
 // the animation is triggered by this function
-function walk(meshdata, scene) {
+function walk(meshdata) {
     const animationGroup = new AnimationGroup("walk");
 
-    animationGroup.addTargetedAnimation(animWalk_meshY, meshdata.mesh);
+    animationGroup.addTargetedAnimation(_animWalk_meshY_bab, meshdata.mesh);
 
-    animationGroup.addTargetedAnimation(animWalk_spine_1, meshdata.getNode("Base HumanSpine1_06"));
-    animationGroup.addTargetedAnimation(animWalk_spine_2, meshdata.getNode("Base HumanSpine2_00"));
+    animationGroup.addTargetedAnimation(_animWalk_spine_1_bab, meshdata.getNode("Base HumanSpine1_06"));
+    animationGroup.addTargetedAnimation(_animWalk_spine_2_bab, meshdata.getNode("Base HumanSpine2_00"));
 
-    animationGroup.addTargetedAnimation(animWalk_neck, meshdata.getNode("Base HumanNeck_08"));
-    animationGroup.addTargetedAnimation(animWalk_head, meshdata.getNode("Base HumanHead_09"));
+    animationGroup.addTargetedAnimation(_animWalk_neck_bab, meshdata.getNode("Base HumanNeck_08"));
+    animationGroup.addTargetedAnimation(_animWalk_head_bab, meshdata.getNode("Base HumanHead_09"));
 
-    animationGroup.addTargetedAnimation(animWalk_L_collarbone, meshdata.getNode("Base HumanLArmCollarbone_033"));
-    animationGroup.addTargetedAnimation(animWalk_L_upperarm, meshdata.getNode("Base HumanLArmUpperarm_034"));
+    animationGroup.addTargetedAnimation(_animWalk_L_collarbone_bab, meshdata.getNode("Base HumanLArmCollarbone_033"));
+    animationGroup.addTargetedAnimation(_animWalk_L_upperarm_bab, meshdata.getNode("Base HumanLArmUpperarm_034"));
 
-    animationGroup.addTargetedAnimation(animWalk_R_collarbone, meshdata.getNode("Base HumanRArmCollarbone_015"));
-    animationGroup.addTargetedAnimation(animWalk_R_upperarm, meshdata.getNode("Base HumanRArmUpperarm_016"));
+    animationGroup.addTargetedAnimation(_animWalk_R_collarbone_bab, meshdata.getNode("Base HumanRArmCollarbone_015"));
+    animationGroup.addTargetedAnimation(_animWalk_R_upperarm_bab, meshdata.getNode("Base HumanRArmUpperarm_016"));
 
-    animationGroup.addTargetedAnimation(animWalk_L_thigh, meshdata.getNode("Base HumanLLegThigh_051"));
-    animationGroup.addTargetedAnimation(animWalk_L_calf, meshdata.getNode("Base HumanLLegCalf_052"));
+    animationGroup.addTargetedAnimation(_animWalk_L_thigh_bab, meshdata.getNode("Base HumanLLegThigh_051"));
+    animationGroup.addTargetedAnimation(_animWalk_L_calf_bab, meshdata.getNode("Base HumanLLegCalf_052"));
 
-    animationGroup.addTargetedAnimation(animWalk_R_thigh,  meshdata.getNode("Base HumanRThigh_02"));
-    animationGroup.addTargetedAnimation(animWalk_R_calf, meshdata.getNode("Base HumanRCalf_03"));
+    animationGroup.addTargetedAnimation(_animWalk_R_thigh_bab,  meshdata.getNode("Base HumanRThigh_02"));
+    animationGroup.addTargetedAnimation(_animWalk_R_calf_bab, meshdata.getNode("Base HumanRCalf_03"));
 
-    /*walkAnimatable = MYANIM.directAnimationLoop(scene, meshdata.mesh, [animWalk_meshY]);
+    // Make sure to normalize animations to the same timeline
+    animationGroup.normalize(0, 102);
 
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine1_06"), [animWalk_spine_1]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine2_00"), [animWalk_spine_2]);
-
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanNeck_08"), [animWalk_neck]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanHead_09"), [animWalk_head]);
-
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLArmCollarbone_033"), [animWalk_L_collarbone]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLArmUpperarm_034"), [animWalk_L_upperarm]);
-
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRArmCollarbone_015"), [animWalk_R_collarbone]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRArmUpperarm_016"), [animWalk_R_upperarm]);
-
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegThigh_051"), [animWalk_L_thigh]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegCalf_052"), [animWalk_L_calf]);
-
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRThigh_02"), [animWalk_R_thigh]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRCalf_03"), [animWalk_R_calf]); */
-}
-
-/**
- * Returns a Promise that resolves the next time that the idle animation ends a loop.
- * It allows us to have all action animations start from the same pose
- * without having an abrupt, transitionless reset every time,
- * at the cost of potentially waiting less than 2 seconds at most between
- * enemy turn beginning and action execution.
- */
-function endWalkGracefully() {
-    return new Promise((resolve, reject) => {
-        walkAnimatable.onAnimationLoopObservable.addOnce(()=>{ 
-            resolve()
-        });
-    });
+    meshdata.mesh.animations.push(animationGroup)
 }
 
 
@@ -469,8 +426,7 @@ function endWalkGracefully() {
  * The exported object.
  */
 const walkanims = {
-    walk,
-    endWalkGracefully
+    walk
 };
 
 export default walkanims;

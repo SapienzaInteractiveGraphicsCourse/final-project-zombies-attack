@@ -15,7 +15,8 @@ import {
     Space,
     StandardMaterial,
     Color3,
-    Quaternion
+    Quaternion,
+    MotionBlurPostProcess
 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
@@ -83,10 +84,6 @@ async function createScene(canvas, engine) {
     camera,
     gun,
     round
-    // ui,                  // added later since it needs battleUI and sceneInfo itself
-    // onPlayerVictory,     // added later since it needs battleUI and sceneInfo itself
-    // onPlayerDefeat,      // added later since it needs battleUI and sceneInfo itself
-    // gotoNextScene,       // added later for coherence w/ the above
   }
   enemy.sceneSpecificInit(sceneInfo);
 
@@ -99,6 +96,15 @@ async function createScene(canvas, engine) {
 
   Shot(sceneInfo, camera, gun)
   reload(sceneInfo)
+
+  if (options.settings.mb) {
+    var motionblur = new MotionBlurPostProcess(
+      "mb", // The name of the effect.
+      scene, // The scene containing the objects to blur according to their velocity.
+      1.0, // The required width/height ratio to downsize to before computing the render pass.
+      camera // The camera to apply the render pass to.
+    );
+  }
 
   return scene;
 }
@@ -357,8 +363,10 @@ function CheckShot(sceneInfo, camera, gun) {
       }
 
       if (enemy.hp <= 0 && enemy.meshdata) {
-        
-        enemy.death(sceneInfo, () => {
+        sceneInfo.scene.getAnimationGroupByName("walk").stop()
+        sceneInfo.scene.getAnimationGroupByName("attack").stop()
+        sceneInfo.scene.getAnimationGroupByName("death").play()
+        sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.add(() => {
           // Dispose the parent mesh
           //enemy.meshdata = false;
           sceneInfo.player.pts += 100;

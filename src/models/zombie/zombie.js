@@ -72,45 +72,14 @@ async function loadAsync(scene) {
 
 
 /**
- * Perform a number of initializations that require scene-specific
- * information or objects. Examples include animation event setup
- * (which need to target the characters and/or lights present in the scene)
- * and certain properties of some special attacks (which may target an
- * opponent-dependent position).
- * @param {*} sceneInfo Scene Info object for the current scene
+ * Initliazation of the scene. It populates the mesh with the animation groups called by the functions.
+ * @param {*} sceneInfo 
  */
 function sceneSpecificInit(sceneInfo) {
-    // deathanim.death(zombie.meshdata, sceneInfo.scene); // for test
-
-    // animation
-    // zombie.walk(sceneInfo);
-
-    attackanim.attack(zombie.meshdata, sceneInfo.scene)
-}
-
-// wrap the miscanims animations to refer to the loaded meshdata object
-function walk(sceneInfo) {
-    walkanim.walk(zombie.meshdata, sceneInfo.scene);
-}
-
-function attack(sceneInfo) {
-/*     walkanim.endWalkGracefully().then(() => {
-        attackanim.attack(zombie.meshdata, sceneInfo.scene, () => {
-            sceneInfo.player.hp -= 5;
-            sceneInfo.enemy.isAnimated = true;
-            sceneInfo.enemy.lastAttack = 0;
-        });
-    }); */
-    sceneInfo.enemy.meshdata.mesh.animations[0].play(true)
-}
-
-function death(sceneInfo, onAnimationEnd) {
-    sceneInfo.enemy.stopAllAnimations(sceneInfo.scene)
-    deathanim.death(zombie.meshdata, sceneInfo.scene, onAnimationEnd);
-}
-
-function stopAllAnimations(scene) {
-    zombie.meshdata.stopAllAnimations(scene);
+    // Animation initialization
+    attackanim.attack(sceneInfo, zombie.meshdata)
+    walkanim.walk(zombie.meshdata)
+    deathanim.death(zombie.meshdata)
 }
 
 
@@ -125,11 +94,7 @@ const zombie = {
     hp: undefined,
     loadAsync,
     sceneSpecificInit,
-    defaultPosition,
-    stopAllAnimations,
-    walk,
-    attack,
-    death
+    defaultPosition
 };
 
 export default zombie;

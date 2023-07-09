@@ -78,6 +78,8 @@ class RoundSystem {
                 sceneInfo.enemy.distance = ceilDistance;
                 if (ceilDistance > 4) {
                     if (!sceneInfo.enemy.isAnimated) {
+                        sceneInfo.scene.getAnimationGroupByName("attack").stop();
+                        sceneInfo.scene.getAnimationGroupByName("walk").start(true);
                         sceneInfo.enemy.lastAttack = 0;
                         sceneInfo.enemy.isAnimated = true;
                     }
@@ -88,19 +90,21 @@ class RoundSystem {
                     // Sposta la mesh lungo la direzione verso la telecamera
                     sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
                     sceneInfo.enemy.meshdata.mesh.position.y = 0;
-            
-                    const target = sceneInfo.enemy.meshdata.mesh.position.subtract(direction)
-                    target.y = 0;
-                    // Imposta il target della mesh sulla direzione calcolata
-                    sceneInfo.enemy.meshdata.mesh.lookAt(target);
                 }
                 else {
-                    sceneInfo.enemy.lastAttack += 1;
-                    if (sceneInfo.enemy.isAnimated && sceneInfo.enemy.lastAttack > 200) {
-                        sceneInfo.enemy.attack(sceneInfo);
+                    if (sceneInfo.enemy.isAnimated) {
+                        sceneInfo.scene.getAnimationGroupByName("walk").stop();
+                        sceneInfo.scene.getAnimationGroupByName("attack").start(true);
                         sceneInfo.enemy.isAnimated = false;
                     }
                 }
+
+                // Rotate the mesh towards the camera
+                const target = sceneInfo.enemy.meshdata.mesh.position.subtract(direction)
+                target.y = 0;
+
+                // Imposta il target della mesh sulla direzione calcolata
+                sceneInfo.enemy.meshdata.mesh.lookAt(target);
               }
         });
     }
