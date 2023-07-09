@@ -46,19 +46,28 @@ function createHUD(sceneInfo) {
     grid.addControl(hpGrid, 1, 0);
 
     // Create the grid on the center (the player's points)
-    const pointsGrid = new GUI.Grid();
-    pointsGrid.addColumnDefinition(1);
-    pointsGrid.addRowDefinition(80, true);
-    pointsGrid.addRowDefinition(1);
+    const infoGrid = new GUI.Grid();
+    infoGrid.addColumnDefinition(1);
+    infoGrid.addRowDefinition(80, true);
+    infoGrid.addRowDefinition(1);
+    infoGrid.addRowDefinition(80, true);
 
     const points = new GUI.TextBlock("points", "0 PTS");
     points.color = "white";
     points.fontSize = "30px";
     points.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
     points.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-    pointsGrid.addControl(points, 0, 0)
+    infoGrid.addControl(points, 0, 0)
 
-    grid.addControl(pointsGrid, 1, 1);
+    const info = new GUI.TextBlock("info", "Press R to reload");
+    info.color = "white";
+    info.fontSize = "20px";
+    info.alpha = 0;
+    info.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    info.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+    infoGrid.addControl(info, 2, 0)
+
+    grid.addControl(infoGrid, 1, 1);
 
     // Create the grid on the right (the player's gun info)
     const gunGrid = new GUI.Grid();
@@ -119,6 +128,12 @@ function createHUD(sceneInfo) {
         //update HP and charge of the characters
         hp.text = `${Math.floor(sceneInfo.player.hp)} HP`;
         points.text = `${sceneInfo.player.pts} PTS`;
+        if (sceneInfo.player.ammo === 0) {
+            info.alpha = 1;
+        }
+        else {
+            info.alpha = 0;
+        }
         rounds.text = sceneInfo.player.ammo;
         magazines.text = sceneInfo.player.magazines;
         if (sceneInfo.player.hp > 0) {

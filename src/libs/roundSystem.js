@@ -76,7 +76,7 @@ class RoundSystem {
                 const distance = Vector3.Distance(sceneInfo.enemy.meshdata.mesh.position, sceneInfo.camera.position);
                 const ceilDistance = Math.ceil(distance)
                 sceneInfo.enemy.distance = ceilDistance;
-                if (ceilDistance > 4) {
+                if (ceilDistance > 3) {
                     if (!sceneInfo.enemy.isAnimated) {
                         sceneInfo.scene.getAnimationGroupByName("attack").stop();
                         sceneInfo.scene.getAnimationGroupByName("walk").start(true);

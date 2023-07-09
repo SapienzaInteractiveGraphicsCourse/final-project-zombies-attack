@@ -14,7 +14,7 @@ export const options = {
         mb: false,
         shadows: false,
         sound: true,
-        soundPerc: 20,
+        soundPerc: 5,
         sensibility: 4000
     }
 }
