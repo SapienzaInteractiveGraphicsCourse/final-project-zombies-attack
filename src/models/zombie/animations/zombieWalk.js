@@ -53,7 +53,7 @@ const _animWalk_meshY_keys = [
         value: 0
     }
 ];
-_animWalk_meshY_bab.setKeys(_animWalk_meshY_bab);
+_animWalk_meshY_bab.setKeys(_animWalk_meshY_keys);
 //const animWalk_meshY = new MYANIM.Animation(_animWalk_meshY_bab, _animWalk_meshY_keys);
 
 const _animWalk_spine_1_bab = new Animation("animWalk_spine_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
