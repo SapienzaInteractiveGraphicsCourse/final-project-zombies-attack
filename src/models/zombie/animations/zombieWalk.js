@@ -53,7 +53,8 @@ const _animWalk_meshY_keys = [
         value: 0
     }
 ];
-const animWalk_meshY = new MYANIM.Animation(_animWalk_meshY_bab, _animWalk_meshY_keys);
+_animWalk_meshY_bab.setKeys(_animWalk_meshY_bab);
+//const animWalk_meshY = new MYANIM.Animation(_animWalk_meshY_bab, _animWalk_meshY_keys);
 
 const _animWalk_spine_1_bab = new Animation("animWalk_spine_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_spine_1_bab.setEasingFunction(walkEase);
@@ -79,7 +80,8 @@ const _animWalk_spine_1_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(13.1455, -90.0000, 0.0000))
     }
 ];
-const animWalk_spine_1 = new MYANIM.Animation(_animWalk_spine_1_bab, _animWalk_spine_1_keys);
+_animWalk_spine_1_bab.setKeys(_animWalk_spine_1_keys);
+//const animWalk_spine_1 = new MYANIM.Animation(_animWalk_spine_1_bab, _animWalk_spine_1_keys);
 
 const _animWalk_spine_2_bab = new Animation("animWalk_spine_2", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_spine_2_bab.setEasingFunction(walkEase);
@@ -105,7 +107,8 @@ const _animWalk_spine_2_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(-32.9912, 0, 0))
     }
 ];
-const animWalk_spine_2 = new MYANIM.Animation(_animWalk_spine_2_bab, _animWalk_spine_2_keys);
+_animWalk_spine_2_bab.setKeys(_animWalk_spine_2_keys);
+//const animWalk_spine_2 = new MYANIM.Animation(_animWalk_spine_2_bab, _animWalk_spine_2_keys);
 
 const _animWalk_neck_bab = new Animation("animWalk_neck", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_neck_bab.setEasingFunction(walkEase);
@@ -131,7 +134,8 @@ const _animWalk_neck_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(-23.6862, 0.0000, -180.0000))
     }
 ];
-const animWalk_neck = new MYANIM.Animation(_animWalk_neck_bab, _animWalk_neck_keys);
+_animWalk_neck_bab.setKeys(_animWalk_neck_keys);
+//const animWalk_neck = new MYANIM.Animation(_animWalk_neck_bab, _animWalk_neck_keys);
 
 const _animWalk_head_bab = new Animation("animWalk_head", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_head_bab.setEasingFunction(walkEase);
@@ -161,7 +165,8 @@ const _animWalk_head_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(0.0000, 90.0000, 36.3139))
     },
 ];
-const animWalk_head = new MYANIM.Animation(_animWalk_head_bab, _animWalk_head_keys);
+_animWalk_head_bab.setKeys(_animWalk_head_keys);
+//const animWalk_head = new MYANIM.Animation(_animWalk_head_bab, _animWalk_head_keys);
 
 const _animWalk_L_collarbone_bab = new Animation("animWalk_L_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_collarbone_bab.setEasingFunction(walkEase);
@@ -187,7 +192,8 @@ const _animWalk_L_collarbone_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(30.6983, -23.4999, 73.8354))
     }
 ];
-const animWalk_L_collarbone = new MYANIM.Animation(_animWalk_L_collarbone_bab, _animWalk_L_collarbone_keys);
+_animWalk_L_collarbone_bab.setKeys(_animWalk_L_collarbone_keys);
+//const animWalk_L_collarbone = new MYANIM.Animation(_animWalk_L_collarbone_bab, _animWalk_L_collarbone_keys);
 
 const _animWalk_L_upperarm_bab = new Animation("animWalk_L_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_upperarm_bab.setEasingFunction(walkEase);
@@ -201,7 +207,8 @@ const _animWalk_L_upperarm_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(82.2255, 19.9400, -21.2424))
     }
 ];
-const animWalk_L_upperarm = new MYANIM.Animation(_animWalk_L_upperarm_bab, _animWalk_L_upperarm_keys);
+_animWalk_L_upperarm_bab.setKeys(_animWalk_L_upperarm_keys);
+//const animWalk_L_upperarm = new MYANIM.Animation(_animWalk_L_upperarm_bab, _animWalk_L_upperarm_keys);
 
 const _animWalk_R_collarbone_bab = new Animation("animWalk_R_collarbone", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_collarbone_bab.setEasingFunction(walkEase);
@@ -227,7 +234,8 @@ const _animWalk_R_collarbone_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(30.6983, 23.4999, -73.8354))
     }
 ];
-const animWalk_R_collarbone = new MYANIM.Animation(_animWalk_R_collarbone_bab, _animWalk_R_collarbone_keys);
+_animWalk_R_collarbone_bab.setKeys(_animWalk_R_collarbone_keys);
+//const animWalk_R_collarbone = new MYANIM.Animation(_animWalk_R_collarbone_bab, _animWalk_R_collarbone_keys);
 
 const _animWalk_R_upperarm_bab = new Animation("animWalk_R_upperarm", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_upperarm_bab.setEasingFunction(walkEase);
@@ -241,7 +249,8 @@ const _animWalk_R_upperarm_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(82.2255, -19.9400, 21.2424))
     }
 ];
-const animWalk_R_upperarm = new MYANIM.Animation(_animWalk_R_upperarm_bab, _animWalk_R_upperarm_keys);
+_animWalk_R_collarbone_bab.setKeys(_animWalk_R_upperarm_keys);
+//const animWalk_R_upperarm = new MYANIM.Animation(_animWalk_R_upperarm_bab, _animWalk_R_upperarm_keys);
 
 const _animWalk_L_thigh_bab = new Animation("animWalk_L_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_thigh_bab.setEasingFunction(walkEase);
@@ -283,7 +292,8 @@ const _animWalk_L_thigh_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(-53.9550, -90.7844, -171.8719))
     }
 ];
-const animWalk_L_thigh = new MYANIM.Animation(_animWalk_L_thigh_bab, _animWalk_L_thigh_keys);
+_animWalk_L_thigh_bab.setKeys(_animWalk_L_thigh_keys);
+//const animWalk_L_thigh = new MYANIM.Animation(_animWalk_L_thigh_bab, _animWalk_L_thigh_keys);
 
 const _animWalk_L_calf_bab = new Animation("animWalk_L_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_L_calf_bab.setEasingFunction(walkEase);
@@ -321,7 +331,8 @@ const _animWalk_L_calf_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(-32.0456, -1.9191, -0.0246))
     }
 ];
-const animWalk_L_calf = new MYANIM.Animation(_animWalk_L_calf_bab, _animWalk_L_calf_keys);
+_animWalk_L_calf_bab.setKeys(_animWalk_L_calf_keys);
+//const animWalk_L_calf = new MYANIM.Animation(_animWalk_L_calf_bab, _animWalk_L_calf_keys);
 
 const _animWalk_R_thigh_bab = new Animation("animWalk_R_thigh", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_thigh_bab.setEasingFunction(walkEase);
@@ -355,7 +366,8 @@ const _animWalk_R_thigh_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(30.9550, -89.2314, 171.8719))
     }
 ];
-const animWalk_R_thigh = new MYANIM.Animation(_animWalk_R_thigh_bab, _animWalk_R_thigh_keys);
+_animWalk_R_thigh_bab.setKeys(_animWalk_R_thigh_keys);
+//const animWalk_R_thigh = new MYANIM.Animation(_animWalk_R_thigh_bab, _animWalk_R_thigh_keys);
 
 const _animWalk_R_calf_bab = new Animation("animWalk_R_calf", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_R_calf_bab.setEasingFunction(walkEase);
@@ -389,11 +401,34 @@ const _animWalk_R_calf_keys = [
         value: Quaternion.FromEulerVector(RotationFromDegrees(-12.0425, 1.9203, 0.0199))
     }
 ];
-const animWalk_R_calf = new MYANIM.Animation(_animWalk_R_calf_bab, _animWalk_R_calf_keys);
+_animWalk_R_calf_bab.setKeys(_animWalk_R_calf_keys);
+//const animWalk_R_calf = new MYANIM.Animation(_animWalk_R_calf_bab, _animWalk_R_calf_keys);
 
 // the animation is triggered by this function
 function walk(meshdata, scene) {
-    walkAnimatable = MYANIM.directAnimationLoop(scene, meshdata.mesh, [animWalk_meshY]);
+    const animationGroup = new AnimationGroup("walk");
+
+    animationGroup.addTargetedAnimation(animWalk_meshY, meshdata.mesh);
+
+    animationGroup.addTargetedAnimation(animWalk_spine_1, meshdata.getNode("Base HumanSpine1_06"));
+    animationGroup.addTargetedAnimation(animWalk_spine_2, meshdata.getNode("Base HumanSpine2_00"));
+
+    animationGroup.addTargetedAnimation(animWalk_neck, meshdata.getNode("Base HumanNeck_08"));
+    animationGroup.addTargetedAnimation(animWalk_head, meshdata.getNode("Base HumanHead_09"));
+
+    animationGroup.addTargetedAnimation(animWalk_L_collarbone, meshdata.getNode("Base HumanLArmCollarbone_033"));
+    animationGroup.addTargetedAnimation(animWalk_L_upperarm, meshdata.getNode("Base HumanLArmUpperarm_034"));
+
+    animationGroup.addTargetedAnimation(animWalk_R_collarbone, meshdata.getNode("Base HumanRArmCollarbone_015"));
+    animationGroup.addTargetedAnimation(animWalk_R_upperarm, meshdata.getNode("Base HumanRArmUpperarm_016"));
+
+    animationGroup.addTargetedAnimation(animWalk_L_thigh, meshdata.getNode("Base HumanLLegThigh_051"));
+    animationGroup.addTargetedAnimation(animWalk_L_calf, meshdata.getNode("Base HumanLLegCalf_052"));
+
+    animationGroup.addTargetedAnimation(animWalk_R_thigh,  meshdata.getNode("Base HumanRThigh_02"));
+    animationGroup.addTargetedAnimation(animWalk_R_calf, meshdata.getNode("Base HumanRCalf_03"));
+
+    /*walkAnimatable = MYANIM.directAnimationLoop(scene, meshdata.mesh, [animWalk_meshY]);
 
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine1_06"), [animWalk_spine_1]);
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanSpine2_00"), [animWalk_spine_2]);
@@ -411,7 +446,7 @@ function walk(meshdata, scene) {
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanLLegCalf_052"), [animWalk_L_calf]);
 
     MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRThigh_02"), [animWalk_R_thigh]);
-    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRCalf_03"), [animWalk_R_calf]);
+    MYANIM.directAnimationLoop(scene, meshdata.getNode("Base HumanRCalf_03"), [animWalk_R_calf]); */
 }
 
 /**
