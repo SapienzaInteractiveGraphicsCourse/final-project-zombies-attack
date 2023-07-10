@@ -16,7 +16,10 @@ import {
     StandardMaterial,
     Color3,
     Quaternion,
-    MotionBlurPostProcess
+    MotionBlurPostProcess,
+    DirectionalLight,
+    ShadowGenerator,
+    SpotLight
 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
@@ -33,6 +36,10 @@ let isReloading = false;
 
 async function createScene(canvas, engine) {
   const scene = new Scene(engine);
+
+  const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
+  light.position = new Vector3(20, 40, 20);
+  light.intensity = 0.8;
 
   scene.onPointerDown = (event) => {
       if (event.button === 0) {
@@ -64,10 +71,10 @@ async function createScene(canvas, engine) {
   scene.collisionsEnabled = true;
 
 
-  /*const envTex = CubeTexture.CreateFromPrefilteredData('./environment/nightSky.env', scene)
-  scene.environmentTexture = envTex
+  const envTex = CubeTexture.CreateFromPrefilteredData('./environment/sky.env', scene)
+  scene.environmentTexture = envTex 
 
-  scene.createDefaultSkybox(envTex, true)*/
+  scene.createDefaultSkybox(envTex, true)
 
   CreateEnvironment(scene)
   const camera = CreateController(scene)
@@ -114,11 +121,35 @@ async function createScene(canvas, engine) {
     );
   }
 
+  if(options.settings.shadows){
+    const shadowGenerator = new ShadowGenerator(4096, light);
+
+    //Creating shadows variable and adding enemy shadows
+    const shadows = new ShadowGenerator(4096, enemy.meshdata.mesh.lightSources[0]);
+	  if (enemy.meshdata.meshes) {
+      enemy.meshdata.meshes.forEach((mesh) => {
+        shadowGenerator.addShadowCaster(mesh);
+        shadows.addShadowCaster(mesh);
+      });
+    } else {
+      console.warn("No enemy meshes found to cast shadows.");
+    }
+    
+    shadowGenerator.setDarkness(0.5);
+    shadowGenerator.useContactHardeningShadow = true;
+	  shadowGenerator.useExponentialShadowMap = true;
+    shadows.usePoissonSampling = true;
+    
+  }
   return scene;
 }
 
 async function CreateEnvironment(scene) {
   /*const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
+
+  if(options.settings.shadows){
+    ground.receiveShadows = true;
+  }
 
   ground.material = CreateAsphalt(scene)
   
@@ -163,7 +194,7 @@ function CreateController(scene) {
   camera.setTarget(new Vector3(0, 2, 0));
 
   camera.attachControl()
-  camera.speed = 0.25
+  camera.speed = 1 //0.25
 
   camera.applyGravity = true;
   camera.checkCollisions = true;
@@ -181,6 +212,7 @@ function CreateController(scene) {
   
   return camera
 }
+
 
 
 
