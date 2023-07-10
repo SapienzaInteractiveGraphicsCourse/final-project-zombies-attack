@@ -145,32 +145,46 @@ async function createScene(canvas, engine) {
 }
 
 async function CreateEnvironment(scene) {
-  /*const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
+  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
 
   if(options.settings.shadows){
     ground.receiveShadows = true;
   }
-
-  ground.material = CreateAsphalt(scene)
   
   ground.model = ground;
 
-  ground.checkCollisions = true;*/
+  ground.checkCollisions = true;
 
   if(options.map.first){
     map1Builder.map1(scene);
+    ground.material = CreateAsphalt(scene)
   }
   else if(options.map.second){
     map2Builder.map2(scene);
+    ground.material = CreateAsphalt(scene)
   }
   else if(options.map.third){
 
   }
   
-
-
-  
 }
+
+/* function CreateGrass(scene) {
+  const pbr = new PBRMaterial('pbr', scene)
+  pbr.albedoTexture = new Texture('./textures/grass/grass_diffuse.jpg', scene)
+
+  pbr.bumpTexture = new Texture('./textures/grass/grass_normal.jpg', scene)
+  pbr.invertNormalMapX = true
+  pbr.invertNormalMapY = true
+
+  pbr.useAmbientOcclusionFromMetallicTextureRed = true
+  pbr.useRoughnessFromMetallicTextureGreen = true
+  pbr.useMetallnessFromMetallicTextureBlue = true
+
+  pbr.metallicTexture = new Texture('./textures/grass/grass_ao.jpg', scene)
+
+  return pbr
+} */
 
 /*function CreateAsphalt(scene) {
   const pbr = new PBRMaterial('pbr', scene)

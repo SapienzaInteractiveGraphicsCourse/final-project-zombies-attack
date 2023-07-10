@@ -30,16 +30,16 @@ import { RoundSystem } from "../libs/roundSystem";
 
 async function map2(scene){
 
-    const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 50.5}, scene)
+    /* const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 50.5}, scene)
 
     ground.material = CreateGrass(scene)
   
      ground.model = ground;
 
-    ground.checkCollisions = true;
+    ground.checkCollisions = true; */
     
     const building = await LoadAbandonedBuilding(scene);
-    await Loadstreet(scene);
+    //await Loadstreet(scene);
 
     await LoadCars(scene);
 
@@ -82,18 +82,22 @@ async function LoadAbandonedBuilding(scene) {
     const building = meshes[0];
     building.scaling = new Vector3(100 , 100, 100);
     building.position = new Vector3(-30 , 0 , -17.5);
-    
+
     return building
 }
 
-async function Loadstreet(scene) {
+/* async function Loadstreet(scene) {
     const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map2/", "asphalt.glb", scene);
     const street = meshes[0];
     street.scaling = new Vector3(0.623 , 0.1, 0.5);
     street.position = new Vector3(18.01 , 0 , -12.2);
-    
+
+    if(options.settings.shadows){
+        street.receiveShadows = true;
+      }
+
     return street
-}
+} */
 
 async function LoadCar1(scene) {
     const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map2/", "car1.glb", scene);
@@ -101,9 +105,9 @@ async function LoadCar1(scene) {
     cars.scaling = new Vector3(0.015 , 0.015, 0.015);
     cars.position = new Vector3(-20 , 0 , 3);
     cars.rotation = RotationFromDegrees(0,90,0);
+
     return cars
 }
-
 
 async function LoadCar2(scene) {
     const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map2/", "car2.glb", scene);
@@ -111,7 +115,7 @@ async function LoadCar2(scene) {
     cars.scaling = new Vector3(1.5 , 1.5, 1.5);
     cars.position = new Vector3(20 , -1.5 , -3);
     cars.rotation = RotationFromDegrees(0,0,0);
-    
+
     return cars
 }
 
@@ -122,8 +126,6 @@ async function LoadCars(scene) {
     cars.position = new Vector3(0 , 0 , 0);
     cars.rotation = RotationFromDegrees(0,90,0);
 
-    
-    
     return cars
 }
 
@@ -134,7 +136,6 @@ async function LoadStall(scene) {
     stall.position = new Vector3(-5 , 0 , 16);
     //cars.rotation = RotationFromDegrees(0,0,0);
 
-    
     return stall
 }
 
@@ -145,12 +146,9 @@ async function LoadSlide(scene) {
     slide.position = new Vector3(-2 , 0 , -17);
     slide.rotation = RotationFromDegrees(0,90,0);
 
-
     return slide
 }
 
-
-  
   const map2Builder = {
     map2,
   }
