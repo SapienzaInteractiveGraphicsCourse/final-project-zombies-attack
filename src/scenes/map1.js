@@ -97,27 +97,27 @@ async function map1(scene){
     tomb1.rotation = new Vector3( 0 , Math.PI , 0);
     tomb1.isVisible = true;
 
-    const tomb1Clone = tomb1.clone(tomb1);
+    const tomb1Clone = tomb1.clone("tomb11");
     tomb1Clone.position = new Vector3(38 , 0.2 , -15);
     tomb1Clone.scaling = new Vector3(0.003 , 0.003 , 0.003);
     tomb1Clone.rotation = new Vector3( 0 , Math.PI*0.8 , 0);
 
-    const tomb1Clone1= tomb1.clone(tomb1);
+    const tomb1Clone1= tomb1.clone("tomb12");
     tomb1Clone1.position = new Vector3(39 , 0.2 , -30);
     tomb1Clone1.scaling = new Vector3(0.003 , 0.003 , 0.003);
     tomb1Clone1.rotation = new Vector3( 0 , Math.PI*0.76 , 0);
 
-    const tomb1Clone2 = tomb1.clone(tomb1);
+    const tomb1Clone2 = tomb1.clone("tomb13");
     tomb1Clone2.position = new Vector3(31 , 0.2 , -21);
     tomb1Clone2.scaling = new Vector3(0.003 , 0.003 , 0.003);
     tomb1Clone2.rotation = new Vector3( 0 , -Math.PI*0.87 , 0);
 
-    const tomb1Clone4 = tomb1.clone(tomb1);
+    const tomb1Clone4 = tomb1.clone("tomb14");
     tomb1Clone4.position = new Vector3(39 , 0.2 , -27);
     tomb1Clone4.scaling = new Vector3(0.003 , 0.003 , 0.003);
     tomb1Clone4.rotation = new Vector3( 0 , Math.PI*0.87  , 0);
 
-    const tomb1Clone5 = tomb1.clone(tomb1);
+    const tomb1Clone5 = tomb1.clone("tomb15");
     tomb1Clone5.position = new Vector3(36 , 0.2 , -24);
     tomb1Clone5.scaling = new Vector3(0.003 , 0.003 , 0.003);
     tomb1Clone5.rotation = new Vector3( 0 , Math.PI*0.7  , 0);
@@ -129,7 +129,7 @@ async function map1(scene){
     tomb2.rotation = new Vector3( 0 , Math.PI , 0);
     tomb2.isVisible = true;
 
-    const tomb2Clone = tomb1.clone(tomb1);
+    const tomb2Clone = tomb2.clone("tomb2");
     tomb2Clone.position = new Vector3(39 , 0.2 , -17);
     tomb2Clone.scaling = new Vector3(0.003 , 0.003 , 0.003);
     tomb2Clone.rotation = new Vector3( 0 , Math.PI*0.8 , 0);
@@ -182,12 +182,7 @@ async function map1(scene){
     treeClone.scaling = new Vector3(0.017 , 0.017, 0.017);
     treeClone.rotation = new Vector3( -Math.PI*0.05 ,  Math.PI*0.5 , 0);
 
-    const graveyard = Mesh.MergeMeshes([tomb1 ,tomb1Clone,tomb1Clone1,tomb1Clone2,tomb1Clone4,tomb1Clone5 , tomb2 ,
-       tomb2Clone , trees, treesClone2, treesClone3 ,trees2 ,trees2Clone]);
 
-    
-
-    
 
 
     async function LoadFence1(scene, i ,camera) {
@@ -284,13 +279,6 @@ async function map1(scene){
     }
 
 
-
-
-
-  const envTex = CubeTexture.CreateFromPrefilteredData('./environment/sky.env', scene)
-  scene.environmentTexture = envTex
-
-  scene.createDefaultSkybox(envTex, true)
 }
 
 const map1Builder = {
