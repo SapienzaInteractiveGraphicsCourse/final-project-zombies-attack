@@ -27,7 +27,8 @@ import { RotationFromDegrees, deg2rad } from "../libs/angles";
 import hud from "../HUD/HUD";
 import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
-
+import map1Builder from "./map1";
+import map2Builder from "./map2";
 let isReloading = false;
 
 async function createScene(canvas, engine) {
@@ -56,10 +57,10 @@ async function createScene(canvas, engine) {
   scene.collisionsEnabled = true;
 
 
-  const envTex = CubeTexture.CreateFromPrefilteredData('./environment/sky.env', scene)
+  /*const envTex = CubeTexture.CreateFromPrefilteredData('./environment/nightSky.env', scene)
   scene.environmentTexture = envTex
 
-  scene.createDefaultSkybox(envTex, true)
+  scene.createDefaultSkybox(envTex, true)*/
 
   CreateEnvironment(scene)
   const camera = CreateController(scene)
@@ -118,14 +119,19 @@ async function CreateEnvironment(scene) {
 
   ground.checkCollisions = true;
 
-  for(var i = 1 ; i < 7 ; i++){
-    LoadFence1(scene , i);
-    LoadFence2(scene , i);
-    }
-    LoadTombs(scene);
-    LoadTMausoleum(scene);
-    LoadStatue1(scene);
-    LoadStatue2(scene);
+  if(options.map.first){
+    map1Builder.map1(scene);
+  }
+  else if(options.map.second){
+    map2Builder.map2(scene);
+  }
+  else if(options.map.third){
+
+  }
+  
+
+
+  
 }
 
 function CreateAsphalt(scene) {
@@ -169,64 +175,6 @@ function CreateController(scene) {
   return camera
 }
 
-async function LoadFence1(scene, i ,camera) {
-
-  const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map/", "graveyard_fence.glb", scene);
-  const fence = meshes[0];
-  fence.position = new Vector3(-2+(8*i) , 2 , 0);
-  fence.scaling = new Vector3(4 , 4 , 4);
-  
-
-}
-
-async function LoadFence2(scene, i ,camera) {
-
-  const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map/", "graveyard_fence.glb", scene);
-  const fence = meshes[0];
-  fence.position = new Vector3(-(-2+(8*i)) , 2 , 0);
-  fence.scaling = new Vector3(4 , 4 , 4);
-
-}
-
-async function LoadTombs(scene,camera) {
-
-  const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map/", "shelby_tombstone_with_smart3dcapture3.2_free.glb", scene);
-  const tomb = meshes[0];
-  tomb.position = new Vector3(30 , 2.6 , -2);
-  tomb.scaling = new Vector3(0.1 , 0.1 , 0.1);
-  tomb.rotation = new Vector3( 0 , -Math.PI*0.5 , 0);
-
-}
-
-async function LoadTMausoleum(scene,camera) {
-
-  const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map/", "mausoleum.glb", scene);
-  const maus = meshes[0];
-  maus.position = new Vector3(0 , -0.5 , -42);
-  maus.scaling = new Vector3(4 , 4 , 4);
-  maus.rotation = new Vector3( 0 , Math.PI*0.5 , 0);
-
-}
-
-async function LoadStatue1(scene,camera) {
-
-  const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map/", "frank.glb", scene);
-  const statue = meshes[0];
-  statue.position = new Vector3(8.5 , 1.8, -47);
-  statue.scaling = new Vector3(3 , 3 , 3);
-  statue.rotation = new Vector3( 0 , 0 , 0);
-
-}
-
-async function LoadStatue2(scene,camera) {
-
-  const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map/", "frank.glb", scene);
-  const statue = meshes[0];
-  statue.position = new Vector3(-8.5 , 1.8, -47);
-  statue.scaling = new Vector3(3 , 3 , 3);
-  statue.rotation = new Vector3( 0 , 0 , 0);
-
-}
 
 
 async function LoadGun(scene, camera) {
@@ -428,5 +376,9 @@ function reload(sceneInfo) {
 const sceneBuilder = {
     createScene,
 }
+
+
+
+
 
 export default sceneBuilder;
