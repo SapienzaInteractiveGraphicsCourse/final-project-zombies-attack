@@ -172,7 +172,7 @@ async function _loadMesh(scene) {
 
         // Print bone names for debugging
         skeleton.bones.forEach((bone, index) => {
-            console.log(`Bone ${index}: ${bone.name}`);
+            //console.log(`Bone ${index}: ${bone.name}`);
         });
 
         zombie.skeleton.bones.forEach((bone, index) => {

@@ -118,13 +118,13 @@ async function createScene(canvas, engine) {
 }
 
 async function CreateEnvironment(scene) {
-  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
+  /*const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
 
   ground.material = CreateAsphalt(scene)
   
   ground.model = ground;
 
-  ground.checkCollisions = true;
+  ground.checkCollisions = true;*/
 
   if(options.map.first){
     map1Builder.map1(scene);
@@ -141,7 +141,7 @@ async function CreateEnvironment(scene) {
   
 }
 
-function CreateAsphalt(scene) {
+/*function CreateAsphalt(scene) {
   const pbr = new PBRMaterial('pbr', scene)
   pbr.albedoTexture = new Texture('./textures/asphalt/asphalt_diffuse.jpg', scene)
 
@@ -157,7 +157,7 @@ function CreateAsphalt(scene) {
 
   return pbr
 }
-
+*/
 function CreateController(scene) {
   const camera = new UniversalCamera("UniversalCamera", new Vector3(1, 2, 1), scene);
   camera.setTarget(new Vector3(0, 2, 0));
