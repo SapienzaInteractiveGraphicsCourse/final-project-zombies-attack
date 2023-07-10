@@ -111,13 +111,13 @@ async function createScene(canvas, engine) {
 }
 
 async function CreateEnvironment(scene) {
-  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
+  /*const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
 
   ground.material = CreateAsphalt(scene)
   
   ground.model = ground;
 
-  ground.checkCollisions = true;
+  ground.checkCollisions = true;*/
 
   if(options.map.first){
     map1Builder.map1(scene);
@@ -156,7 +156,7 @@ function CreateController(scene) {
   camera.setTarget(new Vector3(0, 2, 0));
 
   camera.attachControl()
-  camera.speed = 0.25
+  camera.speed = 1 //0.25
 
   camera.applyGravity = true;
   camera.checkCollisions = true;
