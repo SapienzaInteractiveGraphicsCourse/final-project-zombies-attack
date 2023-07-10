@@ -49,6 +49,13 @@ async function createScene(canvas, engine) {
       }
   }
 
+  var music = new Sound("song1", "./sounds/song1.mp3", scene, null, {
+    loop: true,
+    autoplay: true,
+    volume: 0.1
+  });
+  music.play();
+
   HandleControl(engine)
 
   const framesPerSecond = 60;
