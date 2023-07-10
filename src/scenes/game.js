@@ -186,7 +186,7 @@ async function CreateEnvironment(scene) {
   return pbr
 } */
 
-/*function CreateAsphalt(scene) {
+function CreateAsphalt(scene) {
   const pbr = new PBRMaterial('pbr', scene)
   pbr.albedoTexture = new Texture('./textures/asphalt/asphalt_diffuse.jpg', scene)
 
@@ -202,7 +202,7 @@ async function CreateEnvironment(scene) {
 
   return pbr
 }
-*/
+
 function CreateController(scene) {
   const camera = new UniversalCamera("UniversalCamera", new Vector3(1, 2, 1), scene);
   camera.setTarget(new Vector3(0, 2, 0));
