@@ -30,13 +30,13 @@ import hud from "../HUD/HUD";
 import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
 
+let map2Shadows;
 
+async function map2(scene, enemy){
 
-async function map2(scene, light){
-
-    /* const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
+    const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
     light.position = new Vector3(20, 40, 20);
-    light.intensity = 0.8; */
+    light.intensity = 1.8;
 
     /* const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 50.5}, scene)
 
@@ -57,18 +57,30 @@ async function map2(scene, light){
 
     const stall = await LoadStall(scene);
     
-    const slide = await LoadSlide(scene);    
-
+    const slide = await LoadSlide(scene);  
 
     if(options.settings.shadows){
 
         //Creating shadows variable and adding enemy shadows
-        const carShadows = new ShadowGenerator(4096, light); 
-        carShadows.addShadowCaster(car1);
-        carShadows.setDarkness(-100.0);
-        carShadows.useContactHardeningShadow = true;
-        carShadows.useExponentialShadowMap = true;
-        carShadows.usePoissonSampling = true;
+        map2Shadows = new ShadowGenerator(4096, light);
+        if (enemy.meshdata.meshes) {
+            enemy.meshdata.meshes.forEach((mesh) => {
+                map2Shadows.addShadowCaster(mesh);
+            });
+          } else {
+            console.warn("No enemy meshes found to cast shadows.");
+          } 
+        map2Shadows.addShadowCaster(building);
+        map2Shadows.addShadowCaster(car1);
+        map2Shadows.addShadowCaster(cars);
+        map2Shadows.addShadowCaster(car2);
+        map2Shadows.addShadowCaster(stall);
+        map2Shadows.addShadowCaster(slide);
+        map2Shadows.setDarkness(-100.0);
+        map2Shadows.useContactHardeningShadow = true;
+        map2Shadows.useExponentialShadowMap = true;
+        map2Shadows.usePoissonSampling = true;
+        
       }
     
     
@@ -78,6 +90,9 @@ async function map2(scene, light){
         for(var j=0; j<2; j++) {
             const buildingClone = building.clone("buildingClone");
             buildingClone.position = new Vector3(-30 + (50*j) , 0 , -17.5 + 35.25*i);
+            if(options.settings.shadows){
+                map2Shadows.addShadowCaster(buildingClone);
+            }
             if (flag == true){
                 buildingClone.rotation = RotationFromDegrees(0,0,0);
             }
@@ -95,7 +110,7 @@ async function map2(scene, light){
 
     scene.createDefaultSkybox(envTex, true)
   
-  }
+}
 
 async function LoadAbandonedBuilding(scene) {
     const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map2/", "building.glb", scene);

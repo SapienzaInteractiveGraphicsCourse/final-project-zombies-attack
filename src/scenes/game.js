@@ -32,14 +32,9 @@ import { RoundSystem } from "../libs/roundSystem";
 import map1Builder from "./map1";
 import map2Builder from "./map2";
 let isReloading = false;
-let light;
 
 async function createScene(canvas, engine) {
   const scene = new Scene(engine);
-
-  light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
-  light.position = new Vector3(20, 40, 20);
-  light.intensity = 1.8;
 
   scene.onPointerDown = (event) => {
       if (event.button === 0) {
@@ -76,7 +71,7 @@ async function createScene(canvas, engine) {
 
   scene.createDefaultSkybox(envTex, true)
 
-  CreateEnvironment(scene, light)
+  CreateEnvironment(scene, enemy)
   const camera = CreateController(scene)
   const gun = await LoadGun(scene, camera)
   // Load all meshes
@@ -121,28 +116,11 @@ async function createScene(canvas, engine) {
     );
   }
 
-  if(options.settings.shadows){
-
-    //Creating shadows variable and adding enemy shadows
-    const enemyShadows = new ShadowGenerator(4096, light);
-	  if (enemy.meshdata.meshes) {
-      enemy.meshdata.meshes.forEach((mesh) => {
-        enemyShadows.addShadowCaster(mesh);
-      });
-    } else {
-      console.warn("No enemy meshes found to cast shadows.");
-    }
-    
-    enemyShadows.setDarkness(-100.0);
-    enemyShadows.useContactHardeningShadow = true;
-	  enemyShadows.useExponentialShadowMap = true;
-    enemyShadows.usePoissonSampling = true;
-    
-  }
+  
   return scene;
 }
 
-async function CreateEnvironment(scene, light) {
+async function CreateEnvironment(scene, enemy) {
   const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
 
   if(options.settings.shadows){
@@ -154,11 +132,11 @@ async function CreateEnvironment(scene, light) {
   ground.checkCollisions = true;
 
   if(options.map.first){
-    map1Builder.map1(scene);
+    map1Builder.map1(scene, enemy);
     ground.material = CreateAsphalt(scene)
   }
   else if(options.map.second){
-    map2Builder.map2(scene, light);
+    map2Builder.map2(scene, enemy);
     ground.material = CreateAsphalt(scene)
   }
   else if(options.map.third){
