@@ -18,7 +18,8 @@ import {
   Quaternion,
   MotionBlurPostProcess,
   DirectionalLight,
-  ShadowGenerator
+  ShadowGenerator,
+
 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
@@ -65,6 +66,8 @@ async function map1(scene){
 
   return pbr
 }
+
+    const gravity = new Vector3(0, -10, 0);
   
     const fence = await LoadFence1(scene);
     fence.position = new Vector3(-2+(8*i) , 2 , 0);
