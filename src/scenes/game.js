@@ -18,8 +18,11 @@ import {
     Quaternion,
     MotionBlurPostProcess,
     DirectionalLight,
-    ShadowGenerator
+    ShadowGenerator,
+    HavokPlugin
+
 } from "@babylonjs/core";
+import HavokPhysics from "@babylonjs/havok"
 import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
 import { shotAnimation } from '../models/gun/animations/gunShot'
@@ -31,6 +34,8 @@ import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
 import map1Builder from "./map1";
 import map2Builder from "./map2";
+
+
 let isReloading = false;
 
 async function createScene(canvas, engine) {
@@ -60,9 +65,11 @@ async function createScene(canvas, engine) {
 
   HandleControl(engine)
 
-  const framesPerSecond = 60;
-  const gravity = -9.81;
-  scene.gravity = new Vector3(0, gravity / framesPerSecond, 0);
+  const gravity = new Vector3(0, -10, 0);
+  const hk = await HavokPhysics();
+  const babylonPlugin =  new HavokPlugin(true, hk);
+  scene.enablePhysics(gravity, babylonPlugin);
+
   scene.collisionsEnabled = true;
 
 
