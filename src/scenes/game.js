@@ -184,7 +184,7 @@ function CreateController(scene) {
   camera.setTarget(new Vector3(0, 2, 0));
 
   camera.attachControl()
-  camera.speed = 1 //0.25
+  camera.speed = 0.25
 
   camera.applyGravity = true;
   camera.checkCollisions = true;
