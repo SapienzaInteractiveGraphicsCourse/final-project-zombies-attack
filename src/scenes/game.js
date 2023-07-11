@@ -66,7 +66,7 @@ async function createScene(canvas, engine) {
   scene.collisionsEnabled = true;
 
 
-  const envTex = CubeTexture.CreateFromPrefilteredData('./environment/sky.env', scene)
+  const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', scene)
   scene.environmentTexture = envTex 
 
   scene.createDefaultSkybox(envTex, true)
