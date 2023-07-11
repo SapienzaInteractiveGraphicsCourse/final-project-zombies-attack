@@ -12,7 +12,7 @@ export const options = {
     settings: {
         fullscreen: true,
         mb: false,
-        shadows: false,
+        shadows: true,
         sound: true,
         soundPerc: 5,
         sensibility: 4000

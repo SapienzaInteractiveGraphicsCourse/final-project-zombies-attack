@@ -16,7 +16,9 @@ import {
     StandardMaterial,
     Color3,
     Quaternion,
-    MotionBlurPostProcess
+    MotionBlurPostProcess,
+    DirectionalLight,
+    ShadowGenerator
 } from "@babylonjs/core";
 import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
@@ -28,7 +30,13 @@ import hud from "../HUD/HUD";
 import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
 
-async function map2(scene){
+
+
+async function map2(scene, light){
+
+    /* const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
+    light.position = new Vector3(20, 40, 20);
+    light.intensity = 0.8; */
 
     /* const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 50.5}, scene)
 
@@ -41,15 +49,27 @@ async function map2(scene){
     const building = await LoadAbandonedBuilding(scene);
     //await Loadstreet(scene);
 
-    await LoadCars(scene);
+    const cars = await LoadCars(scene);
 
-    await LoadCar1(scene);
+    const car1 = await LoadCar1(scene);
 
-    await LoadCar2(scene);
+    const car2 = await LoadCar2(scene);
 
-    await LoadStall(scene);
+    const stall = await LoadStall(scene);
     
-    await LoadSlide(scene);    
+    const slide = await LoadSlide(scene);    
+
+
+    if(options.settings.shadows){
+
+        //Creating shadows variable and adding enemy shadows
+        const carShadows = new ShadowGenerator(4096, light); 
+        carShadows.addShadowCaster(car1);
+        carShadows.setDarkness(-100.0);
+        carShadows.useContactHardeningShadow = true;
+        carShadows.useExponentialShadowMap = true;
+        carShadows.usePoissonSampling = true;
+      }
     
     
     var flag = false;
