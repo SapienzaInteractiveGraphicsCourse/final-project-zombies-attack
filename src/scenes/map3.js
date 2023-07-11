@@ -29,6 +29,11 @@ import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
 
 async function map3(scene){
+
+    const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', scene)
+    scene.environmentTexture = envTex 
+
+    scene.createDefaultSkybox(envTex, true)
     
     await LoadRocks(scene);
 

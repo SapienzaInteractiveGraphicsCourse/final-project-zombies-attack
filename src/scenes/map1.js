@@ -35,6 +35,11 @@ let map1Shadows;
 
 async function map1(scene){
 
+  const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', scene)
+  scene.environmentTexture = envTex 
+
+  scene.createDefaultSkybox(envTex, true)
+
 
   const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
   light.position = new Vector3(20, 40, 20);
