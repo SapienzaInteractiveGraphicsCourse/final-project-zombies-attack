@@ -19,8 +19,10 @@ import {
     MotionBlurPostProcess,
     DirectionalLight,
     ShadowGenerator,
-    SpotLight
+    HavokPlugin
+
 } from "@babylonjs/core";
+import HavokPhysics from "@babylonjs/havok"
 import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
 import { shotAnimation } from '../models/gun/animations/gunShot'
@@ -38,10 +40,6 @@ let isReloading = false;
 async function createScene(canvas, engine) {
   const scene = new Scene(engine);
 
-  const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
-  light.position = new Vector3(20, 40, 20);
-  light.intensity = 0.8;
-
   scene.onPointerDown = (event) => {
       if (event.button === 0) {
           canvas.width = window.outerWidth;
@@ -57,32 +55,35 @@ async function createScene(canvas, engine) {
       }
   }
 
-  var music = new Sound("song1", "./sounds/song1.mp3", scene, null, {
+ /*  var music = new Sound("song1", "./sounds/song1.mp3", scene, null, {
     loop: true,
     autoplay: true,
-    volume: 0.1
+    volume: 0.01
   });
-  music.play();
+  music.play(); */
 
   HandleControl(engine)
 
-  const framesPerSecond = 60;
-  const gravity = -9.81;
-  scene.gravity = new Vector3(0, gravity / framesPerSecond, 0);
+  const gravity = new Vector3(0, -10, 0);
+  const hk = await HavokPhysics();
+  const babylonPlugin =  new HavokPlugin(true, hk);
+  scene.enablePhysics(gravity, babylonPlugin);
+
   scene.collisionsEnabled = true;
 
 
-  const envTex = CubeTexture.CreateFromPrefilteredData('./environment/sky.env', scene)
+  /*const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', scene)
   scene.environmentTexture = envTex 
 
-  scene.createDefaultSkybox(envTex, true)
+  scene.createDefaultSkybox(envTex, true)*/
 
-  CreateEnvironment(scene)
+  CreateEnvironment(scene, enemy)
   const camera = CreateController(scene)
   const gun = await LoadGun(scene, camera)
   // Load all meshes
   await Promise.all([
     enemy.loadAsync(scene),
+    loadAmmoBox(scene)
   ]);
 
   // Create the turn system for this battle
@@ -99,9 +100,13 @@ async function createScene(canvas, engine) {
     enemy,
     camera,
     gun,
-    round
+    round,
+    ammoBox: {
+      isNear: false
+    }
   }
   enemy.sceneSpecificInit(sceneInfo);
+  console.log(sceneInfo.scene)
 
   // Have the turn system constantly watch for the condition to pass turn
   round.addRoundObserver(sceneInfo);
@@ -115,39 +120,20 @@ async function createScene(canvas, engine) {
 
   if (options.settings.mb) {
     var motionblur = new MotionBlurPostProcess(
-      "mb", // The name of the effect.
-      scene, // The scene containing the objects to blur according to their velocity.
-      1.0, // The required width/height ratio to downsize to before computing the render pass.
-      camera // The camera to apply the render pass to.
+      "mb",   // The name of the effect.
+      scene,  // The scene containing the objects to blur according to their velocity.
+      1.0,    // The required width/height ratio to downsize to before computing the render pass.
+      camera  // The camera to apply the render pass to.
     );
   }
 
-  if(options.settings.shadows){
-    const shadowGenerator = new ShadowGenerator(4096, light);
-
-    //Creating shadows variable and adding enemy shadows
-    const shadows = new ShadowGenerator(4096, enemy.meshdata.mesh.lightSources[0]);
-	  if (enemy.meshdata.meshes) {
-      enemy.meshdata.meshes.forEach((mesh) => {
-        shadowGenerator.addShadowCaster(mesh);
-        shadows.addShadowCaster(mesh);
-      });
-    } else {
-      console.warn("No enemy meshes found to cast shadows.");
-    }
-    
-    shadowGenerator.setDarkness(0.5);
-    shadowGenerator.useContactHardeningShadow = true;
-	  shadowGenerator.useExponentialShadowMap = true;
-    shadows.usePoissonSampling = true;
-    
-  }
+  
   return scene;
 }
 
-async function CreateEnvironment(scene) {
-  var ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
-  
+async function CreateEnvironment(scene, enemy) {
+  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
+
   if(options.settings.shadows){
     ground.receiveShadows = true;
   }
@@ -157,16 +143,16 @@ async function CreateEnvironment(scene) {
   ground.checkCollisions = true;
 
   if(options.map.first){
-    map1Builder.map1(scene);
+    map1Builder.map1(scene, enemy);
     ground.material = CreateAsphalt(scene)
   }
   else if(options.map.second){
-    map2Builder.map2(scene);
+    map2Builder.map2(scene, enemy);
     ground.material = CreateAsphalt(scene)
   }
   else if(options.map.third){
     map3Builder.map3(scene);
-    //ground.material = CreateSand(scene)
+    ground.material = CreateSand(scene)
   }
   
 }
@@ -246,8 +232,14 @@ function CreateController(scene) {
   return camera
 }
 
+async function loadAmmoBox(scene) {
+  const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/ammo/", "ammo_box.glb", scene);
+  const box = meshes[0];
 
-
+  scene.ammoBox = box;
+  
+  return box;
+}
 
 async function LoadGun(scene, camera) {
   SetupCrosshair()
@@ -275,6 +267,8 @@ async function LoadGun(scene, camera) {
 
   gun.rotation = new Vector3(0, Math.PI * 0.2, 0)
   gun.position = new Vector3(0.05, -0.05, 0.2);
+
+  gun.isShooting = false;
   
   return gun;
 }
@@ -323,14 +317,23 @@ function Shot(sceneInfo, camera, gun) {
   const gunshot = new Sound("gunshot", "./sounds/ak_shot.mp3", sceneInfo.scene, null, {
     volume: volume,
   });
+  const blood = new Sound("blood", "./sounds/blood.mp3", sceneInfo.scene, null, {
+    volume: volume,
+    offset: 0.5
+  });
+  const bodyFall = new Sound("bodyFall", "./sounds/body_fall.mp3", sceneInfo.scene, null, {
+    volume: volume,
+    offset: 0.4
+  });
 
   onmousedown = ((event) => {
     if (!isReloading) {
       if (sceneInfo.player.ammo > 0) {
+        sceneInfo.gun.isShooting = true;
       sceneInfo.player.ammo -= 1;
         gunshot.setVolume(volume); // Or Engine.audioEngine.setGlobalVolume(volume); for global volume
         // First shot
-        CheckShot(sceneInfo, camera, gun);
+        CheckShot(sceneInfo, camera, gun, blood, bodyFall);
         gunshot.play();
       }
 
@@ -338,18 +341,19 @@ function Shot(sceneInfo, camera, gun) {
       id = setInterval(()=>{
         if (sceneInfo.player.ammo > 0) {
           sceneInfo.player.ammo -= 1;
-          CheckShot(sceneInfo, camera, gun);
+          CheckShot(sceneInfo, camera, gun, blood, bodyFall);
           gunshot.play();
         }
       }, 100) // 600 rps for the ak47, -> 100 ms of delay between shots
     }
   })
   onmouseup = () => {
+    sceneInfo.gun.isShooting = false;
     clearInterval(id)
   }
 }
 
-function CheckShot(sceneInfo, camera, gun) {
+function CheckShot(sceneInfo, camera, gun, blood, bodyFall) {
   const origin = camera.globalPosition.clone();
   const forward = camera.getDirection(Vector3.Forward());
   shotAnimation(sceneInfo.scene, camera, gun)
@@ -366,6 +370,7 @@ function CheckShot(sceneInfo, camera, gun) {
 
   if(sceneInfo.enemy.hp > 0){
     if (hit && hit.pickedMesh) {
+      blood.play()
       // Get the parent mesh node
       let mesh = hit.pickedMesh;
       while (mesh.parent !== null) {
@@ -387,6 +392,7 @@ function CheckShot(sceneInfo, camera, gun) {
         sceneInfo.scene.getAnimationGroupByName("attack").stop()
         sceneInfo.scene.getAnimationGroupByName("death").play()
         sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.add(() => {
+          bodyFall.play()
           // Dispose the parent mesh
           //enemy.meshdata = false;
           sceneInfo.player.pts += 100;
@@ -424,9 +430,14 @@ function reload(sceneInfo) {
   const reload = new Sound("reload", "./sounds/reload.mp3", sceneInfo.scene, null, {
     volume: volume,
   });
+  const ammo_load = new Sound("ammo_load", "./sounds/ammo_load.mp3", sceneInfo.scene, null, {
+    volume: volume,
+  });
 
+  let isReloading = false;
   onkeydown = ((event) => {
-    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && sceneInfo.player.ammo < 30 && !isReloading) {
+    console.log(sceneInfo.gun.isShooting)
+    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && ((sceneInfo.player.ammo < 30 && !isReloading && !sceneInfo.gun.isShooting) || (sceneInfo.player.ammo === 0 &&!isReloading))) {
       gunanims.reload(sceneInfo.gun, sceneInfo.scene)
       isReloading = true;
       reload.play()
@@ -441,6 +452,10 @@ function reload(sceneInfo) {
         }
         isReloading = false;
       })
+    }
+    else if (event.code === "KeyF" && sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear && !isReloading) {
+      sceneInfo.player.magazines = 210;
+      ammo_load.play()
     }
   })
 }
