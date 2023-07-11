@@ -54,7 +54,7 @@ async function createScene(canvas, engine) {
  /*  var music = new Sound("song1", "./sounds/song1.mp3", scene, null, {
     loop: true,
     autoplay: true,
-    volume: 0.1
+    volume: 0.01
   });
   music.play(); */
 
@@ -77,6 +77,7 @@ async function createScene(canvas, engine) {
   // Load all meshes
   await Promise.all([
     enemy.loadAsync(scene),
+    loadAmmoBox(scene)
   ]);
 
   // Create the turn system for this battle
@@ -93,9 +94,13 @@ async function createScene(canvas, engine) {
     enemy,
     camera,
     gun,
-    round
+    round,
+    ammoBox: {
+      isNear: false
+    }
   }
   enemy.sceneSpecificInit(sceneInfo);
+  console.log(sceneInfo.scene)
 
   // Have the turn system constantly watch for the condition to pass turn
   round.addRoundObserver(sceneInfo);
@@ -109,10 +114,10 @@ async function createScene(canvas, engine) {
 
   if (options.settings.mb) {
     var motionblur = new MotionBlurPostProcess(
-      "mb", // The name of the effect.
-      scene, // The scene containing the objects to blur according to their velocity.
-      1.0, // The required width/height ratio to downsize to before computing the render pass.
-      camera // The camera to apply the render pass to.
+      "mb",   // The name of the effect.
+      scene,  // The scene containing the objects to blur according to their velocity.
+      1.0,    // The required width/height ratio to downsize to before computing the render pass.
+      camera  // The camera to apply the render pass to.
     );
   }
 
@@ -203,8 +208,14 @@ function CreateController(scene) {
   return camera
 }
 
+async function loadAmmoBox(scene) {
+  const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/ammo/", "ammo_box.glb", scene);
+  const box = meshes[0];
 
-
+  scene.ammoBox = box;
+  
+  return box;
+}
 
 async function LoadGun(scene, camera) {
   SetupCrosshair()
@@ -232,6 +243,8 @@ async function LoadGun(scene, camera) {
 
   gun.rotation = new Vector3(0, Math.PI * 0.2, 0)
   gun.position = new Vector3(0.05, -0.05, 0.2);
+
+  gun.isShooting = false;
   
   return gun;
 }
@@ -280,14 +293,23 @@ function Shot(sceneInfo, camera, gun) {
   const gunshot = new Sound("gunshot", "./sounds/ak_shot.mp3", sceneInfo.scene, null, {
     volume: volume,
   });
+  const blood = new Sound("blood", "./sounds/blood.mp3", sceneInfo.scene, null, {
+    volume: volume,
+    offset: 0.5
+  });
+  const bodyFall = new Sound("bodyFall", "./sounds/body_fall.mp3", sceneInfo.scene, null, {
+    volume: volume,
+    offset: 0.4
+  });
 
   onmousedown = ((event) => {
     if (!isReloading) {
       if (sceneInfo.player.ammo > 0) {
+        sceneInfo.gun.isShooting = true;
       sceneInfo.player.ammo -= 1;
         gunshot.setVolume(volume); // Or Engine.audioEngine.setGlobalVolume(volume); for global volume
         // First shot
-        CheckShot(sceneInfo, camera, gun);
+        CheckShot(sceneInfo, camera, gun, blood, bodyFall);
         gunshot.play();
       }
 
@@ -295,18 +317,19 @@ function Shot(sceneInfo, camera, gun) {
       id = setInterval(()=>{
         if (sceneInfo.player.ammo > 0) {
           sceneInfo.player.ammo -= 1;
-          CheckShot(sceneInfo, camera, gun);
+          CheckShot(sceneInfo, camera, gun, blood, bodyFall);
           gunshot.play();
         }
       }, 100) // 600 rps for the ak47, -> 100 ms of delay between shots
     }
   })
   onmouseup = () => {
+    sceneInfo.gun.isShooting = false;
     clearInterval(id)
   }
 }
 
-function CheckShot(sceneInfo, camera, gun) {
+function CheckShot(sceneInfo, camera, gun, blood, bodyFall) {
   const origin = camera.globalPosition.clone();
   const forward = camera.getDirection(Vector3.Forward());
   shotAnimation(sceneInfo.scene, camera, gun)
@@ -323,6 +346,7 @@ function CheckShot(sceneInfo, camera, gun) {
 
   if(sceneInfo.enemy.hp > 0){
     if (hit && hit.pickedMesh) {
+      blood.play()
       // Get the parent mesh node
       let mesh = hit.pickedMesh;
       while (mesh.parent !== null) {
@@ -344,6 +368,7 @@ function CheckShot(sceneInfo, camera, gun) {
         sceneInfo.scene.getAnimationGroupByName("attack").stop()
         sceneInfo.scene.getAnimationGroupByName("death").play()
         sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.add(() => {
+          bodyFall.play()
           // Dispose the parent mesh
           //enemy.meshdata = false;
           sceneInfo.player.pts += 100;
@@ -381,9 +406,14 @@ function reload(sceneInfo) {
   const reload = new Sound("reload", "./sounds/reload.mp3", sceneInfo.scene, null, {
     volume: volume,
   });
+  const ammo_load = new Sound("ammo_load", "./sounds/ammo_load.mp3", sceneInfo.scene, null, {
+    volume: volume,
+  });
 
+  let isReloading = false;
   onkeydown = ((event) => {
-    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && sceneInfo.player.ammo < 30 && !isReloading) {
+    console.log(sceneInfo.gun.isShooting)
+    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && ((sceneInfo.player.ammo < 30 && !isReloading && !sceneInfo.gun.isShooting) || (sceneInfo.player.ammo === 0 &&!isReloading))) {
       gunanims.reload(sceneInfo.gun, sceneInfo.scene)
       isReloading = true;
       reload.play()
@@ -398,6 +428,10 @@ function reload(sceneInfo) {
         }
         isReloading = false;
       })
+    }
+    else if (event.code === "KeyF" && sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear && !isReloading) {
+      sceneInfo.player.magazines = 210;
+      ammo_load.play()
     }
   })
 }

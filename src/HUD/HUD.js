@@ -128,12 +128,27 @@ function createHUD(sceneInfo) {
         //update HP and charge of the characters
         hp.text = `${Math.floor(sceneInfo.player.hp)} HP`;
         points.text = `${sceneInfo.player.pts} PTS`;
-        if (sceneInfo.player.ammo === 0) {
+
+        if (sceneInfo.player.ammo === 0 && !sceneInfo.ammoBox.isNear) {
+            info.text = "Press R to reload";
+            info.alpha = 1;
+        }
+        else if (sceneInfo.player.ammo === 0 && sceneInfo.ammoBox.isNear && sceneInfo.player.magazines === 210) {
+            info.text = "Press R to reload";
+            info.alpha = 1;
+        }
+        else if (sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear) {
+            info.text = "Press F to pick up ammo";
+            info.alpha = 1;
+        }
+        else if (sceneInfo.player.ammo === 0 && sceneInfo.ammoBox.isNear && sceneInfo.player.magazines < 210) {
+            info.text = "Press R to reload\n Press F to pick up ammo";
             info.alpha = 1;
         }
         else {
             info.alpha = 0;
         }
+        
         rounds.text = sceneInfo.player.ammo;
         magazines.text = sceneInfo.player.magazines;
         if (sceneInfo.player.hp > 0) {

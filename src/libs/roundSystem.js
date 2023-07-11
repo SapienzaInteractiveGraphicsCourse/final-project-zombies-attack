@@ -6,7 +6,9 @@
  * and triggering a "battle end" event for the scene when a combatant runs out of HP.
  */
 
-import { Vector3 } from "@babylonjs/core";
+import {
+    Vector3
+} from "@babylonjs/core";
 
 /**
  * A class of objects that keep track of whose turn it is during a battle.
@@ -105,6 +107,18 @@ class RoundSystem {
 
                 // Imposta il target della mesh sulla direzione calcolata
                 sceneInfo.enemy.meshdata.mesh.lookAt(target);
+              }
+              const direction = sceneInfo.camera.position.subtract(sceneInfo.enemy.meshdata.mesh.position);
+              direction.normalize();
+              // Calcola la distanza tra la mesh e la telecamera
+              const distance = Vector3.Distance(sceneInfo.scene.ammoBox.position, sceneInfo.camera.position);
+              const ceilDistance = Math.ceil(distance)
+
+              if (ceilDistance <= 3) {
+                  sceneInfo.ammoBox.isNear = true;
+              }
+              else {
+                  sceneInfo.ammoBox.isNear = false;
               }
         });
     }
