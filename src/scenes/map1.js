@@ -227,6 +227,19 @@ async function map1(scene){
     treeClone.scaling = new Vector3(0.017 , 0.017, 0.017);
     treeClone.rotation = new Vector3( -Math.PI*0.05 ,  Math.PI*0.5 , 0);
 
+    const forest = await LoadForest(scene);
+    forest.position = new Vector3(25 , 0 ,25);
+    forest.scaling = new Vector3( 3, 6 , 3);
+    forest.rotation = new Vector3(0 , Math.PI*0.5 , 0);
+
+    const forestClone = forest.clone (" forest clone");
+    forestClone.position = new Vector3(-25 , 0 , 25);
+    forestClone.scaling = new Vector3( 3, 6 , 3);
+    forestClone.rotation = new Vector3(0 , -Math.PI*0.5 , 0);
+
+
+
+
 
     if(options.settings.shadows){
 
@@ -272,6 +285,9 @@ async function map1(scene){
       map1Shadows.addShadowCaster(statue1);
       map1Shadows.addShadowCaster(statue2);
       map1Shadows.addShadowCaster(center);
+      map1Shadows.addShadowCaster(forest);
+      map1Shadows.addShadowCaster(forestClone);
+
       
       map1Shadows.setDarkness(-100.0);
       map1Shadows.useContactHardeningShadow = true;
@@ -429,6 +445,15 @@ async function map1(scene){
       const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map1/", "tree.glb", scene);
       const tree = meshes[0];
       return tree;
+    }
+
+    async function LoadForest(scene){
+
+      const { meshes, ...rest } = await SceneLoader.ImportMeshAsync("", "./models/map1/", "forest.glb", scene);
+      const forest = meshes[0];
+      return forest;
+
+
     }
 
 
