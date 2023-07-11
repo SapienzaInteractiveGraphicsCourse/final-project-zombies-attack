@@ -32,6 +32,7 @@ import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
 import map1Builder from "./map1";
 import map2Builder from "./map2";
+import map3Builder from "./map3";
 let isReloading = false;
 
 async function createScene(canvas, engine) {
@@ -145,8 +146,8 @@ async function createScene(canvas, engine) {
 }
 
 async function CreateEnvironment(scene) {
-  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
-
+  var ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
+  
   if(options.settings.shadows){
     ground.receiveShadows = true;
   }
@@ -164,7 +165,8 @@ async function CreateEnvironment(scene) {
     ground.material = CreateAsphalt(scene)
   }
   else if(options.map.third){
-
+    map3Builder.map3(scene);
+    //ground.material = CreateSand(scene)
   }
   
 }
@@ -199,6 +201,23 @@ function CreateAsphalt(scene) {
   pbr.useMetallnessFromMetallicTextureBlue = true
 
   pbr.metallicTexture = new Texture('./textures/asphalt/asphalt_ao.jpg', scene)
+
+  return pbr
+}
+
+function CreateSand(scene) {
+  const pbr = new PBRMaterial('pbr', scene)
+  pbr.albedoTexture = new Texture('./textures/sand/sand_diffuse.jpg', scene)
+
+  pbr.bumpTexture = new Texture('./textures/sand/sand_normal.jpg', scene)
+  pbr.invertNormalMapX = true
+  pbr.invertNormalMapY = true
+
+  pbr.useAmbientOcclusionFromMetallicTextureRed = true
+  pbr.useRoughnessFromMetallicTextureGreen = true
+  pbr.useMetallnessFromMetallicTextureBlue = true
+
+  pbr.metallicTexture = new Texture('./textures/sand/sand_ao.jpg', scene)
 
   return pbr
 }
