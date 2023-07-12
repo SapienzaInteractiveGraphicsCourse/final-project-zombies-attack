@@ -29,6 +29,7 @@ async function map1(scene){
   ground.checkCollisions = true;
 
   const bounds = createBounds(scene)
+  const walls = createInvWalls(scene)
   
   const fence = await LoadFence1(scene);
 
@@ -250,8 +251,8 @@ async function map1(scene){
       fenceClone.scaling = new Vector3(4 , 4 , 4);
 
       const fencewallClone = fence[8].clone("fencewallClone");
-      fencewallClone.position = new Vector3(-2+(8*i) , 2 , 0);
-      fencewallClone.scaling = new Vector3(4 , 4 , 4);
+      fencewallClone.position = fenceClone.position
+      fencewallClone.scaling = fenceClone.scaling
 
       if(options.settings.shadows){
         map1Shadows.addShadowCaster(fenceClone);
@@ -263,8 +264,8 @@ async function map1(scene){
     fenceClone1.scaling = new Vector3(4 , 4 , 4);
 
     const fencewallClone1 = fence[8].clone("fencewallClone1");
-    fencewallClone1.position = new Vector3(-(-2+(8*i)) , 2 , 0);
-    fencewallClone1.scaling = new Vector3(4 , 4 , 4);
+    fencewallClone1.position = fenceClone1.position;
+    fencewallClone1.scaling = fenceClone1.scaling;
 
     if(options.settings.shadows){
       map1Shadows.addShadowCaster(fenceClone1);
@@ -276,9 +277,9 @@ async function map1(scene){
     fenceClone2.rotation = new Vector3( 0 ,  Math.PI*0.5 , 0);
     
     const fencewallClone2 = fence[8].clone("fencewallClone2");
-    fencewallClone2.position = new Vector3(49.4 , 2 , -(-3.2+8*i));
-    fencewallClone2.scaling = new Vector3(4 , 4 , 4);
-    fencewallClone2.rotation = new Vector3( 0 ,  Math.PI*0.5 , 0);
+    fencewallClone2.position = fenceClone2.position;
+    fencewallClone2.scaling = fenceClone2.scaling;
+    fencewallClone2.rotation = fenceClone2.rotation;
 
     if(options.settings.shadows){
       map1Shadows.addShadowCaster(fenceClone2);
@@ -290,9 +291,9 @@ async function map1(scene){
     fenceClone3.rotation = new Vector3( 0 ,  Math.PI*0.5 , 0);
 
     const fencewallClone3 = fence[8].clone("fencewallClone3");
-    fencewallClone3.position = new Vector3(-49.4 , 2 , -(-3.2+8*i));
-    fencewallClone3.scaling = new Vector3(4 , 4 , 4);
-    fencewallClone3.rotation = new Vector3( 0 ,  Math.PI*0.5 , 0);
+    fencewallClone3.position = fenceClone3.position;
+    fencewallClone3.scaling = fenceClone3.scaling;
+    fencewallClone3.rotation = fenceClone3.rotation ;
 
     if(options.settings.shadows){
       map1Shadows.addShadowCaster(fenceClone3);
@@ -303,8 +304,8 @@ async function map1(scene){
     fenceClone4.scaling = new Vector3(4 , 4 , 4);
 
     const fencewallClone4 = fence[8].clone("fencewallClone4");
-    fencewallClone4.position = new Vector3(-2+(8*i) , 2 , -49);
-    fencewallClone4.scaling = new Vector3(4 , 4 , 4);
+    fencewallClone4.position = fenceClone4.position;
+    fencewallClone4.scaling = fenceClone4.scaling;
 
     if(options.settings.shadows){
       map1Shadows.addShadowCaster(fenceClone4);
@@ -315,8 +316,8 @@ async function map1(scene){
     fenceClone5.scaling = new Vector3(4 , 4 , 4);
 
     const fencewallClone5 = fence[8].clone("fencewallClone5");
-    fencewallClone5.position = new Vector3(2-(8*i) , 2 , -49);
-    fencewallClone5.scaling = new Vector3(4 , 4 , 4);
+    fencewallClone5.position = fenceClone5.position;
+    fencewallClone5.scaling = fenceClone5.scaling;
 
     if(options.settings.shadows){
       map1Shadows.addShadowCaster(fenceClone5);
@@ -348,8 +349,8 @@ async function LoadFence1(scene) {
 
   fence.scaling = new Vector3(4, 4, 4);
   fence.position = new Vector3(6, 2, 0);
-  boxMesh.scaling = new Vector3(4, 4, 4);
-  boxMesh.position = new Vector3(6, 2, 0);
+  boxMesh.scaling = fence.scaling
+  boxMesh.position = fence.position
 
   meshes.push(boxMesh)
 
@@ -377,9 +378,32 @@ async function LoadTMausoleum(scene) {
 
   const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/map1/", "mausoleum.glb", scene);
   const maus = meshes[0];
-  maus.position = new Vector3(0 , -0.5 , -42);
-  maus.scaling = new Vector3(4 , 4 , 4);
-  maus.rotation = new Vector3( 0 , Math.PI*0.5 , 0);
+  maus.position = new Vector3(0, -0.5, -42);
+  maus.scaling = new Vector3(4, 4, 4);
+  maus.rotation = new Vector3(0, Math.PI * 0.5, 0);
+
+  const mesh = meshes[2];
+  meshes[2].showBoundingBox = false;
+
+  const boundingBox = mesh.getBoundingInfo().boundingBox;
+
+  const sizeVector = boundingBox.maximum.subtract(boundingBox.minimum);
+  const centerVector = boundingBox.minimum.add(sizeVector.scale(0.5));
+  boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
+  boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
+
+  const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
+  const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
+    width: boxSize.x,
+    height: boxSize.y,
+    depth: boxSize.z
+  }, scene);
+  boxMesh.isVisible = false;
+  boxMesh.checkCollisions = true;
+  boxMesh.position = maus.position;
+  boxMesh.scaling = new Vector3(1.8, 40, 1.5);
+  meshes.push(boxMesh)
+
   return maus
 
 }
@@ -410,9 +434,19 @@ async function LoadCentergraves(scene) {
 
   const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/map1/", "graveyard_of_gravestones.glb", scene);
   const graves = meshes[0];
+  meshes[1].showBoundingBox = false;
   graves.position = new Vector3(0 , -0.5, -20);
-  graves.scaling = new Vector3(1.5 , 1.5 , 1.5);
-  graves.rotation = new Vector3( 0 , 0 , 0);
+  graves.scaling = new Vector3(1.5, 1.5, 1.5);
+
+  const bound = MeshBuilder.CreateBox("boundingBoxMesh", {
+    width: 10,
+    height: 5,
+    depth: 7
+  }, scene);
+  bound.position = graves.position;
+  bound.isVisible = false;
+  bound.checkCollisions = true;
+
   return graves
 
 }
@@ -464,7 +498,7 @@ function CreateAsphalt(scene) {
   return pbr
 }
 
-function createBounds (scene) {
+function createBounds(scene) {
   const bound = MeshBuilder.CreateBox("boundingBoxMesh", {
     width: 100,
     height: 10,
@@ -487,6 +521,44 @@ function createBounds (scene) {
       boundClone.position = new Vector3(-50, 0, 0);
       boundClone.rotation = RotationFromDegrees(0, 90, 0)
     }
+  }
+}
+
+function createInvWalls(scene) {
+  const walls = [
+    {
+      width: 57,
+      height: 10,
+      depth: 0.5,
+      position: new Vector3(-2, 0, -34),
+      rotation: RotationFromDegrees(0, 0, 0)
+    },
+    {
+      width: 34,
+      height: 10,
+      depth: 0.5,
+      position: new Vector3(-30.5, 0, -17),
+      rotation: RotationFromDegrees(0, 90, 0)
+    },
+    {
+      width: 34,
+      height: 10,
+      depth: 0.5,
+      position: new Vector3(26.5, 0, -17),
+      rotation: RotationFromDegrees(0, 90, 0)
+    }
+  ]
+  
+  for (const wall of walls) {
+    const bound = MeshBuilder.CreateBox("invWall", {
+      width: wall.width,
+      height: wall.height,
+      depth: wall.depth
+    }, scene);
+    bound.position = wall.position;
+    bound.rotation = wall.rotation;
+    bound.isVisible = false;
+    bound.checkCollisions = true;
   }
 }
 

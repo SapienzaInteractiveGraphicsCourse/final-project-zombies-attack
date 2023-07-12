@@ -440,7 +440,6 @@ function reload(sceneInfo) {
 
   let isReloading = false;
   onkeydown = ((event) => {
-    console.log(sceneInfo.gun.isShooting)
     if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && ((sceneInfo.player.ammo < 30 && !isReloading && !sceneInfo.gun.isShooting) || (sceneInfo.player.ammo === 0 &&!isReloading))) {
       gunanims.reload(sceneInfo.gun, sceneInfo.scene)
       isReloading = true;
