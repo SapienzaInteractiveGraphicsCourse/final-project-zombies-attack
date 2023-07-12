@@ -71,8 +71,6 @@ async function map1(scene){
 
   return pbr
 }
-
-    const gravity = new Vector3(0, -10, 0);
   
     const fence = await LoadFence1(scene);
     fence.position = new Vector3(-2+(8*i) , 2 , 0);
@@ -168,7 +166,7 @@ async function map1(scene){
     const trees = await LoadTrees(scene);
     trees.position = new Vector3(45 , 0.3, -10); 
     trees.scaling = new Vector3(0.015 , 0.015, 0.015);
-    trees.rotation = new Vector3( 0 ,  Math.PI*0.5 , 0)
+    trees.rotation = new Vector3( 0 ,  Math.PI*0.5 , 0);
 
     const treesClone2 = trees.clone("treesClone2");
     treesClone2.position = new Vector3(45 , 0.3, -30); 
@@ -217,8 +215,6 @@ async function map1(scene){
     trees2Clone22.scaling = new Vector3(0.005 , 0.005, 0.005);
     trees2Clone22.rotation = new Vector3( 0 ,  Math.PI*0.2 , Math.PI*0.008);
     
-
-
     const grass = await LoadGrass (scene);
     grass.position = new Vector3(4 , 0, -17);
     grass.scaling = new Vector3(0.02 , 0.01, 0.02);
@@ -294,7 +290,7 @@ async function map1(scene){
       const fenceClone = fence.clone("fenceClone");
       fenceClone.position = new Vector3(-2+(8*i) , 2 , 0);
       fenceClone.scaling = new Vector3(4 , 4 , 4);
-
+      
       if(options.settings.shadows){
         map1Shadows.addShadowCaster(fenceClone);
       }

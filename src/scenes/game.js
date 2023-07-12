@@ -151,7 +151,7 @@ async function CreateEnvironment(scene, enemy) {
     ground.material = CreateAsphalt(scene)
   }
   else if(options.map.third){
-    map3Builder.map3(scene);
+    map3Builder.map3(scene, enemy);
     ground.material = CreateSand(scene)
   }
   
