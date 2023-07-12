@@ -39,6 +39,7 @@ let isReloading = false;
 
 async function createScene(canvas, engine) {
   const scene = new Scene(engine);
+  scene.collisionsEnabled = true;
 
   scene.onPointerDown = (event) => {
       if (event.button === 0) {
@@ -71,7 +72,6 @@ async function createScene(canvas, engine) {
 
   scene.collisionsEnabled = true;
 
-
   /*const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', scene)
   scene.environmentTexture = envTex 
 
@@ -85,6 +85,11 @@ async function createScene(canvas, engine) {
     enemy.loadAsync(scene),
     loadAmmoBox(scene)
   ]);
+
+  // For every mesh component, check collisions
+  enemy.meshdata.meshes.forEach((mesh) => {
+    mesh.checkCollisions = true;
+  })
 
   // Create the turn system for this battle
   const round = new RoundSystem();
@@ -126,7 +131,6 @@ async function createScene(canvas, engine) {
       camera  // The camera to apply the render pass to.
     );
   }
-
   
   return scene;
 }
@@ -213,7 +217,7 @@ function CreateController(scene) {
   camera.setTarget(new Vector3(0, 2, 0));
 
   camera.attachControl()
-  camera.speed = 1 //0.25
+  camera.speed = 0.25 //0.25
 
   camera.applyGravity = true;
   camera.checkCollisions = true;
