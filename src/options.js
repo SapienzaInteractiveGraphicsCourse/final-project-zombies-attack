@@ -5,9 +5,9 @@ export const options = {
         hard: false,    // Difficulty: hard boolean
     },
     map: {
-        first: true,     // Map: 1 boolean
+        first: false,     // Map: 1 boolean
         second: false,   // Map: 2 boolean
-        third: false     // Map: 3 boolean
+        third: true     // Map: 3 boolean
     },
     settings: {
         fullscreen: true,

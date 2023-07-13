@@ -11,18 +11,18 @@ import { RotationFromDegrees} from "../libs/angles";
 
 let map3Shadows;
 
-async function map3(scene, enemy){
+async function map3(sceneInfo, enemy){
 
-    const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', scene)
-    scene.environmentTexture = envTex 
+    const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', sceneInfo.scene)
+    sceneInfo.scene.environmentTexture = envTex 
 
-    const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
+    const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), sceneInfo.scene);
     light.position = new Vector3(20, 40, 20);
     light.intensity = 1.8;
 
-    scene.createDefaultSkybox(envTex, true)
+    sceneInfo.scene.createDefaultSkybox(envTex, true)
     
-    const rock = await LoadRocks(scene);
+    const rock = await LoadRocks(sceneInfo.scene);
 
     if(options.settings.shadows){
 
@@ -43,7 +43,7 @@ async function map3(scene, enemy){
         
       }
 
-    const cactus = await LoadCactus(scene);
+    const cactus = await LoadCactus(sceneInfo.scene);
     for(var i=0; i<5; i++){
         const cactusClone = cactus.clone("cactusClone");
         cactusClone.position = new Vector3(48  - 22*i, 0 , 43);
@@ -107,8 +107,28 @@ async function map3(scene, enemy){
     async function LoadRocks(scene) {
         const { meshes} = await SceneLoader.ImportMeshAsync("", "./models/map3/", "rocks.glb", scene);
         const rocks = meshes[0];
-        rocks.scaling = new Vector3(1.5 , 1.5, 2.0);
-        rocks.position = new Vector3(50 , 0 , -20);
+        rocks.scaling = new Vector3(1.5, 1.5, 2.0);
+        rocks.position = new Vector3(50, 0, -20);
+        const mesh = meshes[2];
+
+        meshes[2].showBoundingBox = true;
+      
+        const boundingBox = mesh.getBoundingInfo().boundingBox;
+      
+        const sizeVector = boundingBox.maximum.subtract(boundingBox.minimum);
+        const centerVector = boundingBox.minimum.add(sizeVector.scale(0.5));
+        boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
+        boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
+      
+        const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
+        const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
+          width: boxSize.x,
+          height: boxSize.y,
+          depth: boxSize.z
+        }, scene);
+        boxMesh.isVisible = true;
+        boxMesh.checkCollisions = true;
+        meshes.push(boxMesh)
     
         return rocks
     }

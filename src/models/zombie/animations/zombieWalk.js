@@ -17,7 +17,7 @@ import { RotationFromDegrees } from "../../../libs/angles";
  * Walk animation
  */
 const _animWalk_frames = [0, 18, 33, 54, 63, 72, 78, 90, 102];
-const frameRate = 30;
+const frameRate = 60;
 const walkEase = new PowerEase(1.3);
 walkEase.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT);
 

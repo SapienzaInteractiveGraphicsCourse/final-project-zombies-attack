@@ -15,25 +15,26 @@ import { RotationFromDegrees } from "../libs/angles";
 
 let map1Shadows;
 
-async function map1(scene){
-  scene.fogMode = Scene.FOGMODE_LINEAR;
-  scene.fogStart = 0.0;
-  scene.fogEnd = 100.0;
-  const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
+async function map1(sceneInfo){
+  sceneInfo.ammoBox.mesh.position.z = -17;
+  sceneInfo.scene.fogMode = Scene.FOGMODE_LINEAR;
+  sceneInfo.scene.fogStart = 0.0;
+  sceneInfo.scene.fogEnd = 100.0;
+  const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), sceneInfo.scene);
   light.position = new Vector3(20, 40, 20);
   light.intensity = 1.8;
 
-  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
-  ground.material = CreateAsphalt(scene)
+  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, sceneInfo.scene)
+  ground.material = CreateAsphalt(sceneInfo.scene)
   ground.model = ground;
   ground.checkCollisions = true;
 
-  const bounds = createBounds(scene)
-  const walls = createInvWalls(scene)
+  const bounds = createBounds(sceneInfo.scene)
+  const walls = createInvWalls(sceneInfo.scene)
   
-  const fence = await LoadFence1(scene);
+  const fence = await LoadFence1(sceneInfo.scene);
 
-  const tomb1 = await LoadTomb1(scene);
+  const tomb1 = await LoadTomb1(sceneInfo.scene);
   tomb1.position = new Vector3(33 , 0.2 , -12);
   tomb1.scaling = new Vector3(0.003 , 0.003 , 0.003);
   tomb1.rotation = new Vector3( 0 , Math.PI , 0);
@@ -91,7 +92,7 @@ async function map1(scene){
   tomb1Clone25.rotation = new Vector3( 0 , Math.PI*0.47  , 0);
 
 
-  const tomb2 = await LoadTomb2(scene);
+  const tomb2 = await LoadTomb2(sceneInfo.scene);
   tomb2.position = new Vector3(33 , 0.2 , -16);
   tomb2.scaling = new Vector3(0.003 , 0.003 , 0.003);
   tomb2.rotation = new Vector3( 0 , Math.PI , 0);
@@ -115,12 +116,12 @@ async function map1(scene){
   
 
 
-  const maus = await LoadTMausoleum(scene);
-  const statue1 = await LoadStatue1(scene);
-  const statue2 = await LoadStatue2(scene);
-  const center = await LoadCentergraves(scene);
+  const maus = await LoadTMausoleum(sceneInfo.scene);
+  const statue1 = await LoadStatue1(sceneInfo.scene);
+  const statue2 = await LoadStatue2(sceneInfo.scene);
+  const center = await LoadCentergraves(sceneInfo.scene);
   
-  const trees = await LoadTrees(scene);
+  const trees = await LoadTrees(sceneInfo.scene);
   trees.position = new Vector3(45 , 0.3, -10); 
   trees.scaling = new Vector3(0.015 , 0.015, 0.015);
   trees.rotation = new Vector3( 0 ,  Math.PI*0.5 , 0)
@@ -152,7 +153,7 @@ async function map1(scene){
 
 
 
-  const trees2 = await LoadTrees2(scene);
+  const trees2 = await LoadTrees2(sceneInfo.scene);
   trees2.position = new Vector3(45 , 0.3, -21);
   trees2.scaling = new Vector3(0.005 , 0.005, 0.005);
   trees2.rotation = new Vector3( 0 ,  0 , Math.PI*0.008);
@@ -174,13 +175,13 @@ async function map1(scene){
   
 
 
-  const grass = await LoadGrass (scene);
+  const grass = await LoadGrass (sceneInfo.scene);
   grass.position = new Vector3(4 , 0, -17);
   grass.scaling = new Vector3(0.02 , 0.01, 0.02);
   grass.rotation = new Vector3( 0 ,  0 , 0);
 
 
-  const tree = await LoadTree (scene);
+  const tree = await LoadTree (sceneInfo.scene);
   tree.position = new Vector3(39 , 0.2, -7);
   tree.scaling = new Vector3(0.015 , 0.015, 0.015);
   tree.rotation = new Vector3( -Math.PI*0.05 ,  Math.PI*0.5 , 0);
@@ -196,14 +197,9 @@ async function map1(scene){
 
     //Creating shadows variable and adding enemy shadows
     map1Shadows = new ShadowGenerator(4096, light);
-    if (enemy.meshdata.meshes) {
-        enemy.meshdata.meshes.forEach((mesh) => {
-            map1Shadows.addShadowCaster(mesh);
-        });
-      } else {
-        console.warn("No enemy meshes found to cast shadows.");
-      } 
 
+    map1Shadows.addShadowCaster(enemy.meshdata.mesh);
+    map1Shadows.addShadowCaster(fence[0]);
     map1Shadows.addShadowCaster(tomb1);
     map1Shadows.addShadowCaster(tomb1Clone);
     map1Shadows.addShadowCaster(tomb1Clone1);
@@ -435,11 +431,11 @@ async function LoadCentergraves(scene) {
   const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/map1/", "graveyard_of_gravestones.glb", scene);
   const graves = meshes[0];
   meshes[1].showBoundingBox = false;
-  graves.position = new Vector3(0 , -0.5, -20);
+  graves.position = new Vector3(-2, -0.5, -20);
   graves.scaling = new Vector3(1.5, 1.5, 1.5);
 
   const bound = MeshBuilder.CreateBox("boundingBoxMesh", {
-    width: 10,
+    width: 12,
     height: 5,
     depth: 7
   }, scene);

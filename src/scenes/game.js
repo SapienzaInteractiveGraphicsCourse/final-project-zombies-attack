@@ -28,7 +28,7 @@ import "@babylonjs/loaders";
 import { shotAnimation } from '../models/gun/animations/gunShot'
 import { options } from "../options";
 import enemy from "../models/zombie/zombie";
-import { RotationFromDegrees, deg2rad } from "../libs/angles";
+import ammoBox from "../models/ammoBox/ammoBox";
 import hud from "../HUD/HUD";
 import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
@@ -77,13 +77,13 @@ async function createScene(canvas, engine) {
 
   scene.createDefaultSkybox(envTex, true)*/
 
-  CreateEnvironment(scene, enemy)
   const camera = CreateController(scene)
   const gun = await LoadGun(scene, camera)
+
   // Load all meshes
   await Promise.all([
     enemy.loadAsync(scene),
-    loadAmmoBox(scene)
+    ammoBox.loadAsync(scene)
   ]);
 
   // For every mesh component, check collisions
@@ -106,12 +106,10 @@ async function createScene(canvas, engine) {
     camera,
     gun,
     round,
-    ammoBox: {
-      isNear: false
-    }
+    ammoBox
   }
   enemy.sceneSpecificInit(sceneInfo);
-  console.log(sceneInfo.scene)
+  CreateEnvironment(sceneInfo, enemy)
 
   // Have the turn system constantly watch for the condition to pass turn
   round.addRoundObserver(sceneInfo);
@@ -131,12 +129,15 @@ async function createScene(canvas, engine) {
       camera  // The camera to apply the render pass to.
     );
   }
+
+  ammoBox.float(ammoBox)
+  scene.getAnimationGroupByName("float").play(true);
   
   return scene;
 }
 
-async function CreateEnvironment(scene, enemy) {
-  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
+async function CreateEnvironment(sceneInfo, enemy) {
+  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, sceneInfo.scene)
 
   if(options.settings.shadows){
     ground.receiveShadows = true;
@@ -147,16 +148,16 @@ async function CreateEnvironment(scene, enemy) {
   ground.checkCollisions = true;
 
   if(options.map.first){
-    map1Builder.map1(scene, enemy);
-    ground.material = CreateAsphalt(scene)
+    map1Builder.map1(sceneInfo, enemy);
+    ground.material = CreateAsphalt(sceneInfo.scene)
   }
   else if(options.map.second){
-    map2Builder.map2(scene, enemy);
-    ground.material = CreateAsphalt(scene)
+    map2Builder.map2(sceneInfo, enemy);
+    ground.material = CreateAsphalt(sceneInfo.scene)
   }
   else if(options.map.third){
-    map3Builder.map3(scene, enemy);
-    ground.material = CreateSand(scene)
+    map3Builder.map3(sceneInfo, enemy);
+    ground.material = CreateSand(sceneInfo.scene)
   }
   
 }
@@ -236,15 +237,6 @@ function CreateController(scene) {
   return camera
 }
 
-async function loadAmmoBox(scene) {
-  const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/ammo/", "ammo_box.glb", scene);
-  const box = meshes[0];
-
-  scene.ammoBox = box;
-  
-  return box;
-}
-
 async function LoadGun(scene, camera) {
   SetupCrosshair()
 
@@ -269,10 +261,11 @@ async function LoadGun(scene, camera) {
   gun.parent = camera;
   gun.renderingGroupId = 1;
 
-  gun.rotation = new Vector3(0, Math.PI * 0.2, 0)
+  gun.rotation = new Vector3(0, Math.PI * 0.2, 0);
   gun.position = new Vector3(0.05, -0.05, 0.2);
 
   gun.isShooting = false;
+  gun.isReloading = false;
   
   return gun;
 }
@@ -331,7 +324,8 @@ function Shot(sceneInfo, camera, gun) {
   });
 
   onmousedown = ((event) => {
-    if (!isReloading) {
+    console.log(isReloading)
+    if (!sceneInfo.gun.isReloading) {
       if (sceneInfo.player.ammo > 0) {
         sceneInfo.gun.isShooting = true;
       sceneInfo.player.ammo -= 1;
@@ -438,11 +432,10 @@ function reload(sceneInfo) {
     volume: volume,
   });
 
-  let isReloading = false;
   onkeydown = ((event) => {
-    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && ((sceneInfo.player.ammo < 30 && !isReloading && !sceneInfo.gun.isShooting) || (sceneInfo.player.ammo === 0 &&!isReloading))) {
+    if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && ((sceneInfo.player.ammo < 30 && !sceneInfo.gun.isReloading && !sceneInfo.gun.isShooting) || (sceneInfo.player.ammo === 0 && !sceneInfo.gun.isReloading))) {
       gunanims.reload(sceneInfo.gun, sceneInfo.scene)
-      isReloading = true;
+      sceneInfo.gun.isReloading = true;
       reload.play()
       reload.onended = (() => {
         if (sceneInfo.player.magazines + sceneInfo.player.ammo > 30) {
@@ -453,10 +446,10 @@ function reload(sceneInfo) {
           sceneInfo.player.ammo += sceneInfo.player.magazines;
           sceneInfo.player.magazines = 0;
         }
-        isReloading = false;
+        sceneInfo.gun.isReloading = false;
       })
     }
-    else if (event.code === "KeyF" && sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear && !isReloading) {
+    else if (event.code === "KeyF" && sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear && !sceneInfo.gun.isReloading) {
       sceneInfo.player.magazines = 210;
       ammo_load.play()
     }

@@ -118,7 +118,7 @@ class RoundSystem {
               const direction = sceneInfo.camera.position.subtract(sceneInfo.enemy.meshdata.mesh.position);
               direction.normalize();
               // Calcola la distanza tra la mesh e la telecamera
-              const distance = Vector3.Distance(sceneInfo.scene.ammoBox.position, sceneInfo.camera.position);
+              const distance = Vector3.Distance(sceneInfo.ammoBox.mesh.position, sceneInfo.camera.position);
               const ceilDistance = Math.ceil(distance)
 
               if (ceilDistance <= 3) {
