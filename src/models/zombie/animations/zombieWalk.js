@@ -4,19 +4,15 @@
  * because they are pretty long.
  * EXPORTS an objects with the functions to trigger those animations.
  */
-
-import * as MYANIM from "../../../libs/animation"
-import { RotationFromDegrees } from "../../../libs/angles";
 import { 
     PowerEase,
-    Vector3,
-    SineEase,
     EasingFunction,
     Animation,
     Quaternion,
-    QuadraticEase,
     AnimationGroup
 } from "@babylonjs/core";
+import { RotationFromDegrees } from "../../../libs/angles";
+
 /**
  * Walk animation
  */
@@ -252,7 +248,7 @@ const _animWalk_L_thigh_keys = [
     },
     {
         frame: _animWalk_frames[1],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-70.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-60.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[2],
@@ -276,7 +272,7 @@ const _animWalk_L_thigh_keys = [
     },
     {
         frame: _animWalk_frames[7],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-70.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-60.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[8],
@@ -330,7 +326,7 @@ const _animWalk_R_thigh_keys = [
         frame: _animWalk_frames[0],
         value: Quaternion.FromEulerVector(RotationFromDegrees(30.9550, -89.2314, 171.8719))
     },
-    {
+    /*{
         frame: _animWalk_frames[1],
         value: Quaternion.FromEulerVector(RotationFromDegrees(45.9550, -89.2314, 171.8719))
     },
@@ -349,7 +345,7 @@ const _animWalk_R_thigh_keys = [
     {
         frame: _animWalk_frames[7],
         value: Quaternion.FromEulerVector(RotationFromDegrees(10.9550, -89.2314, 171.8719))
-    },
+    },*/
     {
         frame: _animWalk_frames[8],
         value: Quaternion.FromEulerVector(RotationFromDegrees(30.9550, -89.2314, 171.8719))
@@ -364,7 +360,7 @@ const _animWalk_R_calf_keys = [
         frame: _animWalk_frames[0],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-12.0425, 1.9203, 0.0199))
     },
-    {
+    /* {
         frame: _animWalk_frames[2],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-27.0425, 1.9203, 0.0199))
     },
@@ -383,7 +379,7 @@ const _animWalk_R_calf_keys = [
     {
         frame: _animWalk_frames[7],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-25.0425, 1.9203, 0.0199))
-    },
+    }, */
     {
         frame: _animWalk_frames[8],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-12.0425, 1.9203, 0.0199))
