@@ -254,6 +254,7 @@ async function map1(scene){
     map1Shadows.addShadowCaster(statue1);
     map1Shadows.addShadowCaster(statue2);
     map1Shadows.addShadowCaster(center);
+    map1Shadows.addShadowCaster(fence[0]);
     
     map1Shadows.setDarkness(-100.0);
     map1Shadows.useContactHardeningShadow = true;
