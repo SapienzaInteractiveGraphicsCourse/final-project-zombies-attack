@@ -6,7 +6,10 @@ import {
   Texture,
   DirectionalLight,
   ShadowGenerator,
-  Scene
+  Scene,
+  StandardMaterial,
+  Color3
+
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { options } from "../options";
@@ -19,9 +22,25 @@ async function map1(scene){
   scene.fogMode = Scene.FOGMODE_LINEAR;
   scene.fogStart = 0.0;
   scene.fogEnd = 100.0;
+  
   const light = new DirectionalLight("dir01", new Vector3(-1, -2, -1), scene);
   light.position = new Vector3(20, 40, 20);
   light.intensity = 1.8;
+
+
+  createLamp(scene);
+
+  var sphere = MeshBuilder.CreateSphere("sphere", { diameter: 1 }, scene);
+
+  sphere.position = new Vector3(20, 40, 20)
+
+// Create an emissive material for the sphere
+  var sphereMaterial = new StandardMaterial("sphereMaterial", scene);
+  sphereMaterial.emissiveColor = new Color3(1, 1, 1); // Set emissive color to white
+  sphere.material = sphereMaterial;
+
+
+    scene.addMesh(sphere);  
 
   const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, scene)
   ground.material = CreateAsphalt(scene)
@@ -324,6 +343,18 @@ async function map1(scene){
     }
   }
 }
+
+async function createLamp(scene){
+
+  const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/map1/", "street_lamp.glb", scene);
+  const lamp = meshes[0];
+  lamp.position = new Vector3 (1.7 , 0 , -21.5);
+  lamp.scaling = new Vector3 (1.5 , 1.5 , 1.5);
+
+}
+
+
+
 
 async function LoadFence1(scene) {
   const { meshes } = await SceneLoader.ImportMeshAsync("", "./models/map1/", "graveyard_fence.glb", scene);
