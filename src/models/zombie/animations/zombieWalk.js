@@ -244,39 +244,39 @@ _animWalk_L_thigh_bab.setEasingFunction(walkEase);
 const _animWalk_L_thigh_keys = [
     {
         frame: _animWalk_frames[0],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-53.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[1],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-60.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-33.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[2],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-42.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-43.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[3],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-20.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-33.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[4],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-10.9550, -90.7844, -171.8719))
-    },
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.9550, -90.7844, -171.8719))
+    }, 
     {
         frame: _animWalk_frames[5],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-20.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(10.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[6],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-40.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(20.9550, -90.7844, -171.8719))
     },
     {
         frame: _animWalk_frames[7],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-60.9550, -90.7844, -171.8719))
-    },
+        value: Quaternion.FromEulerVector(RotationFromDegrees(10.9550, -90.7844, -171.8719))
+    }, 
     {
         frame: _animWalk_frames[8],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-53.9550, -90.7844, -171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.9550, -90.7844, -171.8719))
     }
 ];
 _animWalk_L_thigh_bab.setKeys(_animWalk_L_thigh_keys);
@@ -286,8 +286,8 @@ _animWalk_L_calf_bab.setEasingFunction(walkEase);
 const _animWalk_L_calf_keys = [
     {
         frame: _animWalk_frames[0],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-32.0456, -1.9191, -0.0246))
-    },
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.0456, -1.9191, -0.0246))
+    }, 
     {
         frame: _animWalk_frames[1],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-29.0456, -1.9191, -0.0246))
@@ -298,23 +298,11 @@ const _animWalk_L_calf_keys = [
     },
     {
         frame: _animWalk_frames[3],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-32.0456, -1.9191, -0.0246))
-    },
-    {
-        frame: _animWalk_frames[4],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-57.0456, -1.9191, -0.0246))
-    },
-    {
-        frame: _animWalk_frames[5],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-72.0456, -1.9191, -0.0246))
-    },
-    {
-        frame: _animWalk_frames[7],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-47.0456, -1.9191, -0.0246))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.0456, -1.9191, -0.0246))
     },
     {
         frame: _animWalk_frames[8],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-32.0456, -1.9191, -0.0246))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-0.0456, -1.9191, -0.0246))
     }
 ];
 _animWalk_L_calf_bab.setKeys(_animWalk_L_calf_keys);
@@ -324,31 +312,39 @@ _animWalk_R_thigh_bab.setEasingFunction(walkEase);
 const _animWalk_R_thigh_keys = [
     {
         frame: _animWalk_frames[0],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(30.9550, -89.2314, 171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9550, -89.2314, 171.8719))
     },
-    /*{
+    {
         frame: _animWalk_frames[1],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(45.9550, -89.2314, 171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(5.9550, -89.2314, 171.8719))
     },
     {
         frame: _animWalk_frames[2],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(15.9550, -89.2314, 171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(10.9550, -89.2314, 171.8719))
     },
     {
         frame: _animWalk_frames[3],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-20.9550, -89.2314, 171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(5.9550, -89.2314, 171.8719))
     },
     {
         frame: _animWalk_frames[4],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(-25.9550, -89.2314, 171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9550, -89.2314, 171.8719))
+    },
+    {
+        frame: _animWalk_frames[5],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-20.9550, -89.2314, 171.8719))
+    },
+    {
+        frame: _animWalk_frames[6],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-40.9550, -89.2314, 171.8719))
     },
     {
         frame: _animWalk_frames[7],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(10.9550, -89.2314, 171.8719))
-    },*/
+        value: Quaternion.FromEulerVector(RotationFromDegrees(-20.9550, -89.2314, 171.8719))
+    },
     {
         frame: _animWalk_frames[8],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(30.9550, -89.2314, 171.8719))
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.9550, -89.2314, 171.8719))
     }
 ];
 _animWalk_R_thigh_bab.setKeys(_animWalk_R_thigh_keys);
@@ -360,7 +356,7 @@ const _animWalk_R_calf_keys = [
         frame: _animWalk_frames[0],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-12.0425, 1.9203, 0.0199))
     },
-    /* {
+    {
         frame: _animWalk_frames[2],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-27.0425, 1.9203, 0.0199))
     },
@@ -379,7 +375,7 @@ const _animWalk_R_calf_keys = [
     {
         frame: _animWalk_frames[7],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-25.0425, 1.9203, 0.0199))
-    }, */
+    },
     {
         frame: _animWalk_frames[8],
         value: Quaternion.FromEulerVector(RotationFromDegrees(-12.0425, 1.9203, 0.0199))

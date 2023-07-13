@@ -88,13 +88,8 @@ class RoundSystem {
                     }
             
                     // Definisci una velocità di movimento
-                    console.log(sceneInfo.enemy.meshdata.getNode("Base HumanLLegThigh_051"))
-                    if(sceneInfo.enemy.meshdata.getNode("Base HumanLLegThigh_051").absoluteRotationQuaternion.x >= -0.49550 && 
-                        sceneInfo.enemy.meshdata.getNode("Base HumanLLegThigh_051").absoluteRotationQuaternion.x <= -40.9550){
-                        speed = 0.01;
-                    }else{
-                        speed = 0.0;
-                    }
+                    const speed = 0.01;
+
             
                     // Sposta la mesh lungo la direzione verso la telecamera
                     sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
