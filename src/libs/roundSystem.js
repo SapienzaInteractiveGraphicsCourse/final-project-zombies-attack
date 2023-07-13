@@ -13,6 +13,7 @@ import {
 /**
  * A class of objects that keep track of whose turn it is during a battle.
  */
+let speed;
 class RoundSystem {
     /**
      * Creates a new turn system.
@@ -87,7 +88,13 @@ class RoundSystem {
                     }
             
                     // Definisci una velocità di movimento
-                    const speed = 0.01;
+                    console.log(sceneInfo.enemy.meshdata.getNode("Base HumanLLegThigh_051"))
+                    if(sceneInfo.enemy.meshdata.getNode("Base HumanLLegThigh_051").absoluteRotationQuaternion.x >= -0.49550 && 
+                        sceneInfo.enemy.meshdata.getNode("Base HumanLLegThigh_051").absoluteRotationQuaternion.x <= -40.9550){
+                        speed = 0.01;
+                    }else{
+                        speed = 0.0;
+                    }
             
                     // Sposta la mesh lungo la direzione verso la telecamera
                     sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
