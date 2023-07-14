@@ -1,18 +1,10 @@
 export const options = {
-    difficulty: {
-        easy: true,     // Difficulty: easy boolean
-        medium: false,  // Difficulty: medium boolean
-        hard: false,    // Difficulty: hard boolean
-    },
-    map: {
-        first: false,     // Map: 1 boolean
-        second: false,   // Map: 2 boolean
-        third: true     // Map: 3 boolean
-    },
+    difficulty: 1,              // 1 Easy, 2 Medium, 3 Hard
+    map: 1,
     settings: {
         fullscreen: true,
         mb: false,
-        shadows: true,
+        shadows: 0,             // 0 Shadows off, 1 low quality, 2 medium quality, 3 high quality
         sound: true,
         soundPerc: 5,
         sensibility: 4000

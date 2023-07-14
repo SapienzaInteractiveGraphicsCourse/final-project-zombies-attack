@@ -16,6 +16,18 @@ async function createScene(canvas, engine) {
     const adt = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
     const bg = new GUI.Image("bg", "./images/menu-background.jpg");
     adt.addControl(bg);
+    const _bgLoadedPromise = new Promise((resolve, reject)=>{
+        bg.onImageLoadedObservable.add(()=>{
+            resolve();
+        })
+        bg.domImage.onerror = () => {
+            reject();
+        }
+        // safety in case the observable has somehow been notified before this Promise even started
+        if (bg.isLoaded) {
+            resolve();
+        }
+    });
 
     const ui = new GUI.StackPanel();
     adt.addControl(ui);
@@ -88,9 +100,7 @@ async function createScene(canvas, engine) {
     map1Btn.cornerRadius = 2;
     map1Btn.hoverCursor = "pointer";
     map1Btn.onPointerClickObservable.add(function() {
-        options.map.first = true;
-        options.map.second = false;
-        options.map.third = false;
+        options.map = 1;
     });
     selectionGrid.addControl(map1Btn, 1, 0);
 
@@ -103,9 +113,7 @@ async function createScene(canvas, engine) {
     map2Btn.cornerRadius = 2;
     map2Btn.hoverCursor = "pointer";
     map2Btn.onPointerClickObservable.add(function() {
-        options.map.first = false;
-        options.map.second = true;
-        options.map.third = false;
+        options.map = 2;
     });
     selectionGrid.addControl(map2Btn, 2, 0);
 
@@ -118,9 +126,7 @@ async function createScene(canvas, engine) {
     map3Btn.cornerRadius = 2;
     map3Btn.hoverCursor = "pointer";
     map3Btn.onPointerClickObservable.add(function() {
-        options.map.first = false;
-        options.map.second = false;
-        options.map.third = true;
+        options.map = 3;
     });
     selectionGrid.addControl(map3Btn, 3, 0);
 
@@ -139,12 +145,16 @@ async function createScene(canvas, engine) {
 
     //Attaching the panel to the grid on row #1 and column #0 cell
     grid.addControl(selectionGrid, 1, 0);
+    
+    scene.loadedPromise = Promise.all([
+        _bgLoadedPromise,
+    ]);
 
     // update button colors based on option choice
     scene.onBeforeRenderObservable.add(() => {
-        map1Btn.alpha = options.map.first ? 1.0 : 0.6;
-        map2Btn.alpha = options.map.second ? 1.0 : 0.6;
-        map3Btn.alpha = options.map.third ? 1.0 : 0.6;
+        map1Btn.alpha = options.map === 1 ? 1.0 : 0.6;
+        map2Btn.alpha = options.map === 2 ? 1.0 : 0.6;
+        map3Btn.alpha = options.map === 3 ? 1.0 : 0.6;
     })
 
     return scene;

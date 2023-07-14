@@ -16,6 +16,18 @@ async function createScene(canvas, engine) {
     const adt = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
     const bg = new GUI.Image("bg", "./images/menu-background.jpg");
     adt.addControl(bg);
+    const _bgLoadedPromise = new Promise((resolve, reject)=>{
+        bg.onImageLoadedObservable.add(()=>{
+            resolve();
+        })
+        bg.domImage.onerror = () => {
+            reject();
+        }
+        // safety in case the observable has somehow been notified before this Promise even started
+        if (bg.isLoaded) {
+            resolve();
+        }
+    });
 
     const ui = new GUI.StackPanel();
     adt.addControl(ui);
@@ -88,9 +100,7 @@ async function createScene(canvas, engine) {
     easyBtn.cornerRadius = 2;
     easyBtn.hoverCursor = "pointer";
     easyBtn.onPointerClickObservable.add(function() {
-        options.difficulty.easy = true;
-        options.difficulty.medium = false;
-        options.difficulty.hard = false;
+        options.difficulty = 1;
     });
     selectionGrid.addControl(easyBtn, 1, 0);
 
@@ -103,9 +113,7 @@ async function createScene(canvas, engine) {
     mediumBtn.cornerRadius = 2;
     mediumBtn.hoverCursor = "pointer";
     mediumBtn.onPointerClickObservable.add(function() {
-        options.difficulty.easy = false;
-        options.difficulty.medium = true;
-        options.difficulty.hard = false;
+        options.difficulty = 2;
     });
     selectionGrid.addControl(mediumBtn, 2, 0);
 
@@ -118,9 +126,7 @@ async function createScene(canvas, engine) {
     hardBtn.cornerRadius = 2;
     hardBtn.hoverCursor = "pointer";
     hardBtn.onPointerClickObservable.add(function() {
-        options.difficulty.easy = false;
-        options.difficulty.medium = false;
-        options.difficulty.hard = true;
+        options.difficulty = 3;
     });
     selectionGrid.addControl(hardBtn, 3, 0);
 
@@ -140,11 +146,18 @@ async function createScene(canvas, engine) {
     //Attaching the panel to the grid on row #1 and column #0 cell
     grid.addControl(selectionGrid, 1, 0);
 
+    // NEW ATTRIBUTE
+    // A Promise that resolves when everything in the scene has been loaded properly,
+    // meaning that the SceneManager is free to remove any loading screens it may have activated.
+    scene.loadedPromise = Promise.all([
+        _bgLoadedPromise,
+    ]);
+
     // update button colors based on option choice
     scene.onBeforeRenderObservable.add(() => {
-        easyBtn.alpha = options.difficulty.easy ? 1.0 : 0.6;
-        mediumBtn.alpha = options.difficulty.medium ? 1.0 : 0.6;
-        hardBtn.alpha = options.difficulty.hard ? 1.0 : 0.6;
+        easyBtn.alpha = options.difficulty === 1 ? 1.0 : 0.6;
+        mediumBtn.alpha = options.difficulty === 2 ? 1.0 : 0.6;
+        hardBtn.alpha = options.difficulty === 3 ? 1.0 : 0.6;
     })
 
     return scene;

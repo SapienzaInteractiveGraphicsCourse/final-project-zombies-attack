@@ -33,7 +33,6 @@ async function loadAsync(scene) {
             faceUV[i] = new Vector4(0, 0, 0, 0);
         }
         faceUV[0] = new Vector4(0, 0, 1, 1);
-        faceUV[1] = new Vector4(0, 0, 1, 1);
 
         const panel = MeshBuilder.CreateBox("boundingBoxMesh", {
             width: 1,

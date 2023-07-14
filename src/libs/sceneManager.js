@@ -12,7 +12,6 @@ class SceneManager {
     }
 
     gotoScene(sceneBuilder, loadingText = "Now Loading...") {
-        console.log(sceneBuilder)
         if (this.activeScene) {
             this.activeScene.dispose();
             this.activeScene = undefined;
@@ -21,10 +20,15 @@ class SceneManager {
         this.engine.loadingUIText = loadingText;
         this.engine.displayLoadingUI();
         sceneBuilder.createScene(this.canvas, this.engine).then((scene) => {
-            console.log(scene)
             this.activeScene = scene;
             this.activeSceneBuilder = sceneBuilder;
-            this.engine.hideLoadingUI();
+            scene.loadedPromise.then(() => {
+                this.engine.hideLoadingUI();
+            }).catch(()=>{
+                // make sure that even on an error the game doesn't get stuck on the loading screen forever
+                console.log("Something happened while loading, the console should have reported the error on its own")
+                this.engine.hideLoadingUI();
+            })
         })
     }
 
@@ -39,7 +43,13 @@ class SceneManager {
         tpDest.sceneBuilder.createScene(this.canvas, this.engine, tpDest.position, tpDest.target, tpDest.gunshot).then((scene) => {
             this.activeScene = scene;
             this.activeSceneBuilder = tpDest.sceneBuilder;
-            this.engine.hideLoadingUI();
+            scene.loadedPromise.then(() => {
+                this.engine.hideLoadingUI();
+            }).catch(()=>{
+                // make sure that even on an error the game doesn't get stuck on the loading screen forever
+                console.log("Something happened while loading, the console should have reported the error on its own")
+                this.engine.hideLoadingUI();
+            })
         })
     }
 

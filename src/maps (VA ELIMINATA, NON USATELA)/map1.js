@@ -558,8 +558,8 @@ function createInvWalls(scene) {
   }
 }
 
-const map1Builder = {
+const test = {
   map1,
 }
 
-export default map1Builder
+export default test

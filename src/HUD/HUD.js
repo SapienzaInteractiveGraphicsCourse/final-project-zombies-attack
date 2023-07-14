@@ -89,6 +89,18 @@ function createHUD(sceneInfo) {
     gunIcon.height = "120px";
     gunIcon.horizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT;
     iconsGrid.addControl(gunIcon, 1, 0);
+    const _gunLoadedPromise = new Promise((resolve, reject) => {
+        gunIcon.onImageLoadedObservable.add(() => {
+            resolve();
+        })
+        gunIcon.domImage.onerror = () => {
+            reject();
+        }
+        // safety in case the observable has somehow been notified before this Promise even started
+        if (gunIcon.isLoaded) {
+            resolve();
+        }
+    })
 
     const ammoIcon = new GUI.Image("gun", "./images/ammo_icon.png");
     ammoIcon.alpha = 0.7;
@@ -100,6 +112,19 @@ function createHUD(sceneInfo) {
     iconsGrid.addControl(ammoIcon, 2, 0);
 
     gunGrid.addControl(iconsGrid, 1, 0);
+
+    const _ammoLoadedPromise = new Promise((resolve, reject) => {
+        ammoIcon.onImageLoadedObservable.add(() => {
+            resolve();
+        })
+        ammoIcon.domImage.onerror = () => {
+            reject();
+        }
+        // safety in case the observable has somehow been notified before this Promise even started
+        if (ammoIcon.isLoaded) {
+            resolve();
+        }
+    })
 
     const ammoGrid = new GUI.Grid();
     ammoGrid.addColumnDefinition(1);
@@ -123,6 +148,14 @@ function createHUD(sceneInfo) {
     ammoGrid.addControl(magazines, 2, 0)
     
     gunGrid.addControl(ammoGrid, 1, 1);
+
+    // NEW ATTRIBUTE
+    // A Promise that resolves when everything in the UI has been loaded properly,
+    // meaning that the scene can consider it loaded.
+    adt.loadedPromise = Promise.all([
+        _gunLoadedPromise,
+        _ammoLoadedPromise,
+    ]);
 
     sceneInfo.scene.onBeforeRenderObservable.add(() => {
         //update HP and charge of the characters

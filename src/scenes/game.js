@@ -1,42 +1,26 @@
 import {
     Scene,
     Vector3,
-    CubeTexture,
     MeshBuilder,
     UniversalCamera,
-    SceneLoader,
     PBRMaterial,
-    Mesh,
     Texture,
-    Ray,
     Sound,
-    Engine,
-    Axis,
-    Space,
-    StandardMaterial,
-    Color3,
-    Quaternion,
     MotionBlurPostProcess,
-    DirectionalLight,
-    ShadowGenerator,
     HavokPlugin
-
 } from "@babylonjs/core";
 import HavokPhysics from "@babylonjs/havok"
-import * as GUI from "@babylonjs/gui";
 import "@babylonjs/loaders";
-import { shotAnimation } from '../models/gun/animations/gunShot'
 import { options } from "../options";
+import gun from "../models/gun/gun";
 import enemy from "../models/zombie/zombie";
 import ammoBox from "../models/ammoBox/ammoBox";
 import hud from "../HUD/HUD";
-import gunanims from "../models/gun/animations/gunReload";
 import { RoundSystem } from "../libs/roundSystem";
-import map1Builder from "./map1";
-import map2Builder from "./map2";
-import map3Builder from "./map3";
-
-let isReloading = false;
+import map1Builder from "../maps/map1";
+import map2Builder from "../maps/map2";
+import map3Builder from "../maps/map3";
+import keys from "../libs/keys";
 
 async function createScene(canvas, engine) {
   const scene = new Scene(engine);
@@ -57,15 +41,6 @@ async function createScene(canvas, engine) {
       }
   }
 
- /*  var music = new Sound("song1", "./sounds/song1.mp3", scene, null, {
-    loop: true,
-    autoplay: true,
-    volume: 0.01
-  });
-  music.play(); */
-
-  HandleControl(engine)
-
   const gravity = new Vector3(0, -10, 0);
   const hk = await HavokPhysics();
   const babylonPlugin =  new HavokPlugin(true, hk);
@@ -73,17 +48,12 @@ async function createScene(canvas, engine) {
 
   scene.collisionsEnabled = true;
 
-  /*const envTex = CubeTexture.CreateFromPrefilteredData('./environment/environment.env', scene)
-  scene.environmentTexture = envTex 
-
-  scene.createDefaultSkybox(envTex, true)*/
-
   const camera = CreateController(scene)
-  const gun = await LoadGun(scene, camera)
 
   // Load all meshes
   await Promise.all([
-    //enemy.loadAsync(scene),
+    gun.loadAsync(scene, camera),
+    enemy.loadAsync(scene),
     ammoBox.loadAsync(scene)
   ]);
 
@@ -119,8 +89,8 @@ async function createScene(canvas, engine) {
   var gameHUD = hud.createHUD(sceneInfo);
   sceneInfo.hud = gameHUD;
 
-  Shot(sceneInfo, camera, gun)
-  reload(sceneInfo)
+  gun.shot(sceneInfo)
+  keys.handleKeys(sceneInfo)
 
   if (options.settings.mb) {
     var motionblur = new MotionBlurPostProcess(
@@ -133,6 +103,10 @@ async function createScene(canvas, engine) {
 
   ammoBox.float(ammoBox)
   scene.getAnimationGroupByName("float").play(true);
+
+  scene.loadedPromise = Promise.all([
+    gameHUD.loadedPromise,
+  ]);
   
   return scene;
 }
@@ -148,37 +122,20 @@ async function CreateEnvironment(sceneInfo, enemy) {
 
   ground.checkCollisions = true;
 
-  if(options.map.first){
+  if(options.map === 1){
     map1Builder.map1(sceneInfo, enemy);
     ground.material = CreateAsphalt(sceneInfo.scene)
   }
-  else if(options.map.second){
+  else if(options.map === 2){
     map2Builder.map2(sceneInfo, enemy);
     ground.material = CreateAsphalt(sceneInfo.scene)
   }
-  else if(options.map.third){
+  else if(options.map === 3){
     map3Builder.map3(sceneInfo, enemy);
     ground.material = CreateSand(sceneInfo.scene)
   }
   
 }
-
-/* function CreateGrass(scene) {
-  const pbr = new PBRMaterial('pbr', scene)
-  pbr.albedoTexture = new Texture('./textures/grass/grass_diffuse.jpg', scene)
-
-  pbr.bumpTexture = new Texture('./textures/grass/grass_normal.jpg', scene)
-  pbr.invertNormalMapX = true
-  pbr.invertNormalMapY = true
-
-  pbr.useAmbientOcclusionFromMetallicTextureRed = true
-  pbr.useRoughnessFromMetallicTextureGreen = true
-  pbr.useMetallnessFromMetallicTextureBlue = true
-
-  pbr.metallicTexture = new Texture('./textures/grass/grass_ao.jpg', scene)
-
-  return pbr
-} */
 
 function CreateAsphalt(scene) {
   const pbr = new PBRMaterial('pbr', scene)

@@ -16,6 +16,18 @@ async function createScene(canvas, engine) {
     const adt = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
     const bg = new GUI.Image("bg", "./images/menu-background.jpg");
     adt.addControl(bg);
+    const _bgLoadedPromise = new Promise((resolve, reject)=>{
+        bg.onImageLoadedObservable.add(()=>{
+            resolve();
+        })
+        bg.domImage.onerror = () => {
+            reject();
+        }
+        // safety in case the observable has somehow been notified before this Promise even started
+        if (bg.isLoaded) {
+            resolve();
+        }
+    });
 
     const ui = new GUI.StackPanel();
     adt.addControl(ui);
@@ -240,11 +252,15 @@ async function createScene(canvas, engine) {
     });
     grid.addControl(backBtn, 4, 0);
 
+    scene.loadedPromise = Promise.all([
+        _bgLoadedPromise,
+    ]);
+
     // update button colors based on option choice
     scene.onBeforeRenderObservable.add(() => {
         fullscreenBtn.textBlock.text = options.settings.fullscreen ? "FULLSCREEN" : "WINDOWED";
         mbBtn.alpha = options.settings.mb ? 1.0 : 0.6;
-        shadowsBtn.alpha = options.settings.shadows ? 1.0 : 0.6;
+        shadowsBtn.alpha = options.settings !== 0 ? 1.0 : 0.6;
         soundBtn.alpha = options.settings.sound ? 1.0 : 0.6;
         soundSlider.value = options.settings.soundPerc
         sensSlider.value = options.settings.sensibility

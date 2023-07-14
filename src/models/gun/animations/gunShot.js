@@ -24,7 +24,7 @@ export function shotAnimation(scene, camera, gun) {
     });
 
     shot.setKeys(shot_keys);
-    gun.animations.push(shot)
+    gun.mesh.animations.push(shot)
 
-    scene.beginAnimation(gun, 0, 2 * frameRate, true);
+    scene.beginAnimation(gun.mesh, 0, 2 * frameRate, true);
 }

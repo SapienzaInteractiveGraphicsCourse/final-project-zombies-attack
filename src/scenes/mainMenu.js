@@ -8,7 +8,10 @@ import * as GUI from "@babylonjs/gui";
 import difficultyMenuBuilder from "./difficultyMenu";
 import mapsMenuBuilder from "./mapsMenu";
 import settingsMenuBuilder from "./settingsMenu"
-import gameBuilder from "./game"
+import { options } from "../options";
+import map1Builder from "./maps/map1";
+import map2Builder from "./maps/map2";
+import map3Builder from "./maps/map3";
 
 async function createScene(canvas, engine) {
     const scene = new Scene(engine);
@@ -18,6 +21,18 @@ async function createScene(canvas, engine) {
     const adt = GUI.AdvancedDynamicTexture.CreateFullscreenUI("UI", true, scene);
     const bg = new GUI.Image("bg", "./images/menu-background.jpg");
     adt.addControl(bg);
+    const _bgLoadedPromise = new Promise((resolve, reject)=>{
+        bg.onImageLoadedObservable.add(()=>{
+            resolve();
+        })
+        bg.domImage.onerror = () => {
+            reject();
+        }
+        // safety in case the observable has somehow been notified before this Promise even started
+        if (bg.isLoaded) {
+            resolve();
+        }
+    });
 
     const ui = new GUI.StackPanel();
     adt.addControl(ui);
@@ -61,7 +76,6 @@ async function createScene(canvas, engine) {
     selectionGrid.addRowDefinition(100, true);
     selectionGrid.addRowDefinition(100, true);
     selectionGrid.addRowDefinition(100, true);
-    selectionGrid.addRowDefinition(100, true);
     selectionGrid.addRowDefinition(1);
 
     const playBtn = GUI.Button.CreateSimpleButton("playBtn", "PLAY");
@@ -73,12 +87,27 @@ async function createScene(canvas, engine) {
     playBtn.cornerRadius = 2;
     playBtn.hoverCursor = "pointer";
     playBtn.onPointerClickObservable.add(function() {
-        SceneManagerInstance.gotoSceneGame(
-            {
-                sceneBuilder: gameBuilder,
+        if (options.map === 1) {
+            SceneManagerInstance.gotoSceneGame({
+                sceneBuilder: map1Builder,
                 position: new Vector3(28*6, 2, 12*6),
                 target: new Vector3(10*6, 0, 12*6),
             });
+        }
+        else if (options.map === 2) {
+            SceneManagerInstance.gotoSceneGame({
+                sceneBuilder: map2Builder,
+                position: new Vector3(28*6, 2, 12*6),
+                target: new Vector3(10*6, 0, 12*6),
+            });
+        }
+        else if (options.map === 3) {
+            SceneManagerInstance.gotoSceneGame({
+                sceneBuilder: map3Builder,
+                position: new Vector3(28*6, 2, 12*6),
+                target: new Vector3(10*6, 0, 12*6),
+            });
+        }
     });
     selectionGrid.addControl(playBtn, 1, 0);
 
@@ -122,18 +151,15 @@ async function createScene(canvas, engine) {
     });
     selectionGrid.addControl(settingsBtn, 4, 0);
 
-    const scoreBtn = GUI.Button.CreateSimpleButton("playBtn", "SCOREBOARD");
-    scoreBtn.height = "80%";
-    scoreBtn.color = "white";
-    scoreBtn.fontSize = "32px";
-    scoreBtn.background = "grey";
-    scoreBtn.thickness = 0;
-    scoreBtn.cornerRadius = 2;
-    scoreBtn.hoverCursor = "pointer";
-    selectionGrid.addControl(scoreBtn, 5, 0);
-
     //Attaching the panel to the grid on row #1 and column #0 cell
     grid.addControl(selectionGrid, 1, 0);
+
+    // NEW ATTRIBUTE
+    // A Promise that resolves when everything in the scene has been loaded properly,
+    // meaning that the SceneManager is free to remove any loading screens it may have activated.
+    scene.loadedPromise = Promise.all([
+        _bgLoadedPromise,
+    ]);
 
     return scene;
 }

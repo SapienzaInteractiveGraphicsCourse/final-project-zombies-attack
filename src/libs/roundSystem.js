@@ -90,7 +90,6 @@ class RoundSystem {
                     // Definisci una velocità di movimento
                     const speed = 0.01;
 
-            
                     // Sposta la mesh lungo la direzione verso la telecamera
                     sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
                     sceneInfo.enemy.meshdata.mesh.position.y = 0;
