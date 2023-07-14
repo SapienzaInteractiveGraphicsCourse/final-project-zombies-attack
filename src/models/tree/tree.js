@@ -23,7 +23,7 @@ function addClone(position, scaling, rotation) {
         console.error("You have to load first!");
     }
 
-    var newClone = mesh.clone("tomb1");
+    var newClone = mesh.clone("tree");
     newClone.setEnabled(true);
 
     newClone.position = position;

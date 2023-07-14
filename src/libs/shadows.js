@@ -27,11 +27,13 @@ function createAmbientLight(scene) {
 
 function createDirectionalLight(scene, shadowcasters = []) {
     // create a directional light
-    var light = new DirectionalLight("light", new Vector3(-0.5, -1, -0.3), scene);
+    var light = new DirectionalLight("light", new Vector3(-1, -2, -1), scene);
     // these ruins aren't brightly lit: set a lower intensity...
     light.intensity = DEFAULT_AMBIENT_INTENSITY;
     // ...and a dimmer diffuse color, so we can darken the dungeon a bit further w/o dimming specular reflections too much
     light.diffuse = new Color3(0.8, 0.8, 0.8);
+    light.position = new Vector3(20, 40, 20)
+    light.shadowEnabled = true;
 
     if (options.shadows != 0) {
         let resolution;
@@ -49,10 +51,10 @@ function createDirectionalLight(scene, shadowcasters = []) {
             }
         const shadowgen = new ShadowGenerator(resolution, light);
         shadowcasters.forEach(element => {
-            shadowgen.addShadowCaster(element, true);
+            shadowgen.addShadowCaster(element);
         });
 
-        shadowgen.setDarkness(-100.0);
+        shadowgen.setDarkness(-10.0);
         shadowgen.useContactHardeningShadow = true;
         shadowgen.useExponentialShadowMap = true;
         shadowgen.usePoissonSampling = true;

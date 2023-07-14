@@ -121,18 +121,7 @@ async function createScene(canvas, engine) {
     createEnvironment(sceneInfo)
 
     createInvWalls(sceneInfo.scene)
-
-    shadows.createAmbientLight(scene);
-    shadows.createDirectionalLight(scene, [
-        enemy.meshdata.mesh,
-        ...tomb1.clones,
-        ...tomb2.clones,
-        ...trees1.clones,
-        ...tree.clones,
-        ...trees2.clones,
-        ...statue.clones,
-        ...fence.clones
-    ]);
+    
   
     // Create the GUI for this scene
     var gameHUD = hud.createHUD(sceneInfo);
@@ -160,26 +149,26 @@ async function createScene(canvas, engine) {
     tomb1.addClone(new Vector3(-35, 0.2, -27), new Vector3(0.003, 0.003, 0.003), new Vector3(0, Math.PI * 0.27, 0));
     tomb1.addClone(new Vector3(-36, 0.2 , -20), new Vector3(0.003, 0.003, 0.003), new Vector3(0, Math.PI * 0.47, 0));
 
-    tomb2.addClone(new Vector3(33, 0.2, -16), new Vector3(0.003, 0.003, 0.003), new Vector3(0, Math.PI, 0));
     tomb2.addClone(new Vector3(-45, 0.2, -15), new Vector3(0.003, 0.003, 0.003), new Vector3(0, Math.PI * 0.8, 0));
     tomb2.addClone(new Vector3(-39 , 0.2 , -10), new Vector3(0.003, 0.003, 0.003), new Vector3(0, Math.PI * 0.8, 0));
     tomb2.addClone(new Vector3(-39, 0.2, -30), new Vector3(0.003, 0.003, 0.003), new Vector3(0, Math.PI * 0.8, 0));
 
-    tree.addClone(new Vector3(45, 0.3, -30), new Vector3(0.015, 0.015, 0.015), new Vector3(0,  Math.PI * 0.4, 0));
-    tree.addClone(new Vector3(-45, 0.2, -15), new Vector3(0.015, 0.015, 0.015), new Vector3(0, 0, 0));
-    tree.addClone(new Vector3(20 , 0.3, -40), new Vector3(0.015, 0.015, 0.015), new Vector3(0, 0, 0));
-    tree.addClone(new Vector3(-45, 0.3, -10), new Vector3(0.015, 0.015, 0.015), new Vector3(0, -Math.PI * 0.4, 0));
-    tree.addClone(new Vector3(-45, 0.3, -30), new Vector3(0.015, 0.015, 0.015), new Vector3(0, -Math.PI * 0.5, 0));
-    tree.addClone(new Vector3(-45 , 0.3, -30), new Vector3(0.015, 0.015, 0.015), new Vector3(0, -Math.PI * 0.5, 0));
+    trees1.addClone(new Vector3(45, 0.3, -30), new Vector3(0.015, 0.015, 0.015), new Vector3(0,  Math.PI * 0.4, 0));
+    trees1.addClone(new Vector3(-20, 0.3, -40), new Vector3(0.015, 0.015, 0.015), new Vector3(0, 0, 0));
+    trees1.addClone(new Vector3(20 , 0.3, -40), new Vector3(0.015, 0.015, 0.015), new Vector3(0, 0, 0));
+    trees1.addClone(new Vector3(-45, 0.3, -10), new Vector3(0.015, 0.015, 0.015), new Vector3(0, -Math.PI * 0.4, 0));
+    trees1.addClone(new Vector3(-45, 0.3, -30), new Vector3(0.015, 0.015, 0.015), new Vector3(0, -Math.PI * 0.5, 0));
 
-    trees2.addClone(new Vector3(45, 0.3, -21), new Vector3(0.005 , 0.005, 0.005), new Vector3(0, 0, Math.PI * 0.008));
-    trees2.addClone(new Vector3(-43 , 0.3, -43), new Vector3(0.005 , 0.005, 0.005), new Vector3(0, Math.PI*0.5, Math.PI*0.008));
-    trees2.addClone(new Vector3(-38 , 0.3, -24), new Vector3(0.005 , 0.005, 0.005), new Vector3( 0 ,  Math.PI*0.2 , Math.PI*0.008));
-    trees2.addClone(new Vector3(-45 , 0.3, -30), new Vector3(0.005 , 0.005, 0.005), new Vector3(0, -Math.PI * 0.5, 0));
+    trees2.addClone(new Vector3(-43 , 0.3, -43), new Vector3(0.005 , 0.005, 0.005), new Vector3(0, Math.PI*0.5, Math.PI * 0.008));
+    trees2.addClone(new Vector3(-38 , 0.3, -24), new Vector3(0.005 , 0.005, 0.005), new Vector3(0, Math.PI*0.2, Math.PI * 0.008));
+    trees2.addClone(new Vector3(40 , 0.3, -31), new Vector3(0.005 , 0.005, 0.005), new Vector3(0, -Math.PI * 0.6, Math.PI * 0.008));
 
-    trees1.addClone(new Vector3(44 , 0.2, -42), new Vector3(0.017 , 0.017, 0.017), new Vector3(-Math.PI * 0.05, Math.PI * 0.5, 0));
+    tree.addClone(new Vector3(44 , 0.2, -42), new Vector3(0.017 , 0.017, 0.017), new Vector3(-Math.PI * 0.05, Math.PI * 0.5, 0));
+  
 
     statue.addClone(new Vector3(-8.5, 1.8, -46), new Vector3(3, 3, 3), new Vector3(0, 0, 0));
+
+    console.log(...tomb1.clones)
 
     for(var i = 1 ; i < 7 ; i++){
         if (i !== 1) {
@@ -196,6 +185,24 @@ async function createScene(canvas, engine) {
 
         fence.addClone(new Vector3(2-(8*i), 2, -49), new Vector3(4, 4, 4));
     }
+
+    shadows.createDirectionalLight(scene, [
+      enemy.meshdata.mesh,
+      ...tomb1.clones,
+      ...tomb2.clones,
+      ...trees1.clones,
+      ...tree.clones,
+      ...trees2.clones,
+      ...statue.clones,
+      ...fence.clones,
+      tomb1.mesh,
+      tomb2.mesh,
+      trees1.mesh,
+      tree.mesh,
+      trees2.mesh,
+      statue.mesh,
+      fence.mesh
+  ]);
 
     return scene;
 }
