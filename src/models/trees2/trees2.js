@@ -15,10 +15,32 @@ async function loadAsync(scene) {
     });
 }
 
+function addClone(position, scaling, rotation) {
+
+    let mesh = trees2.mesh;
+
+    if (!mesh) {
+        console.error("You have to load first!");
+    }
+
+    var newClone = mesh.clone("tomb1");
+    newClone.setEnabled(true);
+
+    newClone.position = position;
+
+    newClone.scaling = scaling;
+
+    newClone.rotation = rotation;
+
+    trees2.clones.push(newClone)
+}
+
 const trees2 = {
     meshes: undefined,
     mesh: undefined,
     loadAsync,
+    addClone,
+    clones: []
 };
 
 export default trees2;

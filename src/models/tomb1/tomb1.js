@@ -15,10 +15,33 @@ async function loadAsync(scene) {
     });
 }
 
+function addClone(position, scaling, rotation) {
+
+    let mesh = tomb1.mesh;
+
+    if (!mesh) {
+        console.error("You have to load first!");
+    }
+
+    var newClone = mesh.clone("tomb1");
+    newClone.setEnabled(true);
+
+    newClone.position = position;
+
+    newClone.scaling = scaling;
+
+    newClone.rotation = rotation;
+
+
+    tomb1.clones.push(newClone)
+}
+
 const tomb1 = {
     meshes: undefined,
     mesh: undefined,
     loadAsync,
+    addClone,
+    clones: []
 };
 
 export default tomb1;

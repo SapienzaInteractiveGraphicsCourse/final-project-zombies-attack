@@ -151,8 +151,6 @@ async function map1(sceneInfo){
   treesClone23.scaling = new Vector3(0.015 , 0.015, 0.015);
   treesClone23.rotation = new Vector3( 0 ,  0 , 0);
 
-
-
   const trees2 = await LoadTrees2(sceneInfo.scene);
   trees2.position = new Vector3(45 , 0.3, -21);
   trees2.scaling = new Vector3(0.005 , 0.005, 0.005);

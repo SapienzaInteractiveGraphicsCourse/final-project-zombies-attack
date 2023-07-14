@@ -41,6 +41,8 @@ async function createScene(canvas, engine) {
       }
   }
 
+  HandleControl(engine)
+
   const gravity = new Vector3(0, -10, 0);
   const hk = await HavokPhysics();
   const babylonPlugin =  new HavokPlugin(true, hk);
@@ -52,19 +54,18 @@ async function createScene(canvas, engine) {
 
   // Load all meshes
   await Promise.all([
-    gun.loadAsync(scene, camera),
     enemy.loadAsync(scene),
     ammoBox.loadAsync(scene)
   ]);
 
   // For every mesh component, check collisions
-  /* enemy.meshdata.meshes.forEach((mesh) => {
+  enemy.meshdata.meshes.forEach((mesh) => {
     mesh.checkCollisions = true;
-  }) */
+  }) 
 
   // Create the turn system for this battle
   const round = new RoundSystem();
-
+  
   const sceneInfo = {
     player: {
       hp: 100,
@@ -322,7 +323,7 @@ function CheckShot(sceneInfo, camera, gun, blood, bodyFall) {
   const ray = new Ray(origin, forward, 200);
   
   const hit = sceneInfo.scene.pickWithRay(ray, (mesh) => {
-    return mesh.name.match(/^hitbox+/) !== null;
+    return mesh.name.match(/hitbox+/) !== null;
   });
 
   if(sceneInfo.enemy.hp > 0){
@@ -354,18 +355,47 @@ function CheckShot(sceneInfo, camera, gun, blood, bodyFall) {
           //enemy.meshdata = false;
           sceneInfo.player.pts += 100;
           setTimeout(() => {
-            mesh.dispose();
-          }, 1000);
-           // Dispose the mesh after 1s when the death animation has finished
+            generateEnemy(sceneInfo);
+          }, 1000);// Dispose the mesh after 1s when the death animation has finished
         })
-        
-        
-        
         
       }
     }
   }
 }
+
+function generateEnemy(sceneInfo) {
+  // Create and initialize the enemy mesh
+  const oldEnemy = sceneInfo.enemy;
+  console.log(oldEnemy)
+  // Create a new instance of the enemy mesh
+  const newEnemy = {};
+  newEnemy.mesh = sceneInfo.enemy.meshdata.mesh.clone();
+  newEnemy.skeleton = sceneInfo.enemy.meshdata.skeleton.clone();
+  oldEnemy.meshdata.mesh.dispose(); // Dispose of the old enemy mesh
+  oldEnemy.meshdata.mesh = newEnemy.mesh; // Assign the cloned mesh to the enemy
+  oldEnemy.skeleton = newEnemy.skeleton;
+
+  // Set the properties of the new enemy
+  oldEnemy.hp = 100 * (level + 1); // Set the initial HP for the new enemy
+  oldEnemy.damage = sceneInfo.enemy.damage + 5; // Set the damage of the new enemy
+
+  const newHitbox = MeshBuilder.CreateBox("hitbox", { width: 2, height: 4, depth: 2 }, sceneInfo.scene);
+  newHitbox.isVisible = false;
+  newHitbox.parent = oldEnemy.mesh;
+  oldEnemy.hitbox = newHitbox;
+
+  // Add the new enemy to the scene
+  sceneInfo.enemy = oldEnemy;
+  
+  sceneInfo.enemy.sceneSpecificInit(sceneInfo);
+  sceneInfo.scene.getAnimationGroupByName("death").stop()
+  sceneInfo.scene.getAnimationGroupByName("walk").play(true);
+  sceneInfo.enemy.position = new Vector3(0, 0, 0);
+  console.log(oldEnemy)
+  level += 1; // Increment the level
+}
+
 
 function HandleControl(engine) {
   // Event listener when the pointerlock is updated (or removed by pressing ESC for example).
@@ -432,12 +462,5 @@ function reload(sceneInfo) {
 const sceneBuilder = {
     createScene,
 }
-
-
-
-
-
-
-
 
 export default sceneBuilder;

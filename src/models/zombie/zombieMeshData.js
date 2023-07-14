@@ -12,9 +12,10 @@ import {
     Quaternion
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
+import "babylonjs-viewer";
 import { RotationFromDegrees } from "../../libs/angles";
 import { getSize } from "../../libs/dimension";
-
+import {Debug} from "@babylonjs/inspector"
 // list of bones to save in the bonesDict.
 const bonesOfInterest = [
     // root (~center)
@@ -169,6 +170,7 @@ async function _loadMesh(scene) {
         zombie.meshes = result.meshes;
         zombie.mesh = mesh;
         zombie.skeleton = skeleton;
+		
 
         // Print bone names for debugging
         skeleton.bones.forEach((bone, index) => {
@@ -182,7 +184,7 @@ async function _loadMesh(scene) {
                     let hitbox = MeshBuilder.CreateBox(`hitbox ${hitBone.name}`, {width: hitBone.width, height: hitBone.height, depth: hitBone.depth}, scene);
                     hitbox.material = new StandardMaterial("std", scene);
                     hitbox.material.wireframe = true;
-                    hitbox.isVisible = false;
+                    hitbox.isVisible = true;
 
                     let headBoneIndex = skeleton.getBoneIndexByName(bone.name);
                     if (headBoneIndex !== -1) {

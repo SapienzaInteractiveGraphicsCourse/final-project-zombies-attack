@@ -41,10 +41,42 @@ async function loadAsync(scene) {
     });
 }
 
+function addClone(position, scaling, rotation = new Vector3(0, 0, 0)) {
+
+    let mesh = fence.mesh;
+    let wall = fence.meshes[8];
+    
+
+    if (!mesh) {
+        console.error("You have to load first!");
+    }
+
+    var newClone = mesh.clone("fence");
+    var newCloneWall = wall.clone("wall");
+    newClone.setEnabled(true);
+    newCloneWall.setEnabled(true);
+
+    newCloneWall.position = position;
+
+    newCloneWall.scaling = scaling;
+
+    newCloneWall.rotation = rotation;
+
+    newClone.position = position;
+
+    newClone.scaling = scaling;
+
+    newClone.rotation = rotation;
+
+    fence.clones.push(newClone)
+}
+
 const fence = {
     meshes: undefined,
     mesh: undefined,
     loadAsync,
+    addClone,
+    clones: []
 };
 
 export default fence;

@@ -21,6 +21,16 @@ const frameRate = 60;
 const walkEase = new PowerEase(1.3);
 walkEase.setEasingMode(EasingFunction.EASINGMODE_EASEINOUT);
 
+const _animWalk_pelvis_1_bab = new Animation("animWalk_pelvis_1", "rotationQuaternion", frameRate, Animation.ANIMATIONTYPE_QUATERNION, Animation.ANIMATIONLOOPMODE_CONSTANT);
+_animWalk_pelvis_1_bab.setEasingFunction(walkEase);
+const _animWalk_pelvis_1_keys = [
+    {
+        frame: _animWalk_frames[0],
+        value: Quaternion.FromEulerVector(RotationFromDegrees(0.0, 90.1999, 0.0))
+    }
+];
+_animWalk_pelvis_1_bab.setKeys(_animWalk_pelvis_1_keys);
+
 const _animWalk_meshY_bab = new Animation("animWalk_meshY", "position.y", frameRate, Animation.ANIMATIONTYPE_FLOAT, Animation.ANIMATIONLOOPMODE_CYCLE);
 _animWalk_meshY_bab.setEasingFunction(walkEase);
 const _animWalk_meshY_keys = [
@@ -388,6 +398,7 @@ function walk(meshdata) {
     const animationGroup = new AnimationGroup("walk");
 
     animationGroup.addTargetedAnimation(_animWalk_meshY_bab, meshdata.mesh);
+    animationGroup.addTargetedAnimation(_animWalk_pelvis_1_bab, meshdata.getNode("Base HumanPelvis_01"));
 
     animationGroup.addTargetedAnimation(_animWalk_spine_1_bab, meshdata.getNode("Base HumanSpine1_06"));
     animationGroup.addTargetedAnimation(_animWalk_spine_2_bab, meshdata.getNode("Base HumanSpine2_00"));
