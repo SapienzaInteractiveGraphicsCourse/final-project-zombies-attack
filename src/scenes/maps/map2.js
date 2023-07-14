@@ -20,16 +20,14 @@ import { RotationFromDegrees } from "../../libs/angles";
 import gun from "../../models/gun/gun";
 import enemy from "../../models/zombie/zombie";
 import ammoBox from "../../models/ammoBox/ammoBox";
-import fence from "../../models/fence/fence";
-import tomb1 from "../../models/tomb1/tomb1";
-import tomb2 from "../../models/tomb2/tomb2";
-import mausoleum from "../../models/mausoleum/mausoleum";
-import statue from "../../models/statue/statue";
-import centergraves from "../../models/centergraves/centergraves";
-import grass from "../../models/grass/grass";
-import trees1 from "../../models/trees1/trees1";
-import trees2 from "../../models/trees2/trees2";
-import tree from "../../models/tree/tree";
+import building from "../../models/building/building";
+import car1 from "../../models/car1/car1";
+import car2 from "../../models/car2/car2";
+import cars from "../../models/cars/cars";
+import slide from "../../models/slide/slide";
+import stall from "../../models/stall/stall";
+import streetLamp from "../../models/streetLamp/streetLamp";
+import barrier from "../../models/barrier/barrier";
 
   
 async function createScene(canvas, engine) {
@@ -77,16 +75,15 @@ async function createScene(canvas, engine) {
         gun.loadAsync(scene, camera),
         enemy.loadAsync(scene),
         ammoBox.loadAsync(scene),
-        fence.loadAsync(scene),
-        tomb1.loadAsync(scene),
-        tomb2.loadAsync(scene),
-        mausoleum.loadAsync(scene),
-        statue.loadAsync(scene),
-        centergraves.loadAsync(scene),
-        grass.loadAsync(scene),
-        trees1.loadAsync(scene),
-        trees2.loadAsync(scene),
-        tree.loadAsync(scene)
+        building.loadAsync(scene),
+        car1.loadAsync(scene),
+        car2.loadAsync(scene),
+        cars.loadAsync(scene),
+        slide.loadAsync(scene),
+        stall.loadAsync(scene),
+        streetLamp.loadAsync(scene),
+        barrier.loadAsync(scene)
+       
     ]);
   
     // For every mesh component, check collisions
@@ -143,7 +140,7 @@ async function createScene(canvas, engine) {
       gameHUD.loadedPromise,
     ]);
 
-    const tomb1Clone = tomb1.mesh.clone("tomb11");
+    /* const tomb1Clone = tomb1.mesh.clone("tomb11");
     tomb1Clone.position = new Vector3(38, 0.2, -15);
     tomb1Clone.scaling = new Vector3(0.003, 0.003, 0.003);
     tomb1Clone.rotation = new Vector3(0, Math.PI * 0.8, 0);
@@ -308,7 +305,7 @@ async function createScene(canvas, engine) {
         const fencewallClone5 = fence.meshes[8].clone("fencewallClone5");
         fencewallClone5.position = fenceClone5.position;
         fencewallClone5.scaling = fenceClone5.scaling;
-    }
+    } */
 
     return scene;
 }
@@ -389,9 +386,9 @@ function createBounds(scene) {
     }
 }
 
-function createInvWalls(scene) {
+ function createInvWalls(scene) {
     const walls = [
-      {
+       /* {
         width: 57,
         height: 10,
         depth: 0.5,
@@ -411,8 +408,8 @@ function createInvWalls(scene) {
         depth: 0.5,
         position: new Vector3(26.5, 0, -17),
         rotation: RotationFromDegrees(0, 90, 0)
-      }
-    ]
+      }  */
+    ] 
     
     for (const wall of walls) {
       const bound = MeshBuilder.CreateBox("invWall", {
@@ -422,13 +419,13 @@ function createInvWalls(scene) {
       }, scene);
       bound.position = wall.position;
       bound.rotation = wall.rotation;
-      bound.isVisible = false;
+      bound.isVisible = true;
       bound.checkCollisions = true;
     }
   }
   
-const map1Builder = {
+const map2Builder = {
     createScene,
 }
 
-export default map1Builder;
+export default map2Builder;
