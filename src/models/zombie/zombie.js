@@ -26,6 +26,7 @@ import { options } from "../../options";
 // a lunar-feeling name to contextualize the special attack,
 // which also includes a "bad"-sounding word to remind the user it's an enemy
 const name = "Zombie";
+let damage = 5;
 
 /**
  * The position where this character usually is.
@@ -94,7 +95,8 @@ const zombie = {
     hp: undefined,
     loadAsync,
     sceneSpecificInit,
-    defaultPosition
+    defaultPosition,
+    damage
 };
 
 export default zombie;

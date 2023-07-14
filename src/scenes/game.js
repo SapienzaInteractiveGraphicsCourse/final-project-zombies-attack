@@ -35,6 +35,7 @@ import { RoundSystem } from "../libs/roundSystem";
 import map1Builder from "./map1";
 import map2Builder from "./map2";
 import map3Builder from "./map3";
+
 let isReloading = false;
 
 async function createScene(canvas, engine) {
@@ -82,14 +83,14 @@ async function createScene(canvas, engine) {
 
   // Load all meshes
   await Promise.all([
-    enemy.loadAsync(scene),
+    //enemy.loadAsync(scene),
     ammoBox.loadAsync(scene)
   ]);
 
   // For every mesh component, check collisions
-  enemy.meshdata.meshes.forEach((mesh) => {
+  /* enemy.meshdata.meshes.forEach((mesh) => {
     mesh.checkCollisions = true;
-  })
+  }) */
 
   // Create the turn system for this battle
   const round = new RoundSystem();
@@ -351,6 +352,7 @@ function Shot(sceneInfo, camera, gun) {
   }
 }
 
+let level = 1;
 function CheckShot(sceneInfo, camera, gun, blood, bodyFall) {
   const origin = camera.globalPosition.clone();
   const forward = camera.getDirection(Vector3.Forward());
@@ -396,8 +398,13 @@ function CheckShot(sceneInfo, camera, gun, blood, bodyFall) {
           sceneInfo.player.pts += 100;
           setTimeout(() => {
             mesh.dispose();
-          }, 1000); // Dispose the mesh after 1s when the death animation has finished
+          }, 1000);
+           // Dispose the mesh after 1s when the death animation has finished
         })
+        
+        
+        
+        
       }
     }
   }
@@ -456,9 +463,21 @@ function reload(sceneInfo) {
   })
 }
 
+/* function rounding(sceneInfo, level) {
+  const hp = sceneInfo.enemy.hp;
+        sceneInfo.enemy.hp = level*hp;
+        sceneInfo.enemy.speed += 0.001;
+        sceneInfo.enemy.damage +=5;
+        level ++;
+        enemy.loadAsync(sceneInfo.scene)
+} */
+
 const sceneBuilder = {
     createScene,
 }
+
+
+
 
 
 

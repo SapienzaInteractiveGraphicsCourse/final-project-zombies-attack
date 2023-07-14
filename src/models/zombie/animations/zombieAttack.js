@@ -146,7 +146,7 @@ function attack(sceneInfo, meshdata) {
 
     // Add observable, when animation group loop ends perform code inside
     meshdata.mesh.animations[0].onAnimationGroupLoopObservable.add(()=>{
-        sceneInfo.player.hp -= 5;
+        sceneInfo.player.hp -= sceneInfo.enemy.damage;
     });
 }
 
