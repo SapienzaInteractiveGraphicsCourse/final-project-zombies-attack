@@ -53,6 +53,7 @@ async function createScene(canvas, engine) {
   
     const camera = createController(scene)
 
+
     if (options.settings.mb) {
         var motionblur = new MotionBlurPostProcess(
             "mb",   // The name of the effect.
@@ -153,6 +154,8 @@ async function createScene(canvas, engine) {
       round,
       ammoBox
     }
+    sceneInfo.camera.position = new Vector3 (0,2, -5);
+    sceneInfo.enemy.meshdata.mesh.position=new Vector3 (0,0, -10);
 
     // Have the turn system constantly watch for the condition to pass turn
     round.addRoundObserver(sceneInfo);
