@@ -13,6 +13,8 @@ import {
 import walkanims from "../models/zombie/animations/zombieWalk";
 import deathanim from "../models/zombie/animations/zombieDeath"
 import attackanim from "../models/zombie/animations/zombieAttack"
+import defeat from "../HUD/defeat";
+
 
 
 /**
@@ -76,9 +78,22 @@ class RoundSystem {
      * and triggers some events happening between turns.
      * @param {*} sceneInfo Scene Info object for the current scene
      */
-    addRoundObserver(sceneInfo) {
+    addRoundObserver(sceneInfo, engine) {
         sceneInfo.scene.onBeforeRenderObservable.add(() => {
-            if (sceneInfo.enemy.meshdata && sceneInfo.enemy.hp > 0) {
+            if (this.checkDefeat(sceneInfo)) {
+                if (!sceneInfo.defeatHUD) {
+                    sceneInfo.hud.dispose();
+                    // Create the GUI for this scene
+                    const defeatHUD = defeat.createHUD(sceneInfo);
+                    sceneInfo.defeatHUD = defeatHUD;
+                    sceneInfo.enemy.meshdata.mesh.dispose()
+                    engine.exitPointerlock();
+                    engine.exitFullscreen();
+                    document.querySelector("canvas").height = window.innerHeight;
+                    document.querySelector("canvas").width = window.innerWidth;
+                }
+            }
+            else if (sceneInfo.enemy.meshdata && sceneInfo.enemy.hp > 0) {
                 // Calcola la direzione dalla mesh alla telecamera
                 const direction = sceneInfo.camera.position.subtract(sceneInfo.enemy.meshdata.mesh.position);
                 direction.normalize();
@@ -139,7 +154,6 @@ class RoundSystem {
                     });
                     sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.remove();
                 }
-
             }
             
               const direction = sceneInfo.camera.position.subtract(sceneInfo.enemy.meshdata.mesh.position);

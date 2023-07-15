@@ -179,7 +179,7 @@ function createHUD(sceneInfo) {
             info.text = "Press R to reload";
             info.alpha = 1;
         }
-        else if (sceneInfo.player.ammo !== 0 && sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear) {
+        else if (sceneInfo.player.ammo !== 0 && sceneInfo.ammoBox.isNear && sceneInfo.player.magazines < 210) {
             info.text = "Press F to pick up ammo";
             info.alpha = 1;
         }

@@ -36,21 +36,6 @@ async function createScene(canvas, engine) {
   const scene = new Scene(engine);
   scene.collisionsEnabled = true;
 
-  scene.onPointerDown = (event) => {
-      if (event.button === 0) {
-          canvas.width = window.outerWidth;
-          canvas.height = window.outerHeight;
-          engine.enterPointerlock();
-          engine.enterFullscreen();
-      }
-      if (event.button === 1) {
-          canvas.width = this.width;
-          canvas.height = this.height;
-          engine.exitPointerlock();
-          engine.exitFullscreen();
-      }
-  }
-
   const gravity = new Vector3(0, -10, 0);
   const hk = await HavokPhysics();
   const babylonPlugin =  new HavokPlugin(true, hk);
@@ -97,8 +82,8 @@ async function createScene(canvas, engine) {
     player: {
       hp: 100,
       pts: 0,
-      ammo: 0,
-      magazines: 0,
+      ammo: 30,
+      magazines: 210,
       round: 1
     },
     scene,
@@ -109,8 +94,25 @@ async function createScene(canvas, engine) {
     ammoBox
   }
 
+  scene.onPointerDown = (event) => {
+    if (!sceneInfo.defeatHUD) {
+      if (event.button === 0) {
+          canvas.width = window.outerWidth;
+          canvas.height = window.outerHeight;
+          engine.enterPointerlock();
+          engine.enterFullscreen();
+      }
+      if (event.button === 1) {
+          canvas.width = this.width;
+          canvas.height = this.height;
+          engine.exitPointerlock();
+          engine.exitFullscreen();
+      }
+    }
+  }
+
   // Have the turn system constantly watch for the condition to pass turn
-  round.addRoundObserver(sceneInfo);
+  round.addRoundObserver(sceneInfo, engine);
 
   sceneInfo.ammoBox.mesh.position.z = -17;
   sceneInfo.scene.fogMode = Scene.FOGMODE_LINEAR;
@@ -127,7 +129,7 @@ async function createScene(canvas, engine) {
   sceneInfo.hud = gameHUD;
 
   gun.shot(sceneInfo)
-  keys.handleKeys(sceneInfo)
+  keys.handleKeys(sceneInfo, engine)
 
   ammoBox.float(ammoBox)
   scene.getAnimationGroupByName("float").play(true);
