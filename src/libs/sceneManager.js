@@ -11,7 +11,7 @@ class SceneManager {
         this.activeSceneBuilder = undefined;
     }
 
-    gotoScene(sceneBuilder, loadingText = "Now Loading...") {
+    gotoScene(sceneBuilder, loadingText = "Loading...") {
         if (this.activeScene) {
             this.activeScene.dispose();
             this.activeScene = undefined;
@@ -32,7 +32,7 @@ class SceneManager {
         })
     }
 
-    gotoSceneGame(tpDest, loadingText = "Now Loading...") {
+    gotoSceneGame(tpDest, loadingText = "Loading...") {
         if (this.activeScene) {
             this.activeScene.dispose();
             this.activeScene = undefined;

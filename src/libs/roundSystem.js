@@ -125,7 +125,7 @@ class RoundSystem {
                     sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.addOnce(() => {
                         RoundSystem.flag = true;
                         // Dispose the parent mesh
-                        
+                        sceneInfo.player.pts += 100 * level;
                         level += 1;
                         sceneInfo.scene.getAnimationGroupByName("attack").stop()
                         sceneInfo.scene.getAnimationGroupByName("death").stop()
@@ -134,7 +134,8 @@ class RoundSystem {
                         sceneInfo.enemy.hp = 100 * level; // Set the initial HP for the new enemy
                         sceneInfo.enemy.damage = level * 5; // Set the damage of the new enemy
                         sceneInfo.enemy.meshdata.mesh.position = new Vector3(0, 0, 30);
-                    
+
+                        sceneInfo.player.round += 1;
                     });
                     sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.remove();
                 }

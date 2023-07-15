@@ -49,15 +49,23 @@ function createHUD(sceneInfo) {
     const infoGrid = new GUI.Grid();
     infoGrid.addColumnDefinition(1);
     infoGrid.addRowDefinition(80, true);
+    infoGrid.addRowDefinition(80, true);
     infoGrid.addRowDefinition(1);
     infoGrid.addRowDefinition(80, true);
+
+    const currentRound = new GUI.TextBlock("round", "Round 1");
+    currentRound.color = "white";
+    currentRound.fontSize = "24px";
+    currentRound.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
+    currentRound.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
+    infoGrid.addControl(currentRound, 0, 0)
 
     const points = new GUI.TextBlock("points", "0 PTS");
     points.color = "white";
     points.fontSize = "30px";
     points.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
-    points.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-    infoGrid.addControl(points, 0, 0)
+    points.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_TOP;
+    infoGrid.addControl(points, 1, 0)
 
     const info = new GUI.TextBlock("info", "Press R to reload");
     info.color = "white";
@@ -65,7 +73,7 @@ function createHUD(sceneInfo) {
     info.alpha = 0;
     info.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_CENTER;
     info.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
-    infoGrid.addControl(info, 2, 0)
+    infoGrid.addControl(info, 3, 0)
 
     grid.addControl(infoGrid, 1, 1);
 
@@ -161,8 +169,9 @@ function createHUD(sceneInfo) {
         //update HP and charge of the characters
         hp.text = `${Math.floor(sceneInfo.player.hp)} HP`;
         points.text = `${sceneInfo.player.pts} PTS`;
+        currentRound.text = `Round ${sceneInfo.player.round}`;
 
-        if (sceneInfo.player.ammo === 0 && !sceneInfo.ammoBox.isNear) {
+        if (sceneInfo.player.ammo === 0 && !sceneInfo.ammoBox.isNear && sceneInfo.player.magazines !== 0) {
             info.text = "Press R to reload";
             info.alpha = 1;
         }
@@ -171,6 +180,14 @@ function createHUD(sceneInfo) {
             info.alpha = 1;
         }
         else if (sceneInfo.player.ammo !== 0 && sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear) {
+            info.text = "Press F to pick up ammo";
+            info.alpha = 1;
+        }
+        else if (sceneInfo.player.ammo === 0 && !sceneInfo.ammoBox.isNear && sceneInfo.player.magazines === 0) {
+            info.text = "Find some ammo box";
+            info.alpha = 1;
+        }
+        else if (sceneInfo.player.ammo === 0 && sceneInfo.ammoBox.isNear && sceneInfo.player.magazines === 0) {
             info.text = "Press F to pick up ammo";
             info.alpha = 1;
         }

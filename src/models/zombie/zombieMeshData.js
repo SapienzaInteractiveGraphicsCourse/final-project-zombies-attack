@@ -169,6 +169,10 @@ async function _loadMesh(scene) {
         zombie.meshes = result.meshes;
         zombie.mesh = mesh;
         zombie.skeleton = skeleton;
+        zombie.mesh.checkCollisions = true;
+        zombie.mesh.onCollide = (collide) => {
+            console.log(collide)
+        }
 		
 
         // Print bone names for debugging
@@ -183,7 +187,7 @@ async function _loadMesh(scene) {
                     let hitbox = MeshBuilder.CreateBox(`hitbox ${hitBone.name}`, {width: hitBone.width, height: hitBone.height, depth: hitBone.depth}, scene);
                     hitbox.material = new StandardMaterial("std", scene);
                     hitbox.material.wireframe = true;
-                    hitbox.isVisible = true;
+                    hitbox.isVisible = false;
 
                     let headBoneIndex = skeleton.getBoneIndexByName(bone.name);
                     if (headBoneIndex !== -1) {
