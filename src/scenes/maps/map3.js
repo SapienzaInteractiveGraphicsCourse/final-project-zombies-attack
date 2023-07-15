@@ -231,9 +231,9 @@ function createController(scene) {
 
 function CreateSand(scene) {
   const pbr = new PBRMaterial('pbr', scene)
-  pbr.albedoTexture = new Texture('./textures/sand/sand_diffuse.jpg', scene)
+  pbr.albedoTexture = new Texture('./textures/sand/sand2_diffuse.jpg', scene)
 
-  pbr.bumpTexture = new Texture('./textures/sand/sand_normal.jpg', scene)
+  pbr.bumpTexture = new Texture('./textures/sand/sand2_normal.jpg', scene)
   pbr.invertNormalMapX = true
   pbr.invertNormalMapY = true
 
@@ -241,7 +241,7 @@ function CreateSand(scene) {
   pbr.useRoughnessFromMetallicTextureGreen = true
   pbr.useMetallnessFromMetallicTextureBlue = true
 
-  pbr.metallicTexture = new Texture('./textures/sand/sand_ao.jpg', scene)
+  pbr.metallicTexture = new Texture('./textures/sand/sand2_ao.jpg', scene)
 
   return pbr
 }
