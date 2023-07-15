@@ -22,6 +22,7 @@ async function loadAsync(scene) {
 
         mesh.scaling = new Vector3(0.02 , 0.02, 0.02);
         stall.mesh.position = new Vector3(0 , 0 , 40);
+
         
     
         stall.mesh.isPickable = true;

@@ -18,16 +18,16 @@ async function loadAsync(scene) {
         boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
         boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
       
-        const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
+        /* const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
         const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
           width: boxSize.x,
           height: boxSize.y,
           depth: boxSize.z
         }, scene);
 
-        boxMesh.isVisible = false;
+        boxMesh.isVisible = true;
         boxMesh.checkCollisions = true;
-      
+       */
         mesh.scaling = new Vector3(0.015 , 0.015, 0.015);
         car1.mesh.position = new Vector3(-20 , 0 , 10);
         
@@ -41,7 +41,7 @@ async function loadAsync(scene) {
           boundCar1.isVisible = false;
           boundCar1.checkCollisions = true;
       
-        result.meshes.push(boxMesh)
+        //result.meshes.push(boxMesh)
       
         car1.mesh.isPickable = true;
         car1.mesh.isVisible = false;
@@ -50,10 +50,58 @@ async function loadAsync(scene) {
     });
 }
 
+function addClone(position, scaling, rotation, scene) {
+
+    let mesh = car1.mesh;
+
+    if (!mesh) {
+        console.error("You have to load first!");
+    }
+
+    var newClone = mesh.clone("car1");
+    newClone.setEnabled(true);
+
+    newClone.position = position;
+
+    newClone.scaling = scaling;
+
+    newClone.rotation = rotation;
+
+    const boundingBox = mesh.getBoundingInfo().boundingBox;
+
+    const sizeVector = boundingBox.maximum.subtract(boundingBox.minimum);
+    const centerVector = boundingBox.minimum.add(sizeVector.scale(0.5));
+    boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
+    boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
+    
+    const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
+    /* const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
+      width: boxSize.x,
+      height: boxSize.y,
+      depth: boxSize.z
+    }, scene);
+    boxMesh.isVisible = false;
+    boxMesh.checkCollisions = true; */
+    const boundCar1 = MeshBuilder.CreateBox("boundingBoxMesh", {
+        width: 2.6,
+        height: 6,
+        depth: 7.3
+      }, scene);
+      boundCar1.position = position;
+      boundCar1.isVisible = false;
+      boundCar1.checkCollisions = true;
+  
+    //result.meshes.push(boxMesh)
+
+    car1.clones.push(newClone)
+}
+
 const car1 = {
     meshes: undefined,
     mesh: undefined,
+    addClone,
     loadAsync,
+    clones: []
 };
 
 export default car1;

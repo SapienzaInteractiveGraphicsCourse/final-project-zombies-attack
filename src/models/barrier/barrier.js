@@ -19,7 +19,7 @@ async function loadAsync(scene) {
             depth: 0.5
           }, scene);
           boundBarrier.position = new Vector3(-49.5 , 0 , -31.5);
-          boundBarrier.isVisible = true;
+          boundBarrier.isVisible = false;
           boundBarrier.checkCollisions = true;
           boundBarrier.rotation = RotationFromDegrees(0,90,0);
 
@@ -35,9 +35,58 @@ async function loadAsync(scene) {
     });
 }
 
+function addClone(position, scaling, rotation, scene) {
+
+    let mesh = barrier.mesh;
+
+    if (!mesh) {
+        console.error("You have to load first!");
+    }
+
+    var newClone = mesh.clone("barrier");
+    newClone.setEnabled(true);
+
+    newClone.position = position;
+
+    newClone.scaling = scaling;
+
+    newClone.rotation = rotation;
+
+    const boundingBox = mesh.getBoundingInfo().boundingBox;
+
+    const sizeVector = boundingBox.maximum.subtract(boundingBox.minimum);
+    const centerVector = boundingBox.minimum.add(sizeVector.scale(0.5));
+    boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
+    boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
+    
+    const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
+    /* const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
+      width: boxSize.x,
+      height: boxSize.y,
+      depth: boxSize.z
+    }, scene);
+    boxMesh.isVisible = false;
+    boxMesh.checkCollisions = true; */
+    const boundBarrier = MeshBuilder.CreateBox("boundingBoxMesh", {
+        width: 5.5,
+        height:4,
+        depth: 0.5
+      }, scene);
+      boundBarrier.position = position;
+      boundBarrier.rotation = rotation;
+      boundBarrier.isVisible = false;
+      boundBarrier.checkCollisions = true;
+  
+    //result.meshes.push(boxMesh)
+
+    barrier.clones.push(newClone)
+}
+
 const barrier = {
     meshes: undefined,
     mesh: undefined,
+    addClone,
+    clones: [],
     loadAsync,
 };
 

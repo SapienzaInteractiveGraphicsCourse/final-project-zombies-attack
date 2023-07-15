@@ -12,10 +12,10 @@ import {
     Quaternion
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
-import "babylonjs-viewer";
+//import "babylonjs-viewer";
 import { RotationFromDegrees } from "../../libs/angles";
 import { getSize } from "../../libs/dimension";
-import {Debug} from "@babylonjs/inspector"
+//import {Debug} from "@babylonjs/inspector"
 // list of bones to save in the bonesDict.
 const bonesOfInterest = [
     // root (~center)

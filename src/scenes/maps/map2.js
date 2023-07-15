@@ -81,10 +81,46 @@ async function createScene(canvas, engine) {
         cars.loadAsync(scene),
         slide.loadAsync(scene),
         stall.loadAsync(scene),
-        streetLamp.loadAsync(scene),
-        barrier.loadAsync(scene)
+        barrier.loadAsync(scene),
+        streetLamp.loadAsync(scene)
        
     ]);
+
+
+    building.addClone(new Vector3(-32.2,0,42.5), new Vector3(100,100,100), new Vector3(0, 0, 0),scene);
+    building.addClone(new Vector3(32.2,0,42.5), new Vector3(100,100,100), new Vector3(0, 0, 0),scene);
+    building.addClone(new Vector3(32.2,0,-42.5), new Vector3(100,100,100), new Vector3(0, Math.PI, 0),scene);
+
+    car1.addClone(new Vector3(20 , 0 , -10), new Vector3(0.015 , 0.015, 0.015), new Vector3(0, 0, 0),scene);
+    car2.addClone(new Vector3(-20 , -1.5 , -15), new Vector3(1.5 , 1.5, 1.5), new Vector3(0, 0, 0),scene);
+
+
+
+    for(var i=0; i<13; i++){
+      barrier.addClone(new Vector3(-49.5 , 0 , -31.5+5.5*i), new Vector3(2,2,2), new Vector3(0, Math.PI*0.5, 0),scene)
+    }
+   for(var i=0; i<13; i++){
+      barrier.addClone(new Vector3(49.5 , 0 , -31.5+5.5*i), new Vector3(2,2,2), new Vector3(0, Math.PI*0.5, 0),scene)
+    }
+    
+    for(var i=0; i<5; i++) {
+      barrier.addClone(new Vector3(-10.5+5.5*i , 0 ,-49.5), new Vector3(2,2,2), new Vector3(0, 0, 0),scene)
+    }
+
+    for(var i=0; i<5; i++) {
+      barrier.addClone(new Vector3(-11.5+5.5*i , 0 ,49.5), new Vector3(2,2,2), new Vector3(0, 0, 0),scene)
+    }
+
+    for(var i=0; i<6; i++) {
+      streetLamp.addClone(new Vector3(40 - 15*i , 0 , 30), new Vector3(0.01 , 0.01, 0.01), new Vector3(0, Math.PI+ Math.PI*0.5, 0),scene)
+    }
+
+    for(var i=0; i<6; i++) {
+      streetLamp.addClone(new Vector3(40 - 15*i , 0 , -30), new Vector3(0.01 , 0.01, 0.01), new Vector3(0, Math.PI - Math.PI*0.5, 0),scene)
+    }
+
+
+
   
     // For every mesh component, check collisions
     enemy.meshdata.meshes.forEach((mesh) => {
@@ -411,7 +447,7 @@ function createBounds(scene) {
       }  */
     ] 
     
-    for (const wall of walls) {
+    /* for (const wall of walls) {
       const bound = MeshBuilder.CreateBox("invWall", {
         width: wall.width,
         height: wall.height,
@@ -421,7 +457,7 @@ function createBounds(scene) {
       bound.rotation = wall.rotation;
       bound.isVisible = true;
       bound.checkCollisions = true;
-    }
+    } */
   }
   
 const map2Builder = {

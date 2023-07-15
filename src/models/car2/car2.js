@@ -35,10 +35,58 @@ async function loadAsync(scene) {
     });
 }
 
+function addClone(position, scaling, rotation, scene) {
+
+    let mesh = car2.mesh;
+
+    if (!mesh) {
+        console.error("You have to load first!");
+    }
+
+    var newClone = mesh.clone("car2");
+    newClone.setEnabled(true);
+
+    newClone.position = position;
+
+    newClone.scaling = scaling;
+
+    newClone.rotation = rotation;
+
+    const boundingBox = mesh.getBoundingInfo().boundingBox;
+
+    const sizeVector = boundingBox.maximum.subtract(boundingBox.minimum);
+    const centerVector = boundingBox.minimum.add(sizeVector.scale(0.5));
+    boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
+    boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
+    
+    const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
+    /* const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
+      width: boxSize.x,
+      height: boxSize.y,
+      depth: boxSize.z
+    }, scene);
+    boxMesh.isVisible = false;
+    boxMesh.checkCollisions = true; */
+    const boundCar2 = MeshBuilder.CreateBox("boundingBoxMesh", {
+        width: 7.6,
+            height: 7,
+            depth: 2.6
+      }, scene);
+      boundCar2.position = new Vector3(-18 , -1.5 ,-15);
+      boundCar2.isVisible = false;
+      boundCar2.checkCollisions = true;
+  
+  
+
+    car2.clones.push(newClone)
+}
+
 const car2 = {
     meshes: undefined,
     mesh: undefined,
+    addClone,
     loadAsync,
+    clones: []
 };
 
 export default car2;
