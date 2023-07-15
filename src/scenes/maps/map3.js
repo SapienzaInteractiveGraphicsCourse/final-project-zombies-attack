@@ -130,7 +130,8 @@ async function createScene(canvas, engine) {
         hp: 100,
         pts: 0,
         ammo: 30,
-        magazines: 210
+        magazines: 210,
+        round: 1
       },
       scene,
       enemy,

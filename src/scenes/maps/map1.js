@@ -1,12 +1,12 @@
 import {
-    Scene,
-    Vector3,
-    MeshBuilder,
-    UniversalCamera,
-    MotionBlurPostProcess,
-    HavokPlugin,
-    PBRMaterial,
-    Texture
+  Scene,
+  Vector3,
+  MeshBuilder,
+  UniversalCamera,
+  MotionBlurPostProcess,
+  HavokPlugin,
+  PBRMaterial,
+  Texture
 } from "@babylonjs/core";
 import HavokPhysics from "@babylonjs/havok"
 import "@babylonjs/loaders";
@@ -207,10 +207,10 @@ async function createScene(canvas, engine) {
 }
   
 async function createEnvironment(sceneInfo) {
-    const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, sceneInfo.scene)
-    ground.model = ground;
-    ground.checkCollisions = true;
-    ground.receiveShadows = true;
+  const ground = MeshBuilder.CreateGround('ground', { width: 100, height: 100 }, sceneInfo.scene)
+  ground.model = ground;
+  ground.checkCollisions = true;
+  ground.receiveShadows = true;
 
   const asphalt = createAsphalt(sceneInfo.scene);
   ground.material = asphalt;
