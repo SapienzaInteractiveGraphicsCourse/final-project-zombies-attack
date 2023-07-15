@@ -19,26 +19,11 @@ async function loadAsync(scene) {
         const centerVector = boundingBox.minimum.add(sizeVector.scale(0.5));
         boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
         boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
-      
-        /* const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
-        const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
-          width: boxSize.x,
-          height: boxSize.y,
-          depth: boxSize.z
-        }, scene);
 
-        boxMesh.isVisible = false;
-        boxMesh.checkCollisions = true; */
+        mesh.scaling = new Vector3(0.01, 0.01, 0.01);
+        streetLamp.mesh.position = new Vector3(40, 0, 30);
+        streetLamp.mesh.rotation = RotationFromDegrees(0, 270, 0);
 
-        mesh.scaling = new Vector3(0.01 , 0.01, 0.01);
-        streetLamp.mesh.position = new Vector3(40 , 0 , 30);
-        streetLamp.mesh.rotation = RotationFromDegrees(0,270,0);
-
-       /*  boxMesh.scaling = streetLamp.mesh.scaling
-        boxMesh.position = streetLamp.mesh.position */
-      
-        //result.meshes.push(boxMesh)
-      
         streetLamp.mesh.isPickable = true;
         streetLamp.mesh.isVisible = false;
 
@@ -47,8 +32,8 @@ async function loadAsync(scene) {
             height: 10,
             depth: 1
           }, scene);
-          boundLamp.position = new Vector3(40 , 0 , 30);
-          boundLamp.rotation = RotationFromDegrees(0,0,0);
+          boundLamp.position = new Vector3(40, 0, 30);
+          boundLamp.rotation = RotationFromDegrees(0, 0, 0);
           boundLamp.isVisible = false;
           boundLamp.checkCollisions = true;
 
@@ -83,14 +68,6 @@ function addClone(position, scaling, rotation, scene) {
     boundingBox.minimum = centerVector.subtract(sizeVector.scale(0.5));
     boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
     
-    //const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
-    /* const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
-      width: boxSize.x,
-      height: boxSize.y,
-      depth: boxSize.z
-    }, scene);
-    boxMesh.isVisible = false;
-    boxMesh.checkCollisions = true; */
     const boundLamp = MeshBuilder.CreateBox("boundingBoxMesh", {
         width: 1,
         height: 10,

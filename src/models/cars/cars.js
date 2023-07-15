@@ -16,8 +16,6 @@ async function loadAsync(scene) {
         cars.mesh.position = new Vector3(0 , 0 , 0);
         cars.mesh.rotation = RotationFromDegrees(0,30,0);
 
-        
-      
         const boundcars1 = MeshBuilder.CreateBox("boundingBoxMesh", {
             width: 2.6,
             height: 4,

@@ -197,7 +197,8 @@ async function createScene(canvas, engine) {
     tree.mesh,
     trees2.mesh,
     statue.mesh,
-    fence.mesh
+    fence.mesh,
+    ammoBox.mesh
   ]);
 
   return scene;
