@@ -149,21 +149,6 @@ function checkShot(sceneInfo, blood, bodyFall) {
       else {
         sceneInfo.enemy.hp -= 10;
       }
-
-      if (sceneInfo.enemy.hp <= 0 && sceneInfo.enemy.meshdata) {
-        sceneInfo.scene.getAnimationGroupByName("walk").stop()
-        sceneInfo.scene.getAnimationGroupByName("attack").stop()
-        sceneInfo.scene.getAnimationGroupByName("death").play()
-        sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.add(() => {
-          bodyFall.play()
-          // Dispose the parent mesh
-          //enemy.meshdata = false;
-          sceneInfo.player.pts += 100;
-          setTimeout(() => {
-            mesh.dispose();
-          }, 1000); // Dispose the mesh after 1s when the death animation has finished
-        })
-      }
     }
   }
 }

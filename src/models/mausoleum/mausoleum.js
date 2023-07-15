@@ -6,14 +6,12 @@ import {
 
 async function loadAsync(scene) {
     return SceneLoader.ImportMeshAsync("", "./models/map1/", "mausoleum.glb", scene).then((result) => {
-        console.log(result)
         const maus = result.meshes[0];
         maus.position = new Vector3(0, -0.5, -42);
         maus.scaling = new Vector3(4, 4, 4);
         maus.rotation = new Vector3(0, Math.PI * 0.5, 0);
       
         const mesh = result.meshes[2];
-        console.log(mesh)
         result.meshes[2].showBoundingBox = false;
       
         const boundingBox = mesh.getBoundingInfo().boundingBox;

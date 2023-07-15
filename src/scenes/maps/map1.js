@@ -121,7 +121,6 @@ async function createScene(canvas, engine) {
     createEnvironment(sceneInfo)
 
     createInvWalls(sceneInfo.scene)
-    
   
     // Create the GUI for this scene
     var gameHUD = hud.createHUD(sceneInfo);
@@ -167,8 +166,6 @@ async function createScene(canvas, engine) {
   
 
     statue.addClone(new Vector3(-8.5, 1.8, -46), new Vector3(3, 3, 3), new Vector3(0, 0, 0));
-
-    console.log(...tomb1.clones)
 
     for(var i = 1 ; i < 7 ; i++){
         if (i !== 1) {
@@ -218,109 +215,109 @@ async function createEnvironment(sceneInfo) {
 }
   
 function createController(scene) {
-    const camera = new UniversalCamera("UniversalCamera", new Vector3(1, 2, 1), scene);
-    camera.setTarget(new Vector3(0, 2, 0));
+  const camera = new UniversalCamera("UniversalCamera", new Vector3(1, 2, 1), scene);
+  camera.setTarget(new Vector3(0, 2, 0));
 
-    camera.attachControl()
-    camera.speed = 0.25 //0.25
+  camera.attachControl()
+  camera.speed = 0.25 //0.25
 
-    camera.applyGravity = true;
-    camera.checkCollisions = true;
+  camera.applyGravity = true;
+  camera.checkCollisions = true;
 
-    camera.ellipsoid = new Vector3(0.5, 2, 0.5);
-    camera.ellipsoidOffset = new Vector3(0.0, 2, 0.0);
+  camera.ellipsoid = new Vector3(0.5, 2, 0.5);
+  camera.ellipsoidOffset = new Vector3(0.0, 2, 0.0);
 
-    camera.minZ = 0.01;
-    camera.angularSensibility = 5600 - options.settings.sensibility; // Normalize sensibility based on settings
+  camera.minZ = 0.01;
+  camera.angularSensibility = 5600 - options.settings.sensibility; // Normalize sensibility based on settings
 
-    camera.keysUp.push(87);
-    camera.keysLeft.push(65);
-    camera.keysDown.push(83);
-    camera.keysRight.push(68);
+  camera.keysUp.push(87);
+  camera.keysLeft.push(65);
+  camera.keysDown.push(83);
+  camera.keysRight.push(68);
 
-    return camera
+  return camera
 }
 
 function createAsphalt(scene) {
-    const pbr = new PBRMaterial('pbr', scene)
-    pbr.albedoTexture = new Texture('./textures/asphalt/asphalt_diffuse.jpg', scene)
-  
-    pbr.bumpTexture = new Texture('./textures/asphalt/asphalt_normal.jpg', scene)
-    pbr.invertNormalMapX = true
-    pbr.invertNormalMapY = true
-  
-    pbr.useAmbientOcclusionFromMetallicTextureRed = true
-    pbr.useRoughnessFromMetallicTextureGreen = true
-    pbr.useMetallnessFromMetallicTextureBlue = true
-  
-    pbr.metallicTexture = new Texture('./textures/asphalt/asphalt_ao.jpg', scene)
-  
-    return pbr
+  const pbr = new PBRMaterial('pbr', scene)
+  pbr.albedoTexture = new Texture('./textures/asphalt/asphalt_diffuse.jpg', scene)
+
+  pbr.bumpTexture = new Texture('./textures/asphalt/asphalt_normal.jpg', scene)
+  pbr.invertNormalMapX = true
+  pbr.invertNormalMapY = true
+
+  pbr.useAmbientOcclusionFromMetallicTextureRed = true
+  pbr.useRoughnessFromMetallicTextureGreen = true
+  pbr.useMetallnessFromMetallicTextureBlue = true
+
+  pbr.metallicTexture = new Texture('./textures/asphalt/asphalt_ao.jpg', scene)
+
+  return pbr
 }
 
 function createBounds(scene) {
-    const bound = MeshBuilder.CreateBox("boundMesh", {
-      width: 100,
-      height: 10,
-      depth: 0.5
-    }, scene);
-    bound.position = new Vector3(0, 0, 50);
-    bound.isVisible = false;
-    bound.checkCollisions = true;
-  
-    for (let i = 0; i < 3; i++) {
-      const boundClone = bound.clone(`boundClone_${i}`);
-      if (i === 0) {
-        boundClone.position = new Vector3(50, 0, 0);
-        boundClone.rotation = RotationFromDegrees(0, 90, 0)
-      }
-      else if (i === 1) {
-        boundClone.position = new Vector3(0, 0, -50);
-      }
-      else if (i === 2) {
-        boundClone.position = new Vector3(-50, 0, 0);
-        boundClone.rotation = RotationFromDegrees(0, 90, 0)
-      }
+  const bound = MeshBuilder.CreateBox("boundMesh", {
+    width: 100,
+    height: 10,
+    depth: 0.5
+  }, scene);
+  bound.position = new Vector3(0, 0, 50);
+  bound.isVisible = false;
+  bound.checkCollisions = true;
+
+  for (let i = 0; i < 3; i++) {
+    const boundClone = bound.clone(`boundClone_${i}`);
+    if (i === 0) {
+      boundClone.position = new Vector3(50, 0, 0);
+      boundClone.rotation = RotationFromDegrees(0, 90, 0)
     }
+    else if (i === 1) {
+      boundClone.position = new Vector3(0, 0, -50);
+    }
+    else if (i === 2) {
+      boundClone.position = new Vector3(-50, 0, 0);
+      boundClone.rotation = RotationFromDegrees(0, 90, 0)
+    }
+  }
 }
 
 function createInvWalls(scene) {
-    const walls = [
-      {
-        width: 57,
-        height: 10,
-        depth: 0.5,
-        position: new Vector3(-2, 0, -34),
-        rotation: RotationFromDegrees(0, 0, 0)
-      },
-      {
-        width: 34,
-        height: 10,
-        depth: 0.5,
-        position: new Vector3(-30.5, 0, -17),
-        rotation: RotationFromDegrees(0, 90, 0)
-      },
-      {
-        width: 34,
-        height: 10,
-        depth: 0.5,
-        position: new Vector3(26.5, 0, -17),
-        rotation: RotationFromDegrees(0, 90, 0)
-      }
-    ]
-    
-    for (const wall of walls) {
-      const bound = MeshBuilder.CreateBox("invWall", {
-        width: wall.width,
-        height: wall.height,
-        depth: wall.depth
-      }, scene);
-      bound.position = wall.position;
-      bound.rotation = wall.rotation;
-      bound.isVisible = false;
-      bound.checkCollisions = true;
+  const walls = [
+    {
+      width: 57,
+      height: 10,
+      depth: 0.5,
+      position: new Vector3(-2, 0, -34),
+      rotation: RotationFromDegrees(0, 0, 0)
+    },
+    {
+      width: 34,
+      height: 10,
+      depth: 0.5,
+      position: new Vector3(-30.5, 0, -17),
+      rotation: RotationFromDegrees(0, 90, 0)
+    },
+    {
+      width: 34,
+      height: 10,
+      depth: 0.5,
+      position: new Vector3(26.5, 0, -17),
+      rotation: RotationFromDegrees(0, 90, 0)
     }
+  ]
+  
+  for (const wall of walls) {
+    const bound = MeshBuilder.CreateBox("invWall", {
+      width: wall.width,
+      height: wall.height,
+      depth: wall.depth
+    }, scene);
+    bound.position = wall.position;
+    bound.rotation = wall.rotation;
+    bound.isVisible = false;
+    bound.checkCollisions = true;
   }
+}
   
 const map1Builder = {
     createScene,

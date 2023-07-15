@@ -10,11 +10,18 @@ import {
     Vector3
 } from "@babylonjs/core";
 
+import walkanims from "../models/zombie/animations/zombieWalk";
+import deathanim from "../models/zombie/animations/zombieDeath"
+import attackanim from "../models/zombie/animations/zombieAttack"
+
+
 /**
  * A class of objects that keep track of whose turn it is during a battle.
  */
-let speed;
+let level = 1;
+
 class RoundSystem {
+    static flag = true;
     /**
      * Creates a new turn system.
      */
@@ -108,7 +115,32 @@ class RoundSystem {
 
                 // Imposta il target della mesh sulla direzione calcolata
                 sceneInfo.enemy.meshdata.mesh.lookAt(target);
-              }
+              }else if (sceneInfo.enemy.hp <= 0){
+
+                if(RoundSystem.flag){
+                    RoundSystem.flag = false;
+                    sceneInfo.scene.getAnimationGroupByName("walk").stop()
+                    sceneInfo.scene.getAnimationGroupByName("attack").stop()
+                    sceneInfo.scene.getAnimationGroupByName("death").play()
+                    sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.addOnce(() => {
+                        RoundSystem.flag = true;
+                        // Dispose the parent mesh
+                        
+                        level += 1;
+                        sceneInfo.scene.getAnimationGroupByName("attack").stop()
+                        sceneInfo.scene.getAnimationGroupByName("death").stop()
+                        sceneInfo.scene.getAnimationGroupByName("walk").play(true)
+                        
+                        sceneInfo.enemy.hp = 100 * level; // Set the initial HP for the new enemy
+                        sceneInfo.enemy.damage = level * 5; // Set the damage of the new enemy
+                        sceneInfo.enemy.meshdata.mesh.position = new Vector3(0, 0, 30);
+                    
+                    });
+                    sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.remove();
+                }
+
+            }
+            
               const direction = sceneInfo.camera.position.subtract(sceneInfo.enemy.meshdata.mesh.position);
               direction.normalize();
               // Calcola la distanza tra la mesh e la telecamera
@@ -123,6 +155,7 @@ class RoundSystem {
               }
         });
     }
+    
 }
 
 export { RoundSystem };

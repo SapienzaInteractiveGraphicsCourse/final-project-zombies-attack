@@ -1,6 +1,6 @@
 export const options = {
     difficulty: 1, 
-    map: 3,
+    map: 1,
     settings: {
         fullscreen: true,
         mb: false,

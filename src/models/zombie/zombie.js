@@ -32,7 +32,7 @@ let damage = 5;
  * The position where this character usually is.
  * Used as reference to position or point other objects or effects.
  */
-const defaultPosition = new Vector3(-5, 0, -15);
+const defaultPosition = new Vector3(0, 0, 30);
 
 /**
  * The position in world space where the text (a UI element) showing the damage taken from attacks will first appear.
