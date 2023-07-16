@@ -55,6 +55,7 @@ We **recommend** you to play the game on Chrome for better performances. On Safa
 ## How to play the game
 ```
 - W A S D / Arrow keys: directional movement
+- Hold shift: run
 - Mouse: move the camera
 - LEFT CLICK: shoot
 - R: reload

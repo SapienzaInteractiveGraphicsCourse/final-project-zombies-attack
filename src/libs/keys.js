@@ -13,6 +13,7 @@ function handleKeys(sceneInfo, engine) {
   });
 
   onkeydown = ((event) => {
+    console.log(event)
     if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && ((sceneInfo.player.ammo < 30 && !sceneInfo.gun.isReloading && !sceneInfo.gun.isShooting) || (sceneInfo.player.ammo === 0 && !sceneInfo.gun.isReloading))) {
       gunanims.reload(sceneInfo.gun.mesh, sceneInfo.scene)
       sceneInfo.gun.isReloading = true;
@@ -32,6 +33,15 @@ function handleKeys(sceneInfo, engine) {
     else if (event.code === "KeyF" && sceneInfo.player.magazines < 210 && sceneInfo.ammoBox.isNear && !sceneInfo.gun.isReloading) {
       sceneInfo.player.magazines = 210;
       ammo_load.play()
+    }
+    else if (event.key === "Shift") {
+      sceneInfo.camera.speed = 0.4;
+    }
+  })
+
+  onkeyup = ((event) => {
+    if (event.key === "Shift") {
+      sceneInfo.camera.speed = 0.25;
     }
   })
 
