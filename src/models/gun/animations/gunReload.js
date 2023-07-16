@@ -1,16 +1,9 @@
-/**
- * Name stands for "Miscellaneous Animations".
- * File contains all animations of the Samurai not related to its actions,
- * because they are pretty long.
- * EXPORTS an objects with the functions to trigger those animations.
- */
-
-import * as MYANIM from "../../../libs/animation"
 import { 
     PowerEase,
     EasingFunction,
     Animation
 } from "@babylonjs/core";
+import animation from "../../../libs/animation"
 /**
  * Reload animation
  */
@@ -35,16 +28,12 @@ const _animReload_meshY_keys = [
         value: -0.05
     }
 ];
-const animReload_meshY = new MYANIM.Animation(_animReload_meshY_bab, _animReload_meshY_keys);
+const animReload_meshY = new animation.Animation(_animReload_meshY_bab, _animReload_meshY_keys);
 
-// the animation is triggered by this function
 function reload(meshdata, scene, onAnimationEnd) {
-    MYANIM.directAnimation(scene, meshdata, [animReload_meshY]);
+    animation.directAnimation(scene, meshdata, [animReload_meshY]);
 }
 
-/**
- * The exported object.
- */
 const gunanims = {
     reload
 };

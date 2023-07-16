@@ -88,25 +88,13 @@ async function createScene(canvas, engine) {
     playBtn.hoverCursor = "pointer";
     playBtn.onPointerClickObservable.add(function() {
         if (options.map === 1) {
-            SceneManagerInstance.gotoSceneGame({
-                sceneBuilder: map1Builder,
-                position: new Vector3(28*6, 2, 12*6),
-                target: new Vector3(10*6, 0, 12*6),
-            });
+            SceneManagerInstance.gotoScene(map1Builder)
         }
         else if (options.map === 2) {
-            SceneManagerInstance.gotoSceneGame({
-                sceneBuilder: map2Builder,
-                position: new Vector3(28*6, 2, 12*6),
-                target: new Vector3(10*6, 0, 12*6),
-            });
+            SceneManagerInstance.gotoScene(map2Builder);
         }
         else if (options.map === 3) {
-            SceneManagerInstance.gotoSceneGame({
-                sceneBuilder: map3Builder,
-                position: new Vector3(28*6, 2, 12*6),
-                target: new Vector3(10*6, 0, 12*6),
-            });
+            SceneManagerInstance.gotoScene(map3Builder);
         }
     });
     selectionGrid.addControl(playBtn, 1, 0);

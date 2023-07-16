@@ -1,8 +1,7 @@
 import {
     SceneLoader,
     MeshBuilder,
-    Vector3,
-    TextureUsage
+    Vector3
 } from "@babylonjs/core";
 
 import { RotationFromDegrees } from "../../libs/angles";

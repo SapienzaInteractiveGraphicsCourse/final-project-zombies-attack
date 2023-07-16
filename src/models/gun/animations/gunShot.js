@@ -1,6 +1,5 @@
 import { Animation } from "@babylonjs/core";
 
-
 export function shotAnimation(scene, camera, gun) {
     const frameRate = 60;
 

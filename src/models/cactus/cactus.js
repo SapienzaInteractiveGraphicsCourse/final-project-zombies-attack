@@ -1,6 +1,5 @@
 import {
     SceneLoader,
-    MeshBuilder,
     Vector3
 } from "@babylonjs/core";
 

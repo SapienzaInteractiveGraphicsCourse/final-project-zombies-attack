@@ -61,7 +61,7 @@ async function createScene(canvas, engine) {
     const currPath = new GUI.TextBlock("title", "MAIN MENU");
     currPath.color = "white";
     currPath.fontSize = "18px";
-    currPath.alpha = 0.5;
+    currPath.alpha = 0.6;
     currPath.textHorizontalAlignment = GUI.Control.HORIZONTAL_ALIGNMENT_LEFT;
     currPath.textVerticalAlignment = GUI.Control.VERTICAL_ALIGNMENT_CENTER;
     titleGrid.addControl(currPath, 1, 0)
@@ -104,25 +104,6 @@ async function createScene(canvas, engine) {
     panel1.width = 0.95;
     svcontainer.addControl(panel1);   
 
-    const fullscreenBtn = GUI.Button.CreateSimpleButton("fullscreenBtn", "FULLSCREEN");
-    fullscreenBtn.color = "white";
-    fullscreenBtn.fontSize = "32px";
-    fullscreenBtn.background = "grey";
-    fullscreenBtn.thickness = 0;
-    fullscreenBtn.cornerRadius = 2;
-    fullscreenBtn.hoverCursor = "pointer";
-    fullscreenBtn.height = "80px";
-    fullscreenBtn.thickness = 0;
-    fullscreenBtn.onPointerClickObservable.add(function() {
-        options.settings.fullscreen = !options.settings.fullscreen;
-    });
-    panel1.addControl(fullscreenBtn);  
-
-    const panel2 = new GUI.StackPanel("panel2"); 
-    panel2.paddingTop = "20px";
-    panel2.width = 0.95;
-    svcontainer.addControl(panel2);   
-
     const mbBtn = GUI.Button.CreateSimpleButton("mbBtn", "MOTION BLUR");
     mbBtn.height = "80%";
     mbBtn.color = "white";
@@ -136,12 +117,12 @@ async function createScene(canvas, engine) {
     mbBtn.onPointerClickObservable.add(function() {
         options.settings.mb = !options.settings.mb;
     });
-    panel2.addControl(mbBtn);  
+    panel1.addControl(mbBtn);  
 
-    const panel3 = new GUI.StackPanel("panel2"); 
-    panel3.paddingTop = "20px";
-    panel3.width = 0.95;
-    svcontainer.addControl(panel3);   
+    const panel2 = new GUI.StackPanel("panel2"); 
+    panel2.paddingTop = "20px";
+    panel2.width = 0.95;
+    svcontainer.addControl(panel2);   
 
     const shadowsBtn = GUI.Button.CreateSimpleButton("shadowsBtn", "SHADOWS");
     shadowsBtn.height = "80%";
@@ -154,11 +135,69 @@ async function createScene(canvas, engine) {
     shadowsBtn.height = "80px";
     shadowsBtn.thickness = 0;
     shadowsBtn.onPointerClickObservable.add(function() {
-        options.settings.shadows = !options.settings.shadows;
+        options.settings.shadows.enabled = !options.settings.shadows.enabled;
     });
-    panel3.addControl(shadowsBtn);  
+    panel2.addControl(shadowsBtn);
+    
+    const panel3 = new GUI.StackPanel("panel3"); 
+    panel3.paddingTop = "20px";
+    panel3.width = 0.95;
+    svcontainer.addControl(panel3);   
 
-    const panel4 = new GUI.StackPanel("panel2"); 
+    const panel3Grid = new GUI.Grid();
+    panel3Grid.height = "100px";
+    panel3Grid.addColumnDefinition(1);
+    panel3Grid.addColumnDefinition(1);
+    panel3Grid.addColumnDefinition(1);
+    panel3Grid.addRowDefinition(1);
+    panel3.addControl(panel3Grid); 
+
+    const shadowsLowBtn = GUI.Button.CreateSimpleButton("shadowsLowBtn", "LOW");
+    shadowsLowBtn.height = "80%";
+    shadowsLowBtn.color = "white";
+    shadowsLowBtn.fontSize = "32px";
+    shadowsLowBtn.background = "grey";
+    shadowsLowBtn.cornerRadius = 2;
+    shadowsLowBtn.hoverCursor = "pointer";
+    shadowsLowBtn.height = "80px";
+    shadowsLowBtn.width = "95%";
+    shadowsLowBtn.thickness = 0;
+    shadowsLowBtn.onPointerClickObservable.add(function() {
+        options.settings.shadows.quality = 1;
+    });
+    panel3Grid.addControl(shadowsLowBtn, 0, 0); 
+
+    const shadowsMediumBtn = GUI.Button.CreateSimpleButton("shadowsMediumBtn", "MEDIUM");
+    shadowsMediumBtn.height = "80%";
+    shadowsMediumBtn.color = "white";
+    shadowsMediumBtn.fontSize = "32px";
+    shadowsMediumBtn.background = "grey";
+    shadowsMediumBtn.cornerRadius = 2;
+    shadowsMediumBtn.hoverCursor = "pointer";
+    shadowsMediumBtn.height = "80px";
+    shadowsMediumBtn.width = "95%";
+    shadowsMediumBtn.thickness = 0;
+    shadowsMediumBtn.onPointerClickObservable.add(function() {
+        options.settings.shadows.quality = 2;
+    });
+    panel3Grid.addControl(shadowsMediumBtn, 0, 1); 
+
+    const shadowsHighBtn = GUI.Button.CreateSimpleButton("shadowsHighBtn", "HIGH");
+    shadowsHighBtn.height = "80%";
+    shadowsHighBtn.color = "white";
+    shadowsHighBtn.fontSize = "32px";
+    shadowsHighBtn.background = "grey";
+    shadowsHighBtn.cornerRadius = 2;
+    shadowsHighBtn.hoverCursor = "pointer";
+    shadowsHighBtn.height = "80px";
+    shadowsHighBtn.width = "95%";
+    shadowsHighBtn.thickness = 0;
+    shadowsHighBtn.onPointerClickObservable.add(function() {
+        options.settings.shadows.quality = 3;
+    });
+    panel3Grid.addControl(shadowsHighBtn, 0, 2); 
+
+    const panel4 = new GUI.StackPanel("panel4"); 
     panel4.paddingTop = "20px";
     panel4.width = 0.95;
     svcontainer.addControl(panel4);   
@@ -208,7 +247,7 @@ async function createScene(canvas, engine) {
     });
     panel5.addControl(soundSlider); 
 
-    const panel6 = new GUI.StackPanel("panel26"); 
+    const panel6 = new GUI.StackPanel("panel6"); 
     panel6.paddingTop = "20px";
     panel6.width = 0.95;
     svcontainer.addControl(panel6);   
@@ -258,9 +297,11 @@ async function createScene(canvas, engine) {
 
     // update button colors based on option choice
     scene.onBeforeRenderObservable.add(() => {
-        fullscreenBtn.textBlock.text = options.settings.fullscreen ? "FULLSCREEN" : "WINDOWED";
         mbBtn.alpha = options.settings.mb ? 1.0 : 0.6;
-        shadowsBtn.alpha = options.settings !== 0 ? 1.0 : 0.6;
+        shadowsBtn.alpha = options.settings.shadows.enabled !== false ? 1.0 : 0.6;
+        shadowsLowBtn.alpha = options.settings.shadows.quality === 1 && options.settings.shadows.enabled ? 1.0 : 0.6;
+        shadowsMediumBtn.alpha = options.settings.shadows.quality === 2 && options.settings.shadows.enabled ? 1.0 : 0.6;
+        shadowsHighBtn.alpha = options.settings.shadows.quality === 3 && options.settings.shadows.enabled ? 1.0 : 0.6;
         soundBtn.alpha = options.settings.sound ? 1.0 : 0.6;
         soundSlider.value = options.settings.soundPerc
         sensSlider.value = options.settings.sensibility

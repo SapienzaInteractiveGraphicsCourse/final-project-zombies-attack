@@ -1,11 +1,5 @@
-/**
- * Contains the instructions to load the mesh for the zombie.
- * Usable in both battle and dungeon.
- */
-
 import {
     SceneLoader,
-    Color3,
     MeshBuilder,
     Vector3,
     StandardMaterial,
@@ -13,16 +7,13 @@ import {
 } from "@babylonjs/core";
 import "@babylonjs/loaders";
 import { RotationFromDegrees } from "../../libs/angles";
-import { getSize } from "../../libs/dimension";
-import {Debug} from "@babylonjs/inspector"
-// list of bones to save in the bonesDict.
+
 const bonesOfInterest = [
     // root (~center)
     "Base HumanPelvis_01",
     // body segments
     "Base HumanSpine1_06",
     "Base HumanSpine2_00",
-    // "Base HumanRibcage_07",   // not useful
     // head
     "Base HumanNeck_08",
     "Base HumanHead_09",
@@ -153,12 +144,6 @@ const bonesForHitBox = [
     }
 ];
 
-/**
- * Asynchronously loads this character's mesh
- * and returns an object with basic info.
- * @param {Scene} scene The scene to associate the loaded mesh to.
- * @returns A promise that resolves when loading and initialization is complete.
- */
 async function _loadMesh(scene) {
     let zombie = {}
     return SceneLoader.ImportMeshAsync("", "./models/zombies/", "zombie.glb", scene).then((result) => {
@@ -232,7 +217,6 @@ async function _loadMesh(scene) {
                 }
             }
         })
-
         return zombie;
     });
 }
@@ -268,13 +252,6 @@ function _initMeshDependent(zombie) {
     zombie.getNode("Base HumanRArmForearm_017").rotation = RotationFromDegrees(33.4608, -3.6695, -10.5962);
     zombie.getNode("Base HumanRArmPalm_018").rotation = RotationFromDegrees(12.2255, 112.8121, -9.3135);
 
-    /* zombie.getNode("Base HumanLLegThigh_051").rotation = RotationFromDegrees(-25.9550, -90.7844, -171.8719);
-    zombie.getNode("Base HumanLLegCalf_052").rotation = RotationFromDegrees(-32.0456, -1.9191, -0.0246); */
-
-    /**
-     * Stops all animations on this character.
-     * @param {Scene} scene The current scene
-     */
     zombie.stopAllAnimations = function(scene) {
         scene.stopAnimation(zombie.mesh);
         scene.stopAnimation(zombie.skeleton);
@@ -288,7 +265,6 @@ async function loadZombieAsync(scene) {
     _initMeshDependent(zombie); 
     return zombie;
 }
-
 
 export {
     loadZombieAsync
