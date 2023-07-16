@@ -1,6 +1,6 @@
 import './style.css'
 import { Engine } from '@babylonjs/core';
-import menuSceneBuilder from './src/scenes/MainMenu';
+import menuSceneBuilder from './src/scenes/mainMenu';
 import { SceneManagerInstance, CreateSceneManagerInstance } from './src/libs/sceneManager';
 
 const canvas = document.getElementById('app');
