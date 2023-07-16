@@ -140,7 +140,7 @@ async function createScene(canvas, engine) {
       round,
       ammoBox
     }
-    sceneInfo.camera.position = new Vector3 (0,2, -5);
+    sceneInfo.camera.position = new Vector3 (0, 2, -5);
     sceneInfo.enemy.meshdata.mesh.position=new Vector3 (0,0, -10);
 
     scene.onPointerDown = (event) => {
