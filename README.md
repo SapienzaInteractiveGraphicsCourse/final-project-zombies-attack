@@ -2,47 +2,18 @@
 
 Final project for the course of Interactive Graphics 2022/2023.
 
->Student: Valerio Francione, 2047712
->
->Student: Francesco Giuseppe Gallo, 1811339
->
->Student: Leonardo Maria Carrozzo, 2088934
->
->Student: Davide Muserra, 2019746
+Our team:
+```
+Valerio Francione, 2047712
 
-## Libraries
+Francesco Giuseppe Gallo, 1811339
 
--   **Babylon.js** [Link](https://www.babylonjs.com/)
+Leonardo Maria Carrozzo, 2088934
 
-    Babylon.js is a real time 3D engine using a JavaScript library for displaying 3D graphics in a web browser via HTML5.
+Davide Muserra, 2019746
+```
 
-## External tools
-
--   Zombie model downloaded from sketchfab [Link](https://sketchfab.com/)
--   Maps textures downloaded from sketchfab [Link](https://polyhaven.com/)
-
-## Report
-
-The report can be reachable through this [link](Project_IG.pdf)
-
-## Browsers
-
-We **recommend** to play the game on Chrome for better performances. On Safari there are some issues on loading all the project.
-
-We also suggest to play the game in full screen (press `F11` or `Fn`+`F11`)
-
-## How to play the game
-
-- `W` `A` `S` `D`: directional movement
-- `Mouse`: move the camera
-- `LEFT CLICK`: shoot
-- `R`: reload 
-- `F`: interact 
-- `ESC`: pause
-
-### [Click here to play the game.](https://sapienzainteractivegraphicscourse.github.io/final-project-zombies-attack/)
-
-## Instructions:
+## How to run it on your machine:
 
 ```
 git clone https://github.com/SapienzaInteractiveGraphicsCourse/final-project-zombies-attack.git
@@ -56,3 +27,39 @@ Otherwise do directly this command:
 ```
 npm run dev
 ```
+
+## Libraries used
+
+-   **Babylon.js** [Link](https://www.babylonjs.com/)
+
+    Babylon.js is a real time 3D engine using a JavaScript library for displaying 3D graphics in a web browser via HTML5.
+
+## External tools
+-   **Blender** [Link](https://www.blender.org/)
+
+    Blender is a free and open-source 3D computer graphics software tool set used for creating animated films, visual effects, art, 3D-printed models, motion graphics, interactive 3D applications, virtual reality, and, formerly, video games.
+
+## Models
+-   Zombie from sketchfab [Link](https://sketchfab.com/)
+-   Textures from polyhaven [Link](https://polyhaven.com/)
+
+
+## Report
+
+The report can be reached through this [link](Project_IG.pdf)
+
+## Browsers
+
+We **recommend** you to play the game on Chrome for better performances. On Safari there are some issues with the window system.
+
+## How to play the game
+```
+- W A S D / Arrow keys: directional movement
+- Mouse: move the camera
+- LEFT CLICK: shoot
+- R: reload
+- F: interact with objects
+- ESC: pause
+```
+
+### [Click here to play the game](https://sapienzainteractivegraphicscourse.github.io/final-project-zombies-attack/)
