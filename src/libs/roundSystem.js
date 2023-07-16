@@ -10,9 +10,6 @@ import {
     Vector3
 } from "@babylonjs/core";
 
-import walkanims from "../models/zombie/animations/zombieWalk";
-import deathanim from "../models/zombie/animations/zombieDeath"
-import attackanim from "../models/zombie/animations/zombieAttack"
 import defeat from "../HUD/defeat";
 
 

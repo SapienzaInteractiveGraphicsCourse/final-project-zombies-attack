@@ -13,7 +13,6 @@ function handleKeys(sceneInfo, engine) {
   });
 
   onkeydown = ((event) => {
-    console.log(event)
     if (event.code === "KeyR" && sceneInfo.player.magazines > 0 && ((sceneInfo.player.ammo < 30 && !sceneInfo.gun.isReloading && !sceneInfo.gun.isShooting) || (sceneInfo.player.ammo === 0 && !sceneInfo.gun.isReloading))) {
       gunanims.reload(sceneInfo.gun.mesh, sceneInfo.scene)
       sceneInfo.gun.isReloading = true;
