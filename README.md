@@ -54,5 +54,5 @@ npm install
 ```
 Otherwise do directly this command:
 ```
-npm run start
+npm run dev
 ```
