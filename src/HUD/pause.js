@@ -57,6 +57,16 @@ function createHUD(sceneInfo, engine) {
     mainMenu.cornerRadius = 2;
     mainMenu.hoverCursor = "pointer";
     mainMenu.onPointerClickObservable.add(function() {
+        // Reset for a new game
+        sceneInfo.player.round = 1;
+        sceneInfo.enemy.speed = 0.025;
+        sceneInfo.scene.getAnimationGroupByName("walk").targetedAnimations.forEach((animation) => {
+            animation.animation.framePerSecond = 60;
+        })
+        sceneInfo.scene.getAnimationGroupByName("attack").targetedAnimations.forEach((animation) => {
+            animation.animation.framePerSecond = 60;
+        })
+        // Change scene
         SceneManagerInstance.gotoScene(menuSceneBuilder);
     });
     selectionGrid.addControl(mainMenu, 2, 0);

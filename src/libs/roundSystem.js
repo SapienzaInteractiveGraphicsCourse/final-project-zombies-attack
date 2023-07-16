@@ -3,9 +3,8 @@ import {
 } from "@babylonjs/core";
 
 import defeat from "../HUD/defeat";
+import { options } from "../options";
 
-let level = 1;
-let speed = 0.025;
 class RoundSystem {
     static flag = true;
 
@@ -47,7 +46,7 @@ class RoundSystem {
                     }
 
                     // Move the mesh towards the camera position
-                    sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
+                    sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(sceneInfo.enemy.speed));
                     sceneInfo.enemy.meshdata.mesh.position.y = 0;
                 }
                 else {
@@ -74,27 +73,35 @@ class RoundSystem {
                     sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.addOnce(() => {
                         RoundSystem.flag = true;
                         // Dispose the parent mesh
-                        sceneInfo.player.pts += 100 * level;
-                        level += 1;
+                        sceneInfo.player.pts += 100 * sceneInfo.player.round;
+
                         sceneInfo.scene.getAnimationGroupByName("attack").stop()
                         sceneInfo.scene.getAnimationGroupByName("death").stop()
                         sceneInfo.scene.getAnimationGroupByName("walk").play(true)
                         
-                        sceneInfo.enemy.hp = 100 * level; // Set the initial HP for the new enemy
-                        sceneInfo.enemy.damage = level * 5; // Set the damage of the new enemy
+                        if (options.difficulty === 1) {
+                            sceneInfo.enemy.hp = 100 * sceneInfo.player.round; // Set the initial HP for the new enemy
+                        }
+                        else if (options.difficulty === 2) {
+                            sceneInfo.enemy.hp = 150 * sceneInfo.player.round; // Set the initial HP for the new enemy
+                        }
+                        else if (options.difficulty === 3) {
+                            sceneInfo.enemy.hp = 200 * sceneInfo.player.round; // Set the initial HP for the new enemy
+                        }
+                        sceneInfo.enemy.damage = sceneInfo.player.round * 5; // Set the damage of the new enemy
                         sceneInfo.enemy.meshdata.mesh.position = new Vector3(0, 0, 30);
                         
-                        // Assign speed based on the level
-                        speed = 0.025 + (level / 80);
+                        // Assign speed based on the round
+                        sceneInfo.enemy.speed = 0.025 + (sceneInfo.player.round / 80);
 
                         sceneInfo.player.round += 1;
 
-                        // Modify the speed of the animation group in relation to the level
+                        // Modify the speed of the animation group in relation to the round
                         sceneInfo.scene.getAnimationGroupByName("walk").targetedAnimations.forEach((animation) => {
-                            animation.animation.framePerSecond = 60 * level;
+                            animation.animation.framePerSecond = 60 * sceneInfo.player.round;
                         })
                         sceneInfo.scene.getAnimationGroupByName("attack").targetedAnimations.forEach((animation) => {
-                            animation.animation.framePerSecond = 60 * level;
+                            animation.animation.framePerSecond = 60 * sceneInfo.player.round;
                         })
                     });
                     sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.remove();

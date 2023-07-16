@@ -16,6 +16,7 @@ function _initGame() {
     zombie.isAnimated = false;
     zombie.lastAttack = 0;
     zombie.damage = 5;
+    zombie.speed = 0.025;
     if (options.difficulty.medium) {
         zombie.hp += 50;
     }
