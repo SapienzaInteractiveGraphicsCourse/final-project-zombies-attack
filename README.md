@@ -27,7 +27,7 @@ The report can be reachable through this [link]()
 
 ## Browsers
 
-We **recommend** to play the game on Edge or Chrome for better performances. Safari and Firefox are **absolutely not recommended**.
+We **recommend** to play the game on Chrome for better performances. On Safari there are some issues on loading all the project.
 
 We also suggest to play the game in full screen (press `F11` or `Fn`+`F11`)
 
