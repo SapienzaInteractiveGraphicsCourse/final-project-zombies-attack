@@ -10,9 +10,6 @@ import {
     Vector3
 } from "@babylonjs/core";
 
-import walkanims from "../models/zombie/animations/zombieWalk";
-import deathanim from "../models/zombie/animations/zombieDeath"
-import attackanim from "../models/zombie/animations/zombieAttack"
 import defeat from "../HUD/defeat";
 
 
@@ -21,7 +18,7 @@ import defeat from "../HUD/defeat";
  * A class of objects that keep track of whose turn it is during a battle.
  */
 let level = 1;
-
+let speed = 0.025;
 class RoundSystem {
     static flag = true;
     /**
@@ -108,9 +105,6 @@ class RoundSystem {
                         sceneInfo.enemy.lastAttack = 0;
                         sceneInfo.enemy.isAnimated = true;
                     }
-            
-                    // Definisci una velocità di movimento
-                    const speed = 0.025;
 
                     // Sposta la mesh lungo la direzione verso la telecamera
                     sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
@@ -149,6 +143,10 @@ class RoundSystem {
                         sceneInfo.enemy.hp = 100 * level; // Set the initial HP for the new enemy
                         sceneInfo.enemy.damage = level * 5; // Set the damage of the new enemy
                         sceneInfo.enemy.meshdata.mesh.position = new Vector3(0, 0, 30);
+                        
+                        // Definisci una velocità di movimento
+                        speed = 0.025 + (level/100);
+                        console.log(speed)
 
                         sceneInfo.player.round += 1;
                     });

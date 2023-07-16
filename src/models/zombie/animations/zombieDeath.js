@@ -1,9 +1,6 @@
-import * as MYANIM from "../../../libs/animation"
 import { RotationFromDegrees } from "../../../libs/angles";
 import { 
-    PowerEase,
     Vector3,
-    SineEase,
     EasingFunction,
     Animation,
     Quaternion,
@@ -31,11 +28,7 @@ const _animDeath_pelvis_1_keys = [
     {
         frame: _animDeath_frames[7],
         value: Quaternion.FromEulerVector(RotationFromDegrees(0.0, 90.1999, -90.0))
-    }/* ,
-    {
-        frame: _animDeath_frames[8],
-        value: Quaternion.FromEulerVector(RotationFromDegrees(0.0, 90.1999, 0.0))
-    } */
+    }
 ];
 _animDeath_pelvis_1_bab.setKeys(_animDeath_pelvis_1_keys);
 

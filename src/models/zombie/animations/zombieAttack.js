@@ -1,13 +1,9 @@
-import * as MYANIM from "../../../libs/animation"
 import { RotationFromDegrees } from "../../../libs/angles";
 import { 
     PowerEase,
-    Vector3,
-    SineEase,
     EasingFunction,
     Animation,
     Quaternion,
-    QuadraticEase,
     AnimationGroup
 } from "@babylonjs/core";
 

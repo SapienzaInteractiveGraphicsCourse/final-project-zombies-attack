@@ -1,9 +1,3 @@
-/**
- * Name stands for "Miscellaneous Animations".
- * File contains all animations of the Samurai not related to its actions,
- * because they are pretty long.
- * EXPORTS an objects with the functions to trigger those animations.
- */
 import { 
     PowerEase,
     EasingFunction,
