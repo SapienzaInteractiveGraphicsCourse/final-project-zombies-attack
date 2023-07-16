@@ -1,7 +1,8 @@
 import {
     SceneLoader,
     MeshBuilder,
-    Vector3
+    Vector3,
+    TextureUsage
 } from "@babylonjs/core";
 
 import { RotationFromDegrees } from "../../libs/angles";
@@ -157,7 +158,7 @@ async function Loadbox6(rock , scene){
 
     boxMesh.position = new Vector3(19.5, 1.6 , -19.4);
     boxMesh.rotation = RotationFromDegrees(0,-25,0);
-    boxMesh.scaling = new Vector3(0.9, 1.5, 1.3);
+    boxMesh.scaling = new Vector3(1.0, 1.5, 1.3);
 
 }
 
@@ -177,8 +178,8 @@ async function Loadbox7(rock , scene){
     boxMesh.isVisible = false;
     boxMesh.checkCollisions = true;
 
-    boxMesh.position = new Vector3(1.5 , 1.6   , -20);
-    boxMesh.scaling = new Vector3(1.5, 1.5, 2.0);
+    boxMesh.position = new Vector3(1.5 , 1.6   , -21);
+    boxMesh.scaling = new Vector3(1.4, 1.5, 1.9);
 
 }
 
@@ -222,8 +223,8 @@ async function Loadbox8(rock , scene){
     boxMesh.isVisible = false;
     boxMesh.checkCollisions = true;
 
-    boxMesh.position = new Vector3(-41.9 , 1.2  , -19.2);
-    boxMesh.scaling = new Vector3(1.5, 1.5, 1.7);
+    boxMesh.position = new Vector3(-42.2 , 1.2  , -19.2);
+    boxMesh.scaling = new Vector3(1.4, 1.5, 1.9);
 
 }
 
@@ -243,9 +244,9 @@ async function Loadbox10(rock , scene){
     boxMesh.isVisible = false;
     boxMesh.checkCollisions = true;
 
-    boxMesh.position = new Vector3(-10.5 , 1.2  , -37.5);
-    boxMesh.scaling = new Vector3(1.1, 1.5, 1.3);
-
+    boxMesh.position = new Vector3(-10.7 , 1.2  , -37);
+    boxMesh.scaling = new Vector3(1, 1.5, 1.2);
+    boxMesh.rotation = new Vector3(0 , 0 , 0);
 }
 
 
@@ -307,8 +308,8 @@ async function Loadbox13(rock , scene){
     boxMesh.isVisible = false;
     boxMesh.checkCollisions = true;
 
-    boxMesh.position = new Vector3(27 , 1.2  , 17);
-    boxMesh.scaling = new Vector3(1.5, 1.5, 2.0);
+    boxMesh.position = new Vector3(27.2 , 1.2  , 17);
+    boxMesh.scaling = new Vector3(1.4, 1.5, 1.9);
 
 }
 
@@ -328,7 +329,7 @@ const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
 boxMesh.isVisible = false;
 boxMesh.checkCollisions = true;
 
-boxMesh.position = new Vector3(-7 , 1.2  , 14);
+boxMesh.position = new Vector3(-7 , 1.2  , 15.5);
 boxMesh.scaling = new Vector3(1.5, 1.5, 2.0);
 
 
