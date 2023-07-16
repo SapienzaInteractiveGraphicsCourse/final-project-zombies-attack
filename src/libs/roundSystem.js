@@ -13,6 +13,8 @@ import {
 import walkanims from "../models/zombie/animations/zombieWalk";
 import deathanim from "../models/zombie/animations/zombieDeath"
 import attackanim from "../models/zombie/animations/zombieAttack"
+import defeat from "../HUD/defeat";
+
 
 
 /**
@@ -76,9 +78,22 @@ class RoundSystem {
      * and triggers some events happening between turns.
      * @param {*} sceneInfo Scene Info object for the current scene
      */
-    addRoundObserver(sceneInfo) {
+    addRoundObserver(sceneInfo, engine) {
         sceneInfo.scene.onBeforeRenderObservable.add(() => {
-            if (sceneInfo.enemy.meshdata && sceneInfo.enemy.hp > 0) {
+            if (this.checkDefeat(sceneInfo)) {
+                if (!sceneInfo.defeatHUD) {
+                    sceneInfo.hud.dispose();
+                    // Create the GUI for this scene
+                    const defeatHUD = defeat.createHUD(sceneInfo);
+                    sceneInfo.defeatHUD = defeatHUD;
+                    sceneInfo.enemy.meshdata.mesh.dispose()
+                    engine.exitPointerlock();
+                    engine.exitFullscreen();
+                    document.querySelector("canvas").height = window.innerHeight;
+                    document.querySelector("canvas").width = window.innerWidth;
+                }
+            }
+            else if (sceneInfo.enemy.meshdata && sceneInfo.enemy.hp > 0) {
                 // Calcola la direzione dalla mesh alla telecamera
                 const direction = sceneInfo.camera.position.subtract(sceneInfo.enemy.meshdata.mesh.position);
                 direction.normalize();
@@ -95,7 +110,7 @@ class RoundSystem {
                     }
             
                     // Definisci una velocità di movimento
-                    const speed = 0.01;
+                    const speed = 0.025;
 
                     // Sposta la mesh lungo la direzione verso la telecamera
                     sceneInfo.enemy.meshdata.mesh.position.addInPlace(direction.scale(speed));
@@ -125,7 +140,7 @@ class RoundSystem {
                     sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.addOnce(() => {
                         RoundSystem.flag = true;
                         // Dispose the parent mesh
-                        
+                        sceneInfo.player.pts += 100 * level;
                         level += 1;
                         sceneInfo.scene.getAnimationGroupByName("attack").stop()
                         sceneInfo.scene.getAnimationGroupByName("death").stop()
@@ -134,11 +149,11 @@ class RoundSystem {
                         sceneInfo.enemy.hp = 100 * level; // Set the initial HP for the new enemy
                         sceneInfo.enemy.damage = level * 5; // Set the damage of the new enemy
                         sceneInfo.enemy.meshdata.mesh.position = new Vector3(0, 0, 30);
-                    
+
+                        sceneInfo.player.round += 1;
                     });
                     sceneInfo.scene.getAnimationGroupByName("death").onAnimationGroupEndObservable.remove();
                 }
-
             }
             
               const direction = sceneInfo.camera.position.subtract(sceneInfo.enemy.meshdata.mesh.position);

@@ -29,21 +29,6 @@ async function createScene(canvas, engine) {
     const scene = new Scene(engine);
     scene.collisionsEnabled = true;
   
-    scene.onPointerDown = (event) => {
-        if (event.button === 0) {
-            canvas.width = window.outerWidth;
-            canvas.height = window.outerHeight;
-            engine.enterPointerlock();
-            engine.enterFullscreen();
-        }
-        if (event.button === 1) {
-            canvas.width = this.width;
-            canvas.height = this.height;
-            engine.exitPointerlock();
-            engine.exitFullscreen();
-        }
-    }
-  
     const gravity = new Vector3(0, -10, 0);
     const hk = await HavokPhysics();
     const babylonPlugin =  new HavokPlugin(true, hk);
@@ -52,6 +37,7 @@ async function createScene(canvas, engine) {
     scene.collisionsEnabled = true;
   
     const camera = createController(scene)
+
 
     if (options.settings.mb) {
         var motionblur = new MotionBlurPostProcess(
@@ -144,7 +130,8 @@ async function createScene(canvas, engine) {
         hp: 100,
         pts: 0,
         ammo: 30,
-        magazines: 210
+        magazines: 210,
+        round: 1
       },
       scene,
       enemy,
@@ -153,9 +140,28 @@ async function createScene(canvas, engine) {
       round,
       ammoBox
     }
+    sceneInfo.camera.position = new Vector3 (0,2, -5);
+    sceneInfo.enemy.meshdata.mesh.position=new Vector3 (0,0, -10);
+
+    scene.onPointerDown = (event) => {
+      if (!sceneInfo.defeatHUD) {
+        if (event.button === 0) {
+            canvas.width = window.outerWidth;
+            canvas.height = window.outerHeight;
+            engine.enterPointerlock();
+            engine.enterFullscreen();
+        }
+        if (event.button === 1) {
+            canvas.width = this.width;
+            canvas.height = this.height;
+            engine.exitPointerlock();
+            engine.exitFullscreen();
+        }
+      }
+    }
 
     // Have the turn system constantly watch for the condition to pass turn
-    round.addRoundObserver(sceneInfo);
+    round.addRoundObserver(sceneInfo, engine);
 
     sceneInfo.ammoBox.mesh.position.z = -12;
     sceneInfo.scene.fogMode = Scene.FOGMODE_LINEAR;
@@ -179,7 +185,7 @@ async function createScene(canvas, engine) {
     sceneInfo.hud = gameHUD;
   
     gun.shot(sceneInfo)
-    keys.handleKeys(sceneInfo)
+    keys.handleKeys(sceneInfo, engine)
   
     ammoBox.float(ammoBox)
     scene.getAnimationGroupByName("float").play(true);
@@ -228,9 +234,9 @@ function createController(scene) {
 
 function CreateSand(scene) {
   const pbr = new PBRMaterial('pbr', scene)
-  pbr.albedoTexture = new Texture('./textures/sand/sand_diffuse.jpg', scene)
+  pbr.albedoTexture = new Texture('./textures/sand/sand2_diffuse.jpg', scene)
 
-  pbr.bumpTexture = new Texture('./textures/sand/sand_normal.jpg', scene)
+  pbr.bumpTexture = new Texture('./textures/sand/sand2_normal.jpg', scene)
   pbr.invertNormalMapX = true
   pbr.invertNormalMapY = true
 
@@ -238,7 +244,7 @@ function CreateSand(scene) {
   pbr.useRoughnessFromMetallicTextureGreen = true
   pbr.useMetallnessFromMetallicTextureBlue = true
 
-  pbr.metallicTexture = new Texture('./textures/sand/sand_ao.jpg', scene)
+  pbr.metallicTexture = new Texture('./textures/sand/sand2_ao.jpg', scene)
 
   return pbr
 }

@@ -60,13 +60,6 @@ function addClone(position, scaling, rotation, scene) {
     boundingBox.maximum = centerVector.add(sizeVector.scale(0.5));
     
     const boxSize = boundingBox.maximum.subtract(boundingBox.minimum);
-    /* const boxMesh = MeshBuilder.CreateBox("boundingBoxMesh", {
-      width: boxSize.x,
-      height: boxSize.y,
-      depth: boxSize.z
-    }, scene);
-    boxMesh.isVisible = false;
-    boxMesh.checkCollisions = true; */
     const boundCar2 = MeshBuilder.CreateBox("boundingBoxMesh", {
         width: 7.6,
             height: 7,
