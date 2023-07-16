@@ -23,7 +23,7 @@ Final project for the course of Interactive Graphics 2022/2023.
 
 ## Report
 
-The report can be reachable through this [link]()
+The report can be reachable through this [link](Project_IG.pdf)
 
 ## Browsers
 
