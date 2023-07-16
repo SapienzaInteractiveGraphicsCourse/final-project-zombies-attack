@@ -61,7 +61,7 @@ We **recommend** you to play the game on Chrome for better performances. On Safa
 - F: interact with objects
 - ESC: pause
 ```
-We **recommend** you to zoom-out the page and refresh the page before to start in order to have a perfect visibility of the options.
+We **recommend** you to zoom-out and refresh the page before to start in order to have a perfect visibility of the options.
 
 
 ### [Click here to play the game](https://sapienzainteractivegraphicscourse.github.io/final-project-zombies-attack/)
