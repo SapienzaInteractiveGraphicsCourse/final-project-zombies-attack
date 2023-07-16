@@ -161,7 +161,7 @@ const bonesForHitBox = [
  */
 async function _loadMesh(scene) {
     let zombie = {}
-    return SceneLoader.ImportMeshAsync("", "/models/zombies/", "zombie3_test.glb", scene).then((result) => {
+    return SceneLoader.ImportMeshAsync("", "./models/zombies/", "zombie.glb", scene).then((result) => {
         let mesh = result.meshes[0];
         let skeleton = result.skeletons[0];
 
