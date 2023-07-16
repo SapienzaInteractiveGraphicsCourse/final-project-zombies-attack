@@ -6,7 +6,7 @@ Final project for the course of Interactive Graphics 2022/2023.
 >
 >Student: Francesco Giuseppe Gallo, 1811339
 >
->Student: Leonardo Maria Carrozzo,
+>Student: Leonardo Maria Carrozzo, 2088934
 >
 >Student: Davide Muserra, 
 
