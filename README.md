@@ -52,6 +52,7 @@ If not already installed do:
 ```
 npm install
 ```
+Otherwise do directly this command:
 ```
 npm run start
 ```
